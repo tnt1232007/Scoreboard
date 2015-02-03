@@ -11,11 +11,13 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.models.Game;
+import com.tnt.scoreboard.utils.PrefUtils;
 import com.tnt.scoreboard.utils.StringUtils;
 
 
 public class GameViewHolder extends RecyclerView.ViewHolder {
 
+    private boolean mIsFirstNameLast;
     private ImageView mIcon;
     private ImageView mCheck;
     private ImageView mBackground;
@@ -35,6 +37,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         mPlayerName = (TextView) itemView.findViewById(R.id.playerName);
         mCurrentRound = (TextView) itemView.findViewById(R.id.currentRound);
         mDateTime = (TextView) itemView.findViewById(R.id.dateTime);
+        mIsFirstNameLast = PrefUtils.isFirstNameLast(itemView.getContext());
 
         mIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +76,10 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
             mCheck.setVisibility(View.VISIBLE);
         } else {
             String[] nameArray = game.getPlayers().get(0).getName().split(" ");
-            //TODO: Optional display Last Name / First Name
-            String sureName = nameArray[nameArray.length - 1];
+            String firstName = nameArray[mIsFirstNameLast ? nameArray.length - 1 : 0];
             mIcon.setImageDrawable(mDrawableBuilder.build(
-                    String.valueOf(sureName.charAt(0)),
-                    mColorGenerator.getColor(sureName.charAt(0))));
+                    String.valueOf(firstName.charAt(0)),
+                    mColorGenerator.getColor(firstName.charAt(0))));
             mBackground.setBackgroundColor(Color.TRANSPARENT);
             mCheck.setVisibility(View.GONE);
         }

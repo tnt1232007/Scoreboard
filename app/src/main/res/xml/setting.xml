@@ -1,22 +1,51 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <PreferenceCategory android:title="@string/pref_header_general">
         <EditTextPreference
             android:capitalize="words"
-            android:defaultValue="@string/pref_value_default_name"
+            android:defaultValue="@string/pref_value_user_name"
             android:inputType="textCapWords"
-            android:key="default_name"
+            android:key="@string/pref_key_user_name"
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/pref_title_default_name"/>
+            android:title="@string/pref_title_user_name"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_name_format"
+            android:summaryOff="@string/pref_off_name_format"
+            android:summaryOn="@string/pref_on_name_format"
+            android:title="@string/pref_title_name_format"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_appearance">
         <ListPreference
             android:defaultValue="@string/pref_value_theme"
             android:entries="@array/pref_entries_theme"
-            android:entryValues="@array/pref_values_theme"
-            android:key="theme"
-            android:negativeButtonText="@null"
+            android:entryValues="@array/pref_entries_theme"
+            android:key="@string/pref_key_theme"
+            android:negativeButtonText="Cancel"
             android:positiveButtonText="@null"
             android:title="@string/pref_title_theme"/>
+        <ListPreference
+            android:defaultValue="@string/pref_value_orientation"
+            android:entries="@array/pref_entries_orientation"
+            android:entryValues="@array/pref_entries_orientation"
+            android:key="@string/pref_key_orientation"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_orientation"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_configuration">
+        <com.tnt.scoreboard.NumberPickerPreference
+            android:defaultValue="0"
+            android:key="@string/pref_key_starting_score"
+            android:summary="@string/pref_summary_starting_score"
+            android:title="@string/pref_title_starting_score"/>
+        <com.tnt.scoreboard.NumberPickerPreference
+            android:defaultValue="10"
+            android:key="@string/pref_key_update_delay"
+            android:summary="@string/pref_summary_update_delay"
+            android:title="@string/pref_title_update_delay"/>
     </PreferenceCategory>
 </PreferenceScreen>

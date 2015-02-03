@@ -11,7 +11,8 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState, R.layout.activity_setting);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().replace(R.id.layout, new SettingFragment()).commit();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.layout, new SettingFragment()).commit();
         }
     }
 

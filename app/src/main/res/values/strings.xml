@@ -25,12 +25,6 @@
     <string name="draw_open">Open</string>
     <string name="draw_close">Close</string>
 
-    <string name="pref_header_general">General</string>
-    <string name="pref_title_default_name">Default name</string>
-    <string name="pref_title_theme">Theme</string>
-    <string name="pref_value_default_name">TNT</string>
-    <string name="pref_value_theme">default</string>
-
     <string name="empty_header_games">Nothing in Games</string>
     <string name="empty_header_archive">Nothing in Archive</string>
     <string name="empty_header_trash">Nothing in Trash</string>

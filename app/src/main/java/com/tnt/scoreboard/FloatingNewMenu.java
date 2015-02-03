@@ -17,6 +17,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.ColorUtils;
+import com.tnt.scoreboard.utils.PrefUtils;
 import com.tnt.scoreboard.utils.StringUtils;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class FloatingNewMenu extends FloatingActionsMenu {
     private ImageView mDimBackground;
     private View mFabBlankLayout;
     private int mDensity;
+    private boolean mIsFirstNameLast;
 
     public FloatingNewMenu(Context context) {
         super(context);
@@ -79,6 +81,7 @@ public class FloatingNewMenu extends FloatingActionsMenu {
         mDensity = (int) getResources().getDisplayMetrics().density;
         mDimBackground = ((ImageView) mActivity.findViewById(R.id.dimBackground));
         mFabBlankLayout = mActivity.findViewById(R.id.fabBlankLayout);
+        mIsFirstNameLast = PrefUtils.isFirstNameLast(activity);
 
         mDimBackground.setOnClickListener(new OnClickListener() {
             @Override
@@ -101,17 +104,16 @@ public class FloatingNewMenu extends FloatingActionsMenu {
     }
 
     private FloatingActionButton createRecentGameButton(final Game game) {
-        //TODO: Optional display Last Name / First Name
         String[] nameArray = game.getPlayers().get(0).getName().split(" ");
-        String sureName = nameArray[nameArray.length - 1];
-        int color = ColorUtils.darken(mColorGenerator.getColor(sureName.charAt(0)));
+        String firstName = nameArray[mIsFirstNameLast ? nameArray.length - 1 : 0];
+        int color = ColorUtils.darken(mColorGenerator.getColor(firstName.charAt(0)));
 
         FloatingActionButton button = new FloatingActionButton(mActivity);
         button.setTitle(StringUtils.join(game.getPlayers(), ", ", 28));
         button.setSize(FloatingActionButton.SIZE_MINI);
         button.setColorNormal(color);
         button.setColorPressed(color);
-        button.setIconDrawable(mDrawableBuilder.build(String.valueOf(sureName.charAt(0)), color));
+        button.setIconDrawable(mDrawableBuilder.build(String.valueOf(firstName.charAt(0)), color));
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -25,49 +25,12 @@
         <item>@null</item>
     </string-array>
     <string-array name="pref_entries_theme">
-        <item>Default</item>
-        <item>Red</item>
-        <item>Blue</item>
-        <item>Green</item>
-        <item>Purple</item>
-        <item>Yellow</item>
-        <item>Teal</item>
-        <item>Orange</item>
-        <item>Brown</item>
-        <item>Pink</item>
-        <item>Indigo</item>
-        <item>Cyan</item>
-        <item>Light Green</item>
-        <item>Amber</item>
-        <item>Gray</item>
-        <item>Deep Purple</item>
-        <item>Light Blue</item>
-        <item>Lime</item>
-        <item>Deep Orange</item>
-        <item>Brown</item>
-        <item>BlueGray</item>
+        <item>Light</item>
+        <item>Dark</item>
     </string-array>
-    <string-array name="pref_values_theme">
-        <item>default</item>
-        <item>red</item>
-        <item>blue</item>
-        <item>green</item>
-        <item>purple</item>
-        <item>yellow</item>
-        <item>teal</item>
-        <item>orange</item>
-        <item>brown</item>
-        <item>pink</item>
-        <item>indigo</item>
-        <item>cyan</item>
-        <item>lightGreen</item>
-        <item>amber</item>
-        <item>gray</item>
-        <item>deepPurple</item>
-        <item>lightBlue</item>
-        <item>lime</item>
-        <item>deepOrange</item>
-        <item>brown</item>
-        <item>blueGray</item>
+    <string-array name="pref_entries_orientation">
+        <item>System</item>
+        <item>Vertical</item>
+        <item>Horizontal</item>
     </string-array>
 </resources>

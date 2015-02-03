@@ -81,7 +81,9 @@ public abstract class BaseActivity extends ActionBarActivity {
         });
         treeSet.addAll(games);
 
-        return new ArrayList<>(treeSet).subList(0, limit);
+        return treeSet.size() <= limit
+                ? new ArrayList<>(treeSet)
+                : new ArrayList<>(treeSet).subList(0, limit);
     }
 
     public List<Game> getGameList(Game.State state) {
