@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000</color>
+    <color name="lightBlack">#424242</color>
+    <color name="white">#FFF</color>
+    <color name="highlighted">#EEE</color>
+    <color name="lightGray">#DDD</color>
+
+    <color name="red">#F44336</color>
+    <color name="pink">#E91E63</color>
+    <color name="purple">#9C27B0</color>
+    <color name="deepPurple">#673AB7</color>
+    <color name="indigo">#3F51B5</color>
+    <color name="blue">#2196F3</color>
+    <color name="lightBlue">#03A9F4</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="teal">#009688</color>
+    <color name="green">#4CAF50</color>
+    <color name="lightGreen">#8BC34A</color>
+    <color name="lime">#CDDC39</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="amber">#FFC107</color>
+    <color name="orange">#FF9800</color>
+    <color name="deepOrange">#FF5722</color>
+    <color name="brown">#795548</color>
+    <color name="gray">#9E9E9E</color>
+    <color name="blueGray">#607D8B</color>
+
+    <color name="redDark">#D32F2F</color>
+    <color name="pinkDark">#C2185B</color>
+    <color name="purpleDark">#7B1FA2</color>
+    <color name="deepPurpleDark">#512DA8</color>
+    <color name="indigoDark">#303F9F</color>
+    <color name="blueDark">#1976D2</color>
+    <color name="lightBlueDark">#0288D1</color>
+    <color name="cyanDark">#0097A7</color>
+    <color name="tealDark">#00796B</color>
+    <color name="greenDark">#388E3C</color>
+    <color name="lightGreenDark">#689F38</color>
+    <color name="limeDark">#AFB42B</color>
+    <color name="yellowDark">#FBC02D</color>
+    <color name="amberDark">#FFA000</color>
+    <color name="orangeDark">#F57C00</color>
+    <color name="deepOrangeDark">#E64A19</color>
+    <color name="brownDark">#5D4037</color>
+    <color name="grayDark">#616161</color>
+    <color name="blueGrayDark">#455A64</color>
+
+    <color name="redBackground">#EF5350</color>
+    <color name="pinkBackground">#EC407A</color>
+    <color name="purpleBackground">#AB47BC</color>
+    <color name="deepPurpleBackground">#7E57C2</color>
+    <color name="indigoBackground">#5C6BC0</color>
+    <color name="blueBackground">#42A5F5</color>
+    <color name="lightBlueBackground">#29B6F6</color>
+    <color name="cyanBackground">#26C6DA</color>
+    <color name="tealBackground">#26A69A</color>
+    <color name="greenBackground">#66BB6A</color>
+    <color name="lightGreenBackground">#9CCC65</color>
+    <color name="limeBackground">#D4E157</color>
+    <color name="yellowBackground">#FFEE58</color>
+    <color name="amberBackground">#FFCA28</color>
+    <color name="orangeBackground">#FFA726</color>
+    <color name="deepOrangeBackground">#FF7043</color>
+    <color name="brownBackground">#8D6E63</color>
+    <color name="grayBackground">#BDBDBD</color>
+    <color name="blueGrayBackground">#78909C</color>
+
+    <color name="redAccent">#FF5252</color>
+    <color name="pinkAccent">#FF4081</color>
+    <color name="purpleAccent">#E040FB</color>
+    <color name="deepPurpleAccent">#7C4DFF</color>
+    <color name="indigoAccent">#536DFE</color>
+    <color name="blueAccent">#448AFF</color>
+    <color name="lightBlueAccent">#40C4FF</color>
+    <color name="cyanAccent">#18FFFF</color>
+    <color name="tealAccent">#64FFDA</color>
+    <color name="greenAccent">#69F0AE</color>
+    <color name="lightGreenAccent">#B2FF59</color>
+    <color name="limeAccent">#EEFF41</color>
+    <color name="yellowAccent">#FFFF00</color>
+    <color name="amberAccent">#FFD740</color>
+    <color name="orangeAccent">#FFAB40</color>
+    <color name="deepOrangeAccent">#FF6E40</color>
+
+</resources>

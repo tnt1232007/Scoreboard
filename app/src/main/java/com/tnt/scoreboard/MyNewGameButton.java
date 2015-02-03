@@ -1,0 +1,162 @@
+package com.tnt.scoreboard;
+
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.content.Intent;
+import android.transition.Slide;
+import android.transition.TransitionManager;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.tnt.scoreboard.models.Game;
+import com.tnt.scoreboard.utils.ColorUtils;
+import com.tnt.scoreboard.utils.StringUtils;
+
+import java.util.List;
+
+
+public class MyNewGameButton extends FloatingActionsMenu {
+
+    public static final int NEW_GAME_REQUEST = 1;
+    private final TextDrawable.IBuilder mDrawableBuilder =
+            TextDrawable.builder().beginConfig().fontSize(40).bold().endConfig().round();
+    private final ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
+
+    private BaseActivity mActivity;
+    private ImageView mDimBackground;
+    private View mFabBlankLayout;
+    private int mDensity;
+
+    public MyNewGameButton(Context context) {
+        super(context);
+    }
+
+    public MyNewGameButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public MyNewGameButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    @Override
+    public void expand() {
+        super.expand();
+        if (mDimBackground == null) return;
+
+        mDimBackground.animate().alpha(0.9f).withStartAction(new Runnable() {
+            @Override
+            public void run() {
+                mDimBackground.setVisibility(VISIBLE);
+                mFabBlankLayout.setVisibility(VISIBLE);
+            }
+        });
+    }
+
+    @Override
+    public void collapse() {
+        super.collapse();
+        if (mDimBackground == null) return;
+
+        mDimBackground.animate().alpha(0f).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mDimBackground.setVisibility(INVISIBLE);
+                mFabBlankLayout.setVisibility(INVISIBLE);
+            }
+        });
+    }
+
+    public void setup(final BaseActivity activity, List<Game> gameList) {
+        mActivity = activity;
+        mDensity = (int) getResources().getDisplayMetrics().density;
+        mDimBackground = ((ImageView) mActivity.findViewById(R.id.dimBackground));
+        mFabBlankLayout = mActivity.findViewById(R.id.fabBlankLayout);
+
+        mDimBackground.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collapse();
+            }
+        });
+
+        mActivity.findViewById(R.id.fabBlank).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, GameNewActivity.class);
+                mActivity.startActivityForResult(intent, NEW_GAME_REQUEST);
+            }
+        });
+
+        for (Game g : gameList) {
+            addButton(createRecentGameButton(g));
+        }
+    }
+
+    private FloatingActionButton createRecentGameButton(final Game game) {
+        //TODO: Optional display Last Name / First Name
+        String[] nameArray = game.getPlayers().get(0).getName().split(" ");
+        String sureName = nameArray[nameArray.length - 1];
+        int color = ColorUtils.darken(mColorGenerator.getColor(sureName.charAt(0)));
+
+        FloatingActionButton button = new FloatingActionButton(mActivity);
+        button.setTitle(StringUtils.join(game.getPlayers(), ", ", 28));
+        button.setSize(FloatingActionButton.SIZE_MINI);
+        button.setColorNormal(color);
+        button.setColorPressed(color);
+        button.setIconDrawable(mDrawableBuilder.build(String.valueOf(sureName.charAt(0)), color));
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, GameNewActivity.class);
+                intent.putExtra(Game.COLUMN_ID, game.getId());
+                mActivity.startActivityForResult(intent, NEW_GAME_REQUEST);
+            }
+        });
+        return button;
+    }
+
+    public void show(boolean visible) {
+        if (isGone()) return;
+        TransitionManager.beginDelayedTransition(
+                (ViewGroup) mActivity.findViewById(R.id.layout), new Slide());
+        setVisibility(visible ? VISIBLE : INVISIBLE);
+    }
+
+    public void move(boolean up) {
+        if (isGone() || isUp() == up) return;
+        int delta = up ? 40 * mDensity : -40 * mDensity;
+
+        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
+        ValueAnimator anim = ValueAnimator.ofInt(params.bottomMargin, params.bottomMargin + delta);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                params.bottomMargin = (int) (valueAnimator.getAnimatedValue());
+                setLayoutParams(params);
+            }
+        });
+        anim.setDuration(150);
+        anim.start();
+        setUp(up);
+    }
+
+    private boolean isGone() {
+        return getVisibility() == GONE;
+    }
+
+    private boolean isUp() {
+        return getTag() == true;
+    }
+
+    private void setUp(boolean up) {
+        setTag(up);
+    }
+}

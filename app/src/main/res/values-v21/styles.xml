@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionModeBackground">@color/grayDark</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="undoBarStyle">@style/MyUndoBar</item>
+    </style>
+
+    <style name="GameListTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blueDark</item>
+        <item name="colorAccent">@color/blueAccent</item>
+    </style>
+
+    <style name="GameArchiveTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/orangeDark</item>
+        <item name="colorAccent">@color/orangeAccent</item>
+    </style>
+
+    <style name="GameDeleteTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/teal</item>
+        <item name="colorPrimaryDark">@color/tealDark</item>
+        <item name="colorAccent">@color/tealAccent</item>
+    </style>
+
+    <style name="GameNewTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/redDark</item>
+        <item name="colorAccent">@color/redAccent</item>
+    </style>
+
+    <style name="GameScoreTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/greenDark</item>
+        <item name="colorAccent">@color/greenAccent</item>
+    </style>
+
+    <style name="SettingTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/grayDark</item>
+        <item name="colorPrimaryDark">@color/lightBlack</item>
+        <item name="colorAccent">@color/blueAccent</item>
+    </style>
+</resources>

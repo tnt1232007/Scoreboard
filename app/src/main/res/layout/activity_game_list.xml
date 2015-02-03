@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawerLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tnt.scoreboard.GameListActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/blueAccent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <RelativeLayout
+            android:id="@+id/emptyLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/emptyImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/default_image"
+                tools:src="@drawable/ic_empty_games"/>
+
+            <TextView
+                android:id="@+id/emptyHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emptyImage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="Nothing in Games"/>
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emptyHeader"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="New game will be shown here"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"/>
+
+
+        <ImageView
+            android:id="@+id/dimBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:alpha="0"
+            android:background="@color/highlighted"
+            android:contentDescription="@string/default_image"
+            android:visibility="invisible"/>
+
+        <com.tnt.scoreboard.MyNewGameButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
+            fab:fab_addButtonColorNormal="@color/red"
+            fab:fab_addButtonColorPressed="@color/redDark"
+            fab:fab_labelStyle="@style/MyFloatingMenu"
+            fab:fab_plusIconColor="@color/white"/>
+
+        <RelativeLayout
+            android:id="@+id/fabBlankLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabBlank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                fab:fab_colorNormal="@color/red"
+                fab:fab_colorPressed="@color/redDark"
+                fab:fab_icon="@drawable/ic_blank"
+                fab:fab_title="Blank"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toStartOf="@+id/fabBlank"
+                android:text="@string/action_blank"
+                android:theme="@style/MyFloatingMenu"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/navigationDrawer"
+        android:name="com.tnt.scoreboard.NavigationDrawerFragment"
+        android:layout_width="288dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        tools:layout="@layout/fragment_navigation_drawer"/>
+</android.support.v4.widget.DrawerLayout>

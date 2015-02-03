@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeightLarge"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/default_image"/>
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="?android:attr/listPreferredItemHeight"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:contentDescription="@string/default_image"
+        android:padding="6dp"
+        tools:src="?android:colorPrimary"/>
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="?android:attr/listPreferredItemHeight"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:contentDescription="@string/default_image"
+        android:padding="12dp"
+        android:src="@drawable/ic_check_dark"/>
+
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/icon"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        tools:text="TNT, KL12, LG, Sony"/>
+
+    <TextView
+        android:id="@+id/currentRound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/playerName"
+        android:layout_below="@+id/playerName"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:text="Round 69"/>
+
+    <TextView
+        android:id="@+id/dateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/playerName"
+        android:layout_marginRight="12dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:text="Jan 26, 23:59"/>
+</RelativeLayout>
