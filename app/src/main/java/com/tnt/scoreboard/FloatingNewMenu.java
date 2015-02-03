@@ -22,7 +22,7 @@ import com.tnt.scoreboard.utils.StringUtils;
 import java.util.List;
 
 
-public class MyNewGameButton extends FloatingActionsMenu {
+public class FloatingNewMenu extends FloatingActionsMenu {
 
     public static final int NEW_GAME_REQUEST = 1;
     private final TextDrawable.IBuilder mDrawableBuilder =
@@ -34,15 +34,15 @@ public class MyNewGameButton extends FloatingActionsMenu {
     private View mFabBlankLayout;
     private int mDensity;
 
-    public MyNewGameButton(Context context) {
+    public FloatingNewMenu(Context context) {
         super(context);
     }
 
-    public MyNewGameButton(Context context, AttributeSet attrs) {
+    public FloatingNewMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyNewGameButton(Context context, AttributeSet attrs, int defStyle) {
+    public FloatingNewMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -124,14 +124,14 @@ public class MyNewGameButton extends FloatingActionsMenu {
     }
 
     public void show(boolean visible) {
-        if (isGone()) return;
+        if (getVisibility() == GONE) return;
         TransitionManager.beginDelayedTransition(
                 (ViewGroup) mActivity.findViewById(R.id.layout), new Slide());
         setVisibility(visible ? VISIBLE : INVISIBLE);
     }
 
     public void move(boolean up) {
-        if (isGone() || isUp() == up) return;
+        if (getVisibility() == GONE || isUp() == up) return;
         int delta = up ? 40 * mDensity : -40 * mDensity;
 
         final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
@@ -146,10 +146,6 @@ public class MyNewGameButton extends FloatingActionsMenu {
         anim.setDuration(150);
         anim.start();
         setUp(up);
-    }
-
-    private boolean isGone() {
-        return getVisibility() == GONE;
     }
 
     private boolean isUp() {

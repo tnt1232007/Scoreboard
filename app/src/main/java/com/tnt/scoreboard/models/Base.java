@@ -1,6 +1,7 @@
 package com.tnt.scoreboard.models;
 
 public abstract class Base {
+
     public static final String COLUMN_ID = "_id";
     protected long id;
 

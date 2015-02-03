@@ -107,6 +107,7 @@ public class PlayerNewFragment extends Fragment {
     //</editor-fold>
 
     public interface IOnRemoveListener {
+
         public void onRemove();
     }
 }

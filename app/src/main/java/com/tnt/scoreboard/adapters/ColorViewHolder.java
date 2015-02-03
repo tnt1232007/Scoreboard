@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.tnt.scoreboard.R;
 
+
 public class ColorViewHolder {
 
     private ImageView background;
@@ -46,13 +47,12 @@ public class ColorViewHolder {
         }
     }
 
-    //<editor-fold desc="Getter Setter">
     public void setListener(IOnColorPickListener listener) {
         this.listener = listener;
     }
-    //</editor-fold>
 
     public interface IOnColorPickListener {
+
         public void onColorPick(int chooseColor);
     }
 }

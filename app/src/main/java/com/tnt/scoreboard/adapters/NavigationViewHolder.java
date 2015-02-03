@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tnt.scoreboard.R;
 
+
 public class NavigationViewHolder extends RecyclerView.ViewHolder {
 
     private ImageView mBackground = null;
@@ -71,6 +72,7 @@ public class NavigationViewHolder extends RecyclerView.ViewHolder {
     //</editor-fold>
 
     public interface IOnNavigationClickListener {
+
         public void onNavigationClick(View v, int navigationOption);
     }
 }

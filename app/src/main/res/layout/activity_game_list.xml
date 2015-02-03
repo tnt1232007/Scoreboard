@@ -78,7 +78,7 @@
             android:contentDescription="@string/default_image"
             android:visibility="invisible"/>
 
-        <com.tnt.scoreboard.MyNewGameButton
+        <com.tnt.scoreboard.FloatingNewMenu
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="24dp"
             android:layout_marginRight="24dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             tools:visibility="visible">
 
             <com.getbase.floatingactionbutton.FloatingActionButton

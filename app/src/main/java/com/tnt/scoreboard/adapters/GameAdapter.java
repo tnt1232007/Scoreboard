@@ -3,7 +3,6 @@ package com.tnt.scoreboard.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,9 @@ import java.util.TreeSet;
 public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
     private List<Game> mGameList;
+    private List<Game> mUndoGames;
     private TreeSet<Game> mSelectedGames;
-    private IOnSelectListener mListener;
+    private IOnGameSelectListener mListener;
 
     public GameAdapter(List<Game> gameList) {
         this.mGameList = gameList;
@@ -48,7 +48,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
             public void onGameClick(View v, boolean isCheckClick) {
                 if (isCheckClick || getSelectedCount() > 0) {
                     holder.updateState(game, select(game));
-                    mListener.onSelect();
+                    mListener.onGameSelect();
                 } else {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, GameScoreActivity.class);
@@ -69,7 +69,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         mGameList.add(game);
         game.setIndex(mGameList.size() - 1);
         notifyItemInserted(game.getIndex());
-        Log.d("Add game", game.getIndex() + "");
     }
 
     public void add(List<Game> gameList) {
@@ -77,7 +76,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         for (Game g : gameList) {
             mGameList.add(g.getIndex(), g);
             notifyItemInserted(g.getIndex());
-            Log.d("Add game", g.getIndex() + "");
         }
         refreshIndex();
     }
@@ -88,8 +86,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
             Game g = (Game) iterator.next();
             mGameList.remove(g);
             notifyItemRemoved(g.getIndex());
-            Log.d("Rem game", g.getIndex() + "");
         }
+        mUndoGames = new ArrayList<>(mSelectedGames);
         mSelectedGames.clear();
         refreshIndex();
     }
@@ -97,11 +95,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
     public boolean select(Game game) {
         if (mSelectedGames.contains(game)) {
             mSelectedGames.remove(game);
-            Log.d("Des", game.getIndex() + "");
             return false;
         } else {
             mSelectedGames.add(game);
-            Log.d("Sel", game.getIndex() + "");
             return true;
         }
     }
@@ -125,20 +121,23 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         return mSelectedGames.size();
     }
 
+    public List<Game> getUndoItems() {
+        return mUndoGames;
+    }
+
     public List<Game> getSelectedItems() {
         return new ArrayList<>(mSelectedGames);
     }
-    //</editor-fold>
 
-    //<editor-fold desc="Getter Setter">
-    public void setListener(IOnSelectListener listener) {
+    public void setListener(IOnGameSelectListener listener) {
         mListener = listener;
     }
     //</editor-fold>
 
-    public interface IOnSelectListener {
 
-        public void onSelect();
+    public interface IOnGameSelectListener {
+
+        public void onGameSelect();
     }
 }
 

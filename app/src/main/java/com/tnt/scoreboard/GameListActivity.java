@@ -1,8 +1,16 @@
 package com.tnt.scoreboard;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,39 +21,57 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cocosw.undobar.UndoBarController;
 import com.tnt.scoreboard.adapters.GameAdapter;
+import com.tnt.scoreboard.adapters.NavigationViewHolder;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.ActivityUtils;
 
+import java.util.List;
+
 
 //TODO: Swipe to archive/delete
-public class GameListActivity extends BaseActivity {
+public class GameListActivity extends BaseActivity implements
+        NavigationViewHolder.IOnNavigationClickListener,
+        GameAdapter.IOnGameSelectListener,
+        ActionMode.Callback,
+        UndoBarController.AdvancedUndoListener {
 
-    protected ActionMode mActionMode;
-    private NavigationDrawerFragment mNavigationDrawer;
+    public static final String ACTION = "action";
+    public static final String SCREEN = "screen";
+
+    private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
-    private MyNewGameButton mFab;
+    private FloatingNewMenu mFab;
     private RecyclerView mRecyclerView;
-    private MyUndoBar mUndoBar;
+    private UndoBarController.UndoBar mUndoBar;
+    private NavigationDrawerFragment mNavigationDrawer;
+    private ActivityUtils.Screen mScreen;
+    private DrawerLayout mDrawerLayout;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_game_list);
-        mUndoBar = new MyUndoBar(this);
+        mUndoBar = new UndoBarController.UndoBar(this);
 
-        mFab = (MyNewGameButton) findViewById(R.id.fab);
+        mFab = (FloatingNewMenu) findViewById(R.id.fab);
         mFab.setup(this, getRecentGameList(3));
 
-        mNavigationDrawer = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigationDrawer);
-        mNavigationDrawer.setup(this, (DrawerLayout) findViewById(R.id.drawerLayout));
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mNavigationDrawer = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigationDrawer);
+        mNavigationDrawer.setup(mDrawerLayout, this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mNavigationDrawer.navigate(ActivityUtils.GAMES);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
+        onNavigationClick(null, ActivityUtils.GAMES);
     }
 
     @Override
@@ -62,7 +88,7 @@ public class GameListActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
         switch (requestCode) {
-            case MyNewGameButton.NEW_GAME_REQUEST:
+            case FloatingNewMenu.NEW_GAME_REQUEST:
                 long gameId = data.getLongExtra(Game.COLUMN_ID, -1);
                 mGameAdapter.add(getGame(gameId));
                 break;
@@ -71,7 +97,8 @@ public class GameListActivity extends BaseActivity {
         }
     }
 
-    public void showEmptyView(boolean visible, ActivityUtils.Screen screen) {
+    public void updateEmptyView(ActivityUtils.Screen screen) {
+        boolean visible = mGameAdapter.getItemCount() == 0;
         findViewById(R.id.layout).setBackgroundResource(
                 visible ? screen.COLOR_ACCENT : android.R.color.background_light);
         findViewById(R.id.emptyLayout).setVisibility(visible ? View.VISIBLE : View.GONE);
@@ -80,24 +107,177 @@ public class GameListActivity extends BaseActivity {
         ((TextView) findViewById(R.id.emptyText)).setText(screen.EMPTY_TEXT);
     }
 
-    public GameAdapter getGameAdapter() {
-        return mGameAdapter;
+    @Override
+    public void onNavigationClick(View v, int navigationOption) {
+        mUndoBar.clear();
+        mFab.collapse();
+        mDrawerLayout.closeDrawers();
+        if (mActionMode != null) mActionMode.finish();
+
+        switch (navigationOption) {
+            case ActivityUtils.GAMES:
+            case ActivityUtils.ARCHIVE:
+            case ActivityUtils.TRASH:
+                if (mScreen == ActivityUtils.SCREENS[navigationOption])
+                    return;
+
+                mScreen = ActivityUtils.SCREENS[navigationOption];
+                mFab.setVisibility(mScreen.FAB_VISIBLE);
+                Resources r = getResources();
+                mToolbar.setTitle(r.getString(mScreen.TITLE));
+                mToolbar.setBackground(new ColorDrawable(r.getColor(mScreen.COLOR_PRIMARY)));
+                getWindow().setStatusBarColor(r.getColor(mScreen.COLOR_PRIMARY_DARK));
+                mGameAdapter = new GameAdapter(getGameList(mScreen.STATE));
+                mGameAdapter.setListener(this);
+                mRecyclerView.setAdapter(mGameAdapter);
+                mNavigationDrawer.setCurrentPosition(navigationOption);
+
+                boolean visible = mGameAdapter.getItemCount() == 0;
+                findViewById(R.id.layout).setBackgroundResource(
+                        visible ? mScreen.COLOR_ACCENT : android.R.color.background_light);
+                findViewById(R.id.emptyLayout).setVisibility(visible ? View.VISIBLE : View.GONE);
+                ((ImageView) findViewById(R.id.emptyImage)).setImageResource(mScreen.EMPTY_BACKGROUND);
+                ((TextView) findViewById(R.id.emptyHeader)).setText(mScreen.EMPTY_HEADER);
+                ((TextView) findViewById(R.id.emptyText)).setText(mScreen.EMPTY_TEXT);
+                break;
+            case ActivityUtils.SETTINGS:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                break;
+            case ActivityUtils.HELP:
+                break;
+        }
     }
 
-    public void setGameAdapter(GameAdapter gameAdapter) {
-        mGameAdapter = gameAdapter;
-        mRecyclerView.setAdapter(gameAdapter);
+    @Override
+    public void onGameSelect() {
+        int count = mGameAdapter.getSelectedCount();
+        if (count > 0 && mActionMode == null) {
+            mActionMode = startSupportActionMode(this);
+        } else if (count == 0 && mActionMode != null) {
+            mActionMode.finish();
+        }
+        if (mActionMode != null) {
+            mActionMode.setTitle(String.valueOf(count));
+        }
     }
 
-    public MyNewGameButton getFab() {
-        return mFab;
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        actionMode.getMenuInflater().inflate(mScreen.MENU_LAYOUT, menu);
+        mUndoBar.clear();
+        mFab.show(false);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.lightBlack));
+        return true;
     }
 
-    public MyUndoBar getUndoBar() {
-        return mUndoBar;
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return false;
     }
 
-//TODO: Animate toolbar color change
+    @Override
+    public boolean onActionItemClicked(final ActionMode actionMode, MenuItem menuItem) {
+        final List<Game> selectedGames = mGameAdapter.getSelectedItems();
+        String msg = selectedGames.size() + (selectedGames.size() == 1 ? " game" : " games");
+        Bundle bundle = new Bundle();
+        bundle.putInt(ACTION, menuItem.getItemId());
+        bundle.putParcelable(SCREEN, mScreen);
+        mUndoBar.token(bundle).noicon(true).listener(this);
+
+        switch (menuItem.getItemId()) {
+            case R.id.action_delete_forever:
+                DialogInterface.OnClickListener dialogListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        deleteGames(selectedGames);
+                                        mGameAdapter.remove();
+                                        mFab.move(true);
+                                        actionMode.finish();
+                                        break;
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        break;
+                                }
+                            }
+                        };
+                new AlertDialog.Builder(this)
+                        .setMessage("Delete " + msg + " forever?")
+                        .setPositiveButton("Yes", dialogListener)
+                        .setNegativeButton("No", dialogListener).show();
+                return true;
+            case R.id.action_archive:
+                changeState(selectedGames, Game.State.ARCHIVE);
+                mUndoBar.message(msg + " archived");
+                break;
+            case R.id.action_unarchive:
+                changeState(selectedGames, Game.State.NORMAL);
+                mUndoBar.message(msg + " unarchived");
+                break;
+            case R.id.action_delete:
+                changeState(selectedGames, Game.State.DELETE);
+                mUndoBar.message(msg + " moved to Trash");
+                break;
+            case R.id.action_restore:
+                changeState(selectedGames, Game.State.NORMAL);
+                mUndoBar.message(msg + " restored");
+                break;
+        }
+
+        mGameAdapter.remove();
+        mUndoBar.show();
+        mFab.move(true);
+        actionMode.finish();
+        return true;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        mFab.show(true);
+        mGameAdapter.clear();
+        mActionMode = null;
+        getWindow().setStatusBarColor(getResources().getColor(mScreen.COLOR_PRIMARY_DARK));
+        updateEmptyView(mScreen);
+    }
+
+    @Override
+    public void onHide(@Nullable Parcelable parcelable) {
+        mFab.move(false);
+    }
+
+    @Override
+    public void onClear(@NonNull Parcelable[] parcelables) {
+        mFab.move(false);
+    }
+
+    @Override
+    public void onUndo(@Nullable Parcelable parcelable) {
+        if (parcelable == null) return;
+        int actionId = ((Bundle) parcelable).getInt(ACTION);
+        ActivityUtils.Screen screen = ((Bundle) parcelable).getParcelable(SCREEN);
+        List<Game> mUndoGames = mGameAdapter.getUndoItems();
+        switch (actionId) {
+            case R.id.action_archive:
+                changeState(mUndoGames, Game.State.NORMAL);
+                break;
+            case R.id.action_unarchive:
+                changeState(mUndoGames, Game.State.ARCHIVE);
+                break;
+            case R.id.action_delete:
+                changeState(mUndoGames, Game.State.NORMAL);
+                break;
+            case R.id.action_restore:
+                changeState(mUndoGames, Game.State.DELETE);
+                break;
+        }
+        mGameAdapter.add(mUndoGames);
+        updateEmptyView(screen);
+        mFab.move(false);
+    }
+
+    //<editor-fold desc="TODO: Animate toolbar color change">
 //    private void revealImageCircular(final int primary, final int primaryDark) {
 //        final View view = mToolbar;
 //        view.postDelayed(new Runnable() {
@@ -119,4 +299,5 @@ public class GameListActivity extends BaseActivity {
 //            }
 //        }, 100);
 //    }
+    //</editor-fold>
 }

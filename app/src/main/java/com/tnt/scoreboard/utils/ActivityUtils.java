@@ -1,5 +1,7 @@
 package com.tnt.scoreboard.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 
 import com.tnt.scoreboard.R;
@@ -32,8 +34,17 @@ public final class ActivityUtils {
                     R.string.empty_header_trash, R.string.empty_text_trash)
     };
 
-    public static class Screen {
+    public static class Screen implements Parcelable {
 
+        public static final Parcelable.Creator<Screen> CREATOR = new Parcelable.Creator<Screen>() {
+            public Screen createFromParcel(Parcel in) {
+                return new Screen(in);
+            }
+
+            public Screen[] newArray(int size) {
+                return new Screen[size];
+            }
+        };
         public Game.State STATE;
         public int TITLE;
         public int FAB_VISIBLE;
@@ -58,6 +69,37 @@ public final class ActivityUtils {
             this.EMPTY_BACKGROUND = emptyBackground;
             this.EMPTY_HEADER = emptyHeader;
             this.EMPTY_TEXT = emptyText;
+        }
+
+        public Screen(Parcel in) {
+            this.STATE = Game.State.values()[in.readInt()];
+            this.TITLE = in.readInt();
+            this.FAB_VISIBLE = in.readInt();
+            this.MENU_LAYOUT = in.readInt();
+            this.COLOR_PRIMARY = in.readInt();
+            this.COLOR_PRIMARY_DARK = in.readInt();
+            this.COLOR_ACCENT = in.readInt();
+            this.EMPTY_BACKGROUND = in.readInt();
+            this.EMPTY_HEADER = in.readInt();
+            this.EMPTY_TEXT = in.readInt();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(STATE.ordinal());
+            dest.writeInt(FAB_VISIBLE);
+            dest.writeInt(MENU_LAYOUT);
+            dest.writeInt(COLOR_PRIMARY);
+            dest.writeInt(COLOR_PRIMARY_DARK);
+            dest.writeInt(COLOR_ACCENT);
+            dest.writeInt(EMPTY_BACKGROUND);
+            dest.writeInt(EMPTY_HEADER);
+            dest.writeInt(EMPTY_TEXT);
         }
     }
 }

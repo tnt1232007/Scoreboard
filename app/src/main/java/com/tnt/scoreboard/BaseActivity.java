@@ -21,8 +21,8 @@ import java.util.TreeSet;
 
 public abstract class BaseActivity extends ActionBarActivity {
 
-    public static final String DESC = " DESC";
-    public static final String EQUALS = " = ";
+    private static final String DESC = " DESC";
+    private static final String EQUALS = " = ";
     protected Toolbar mToolbar;
     private GameDAO gameDAO;
     private PlayerDAO playerDAO;
