@@ -3,6 +3,7 @@ package com.tnt.scoreboard.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         mGameList.add(game);
         game.setIndex(mGameList.size() - 1);
         notifyItemInserted(game.getIndex());
+        Log.d("Add game", game.getIndex() + "");
     }
 
     public void add(List<Game> gameList) {
@@ -75,7 +77,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         for (Game g : gameList) {
             mGameList.add(g.getIndex(), g);
             notifyItemInserted(g.getIndex());
+            Log.d("Add game", g.getIndex() + "");
         }
+        refreshIndex();
     }
 
     public void remove() {
@@ -84,16 +88,20 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
             Game g = (Game) iterator.next();
             mGameList.remove(g);
             notifyItemRemoved(g.getIndex());
+            Log.d("Rem game", g.getIndex() + "");
         }
         mSelectedGames.clear();
+        refreshIndex();
     }
 
     public boolean select(Game game) {
         if (mSelectedGames.contains(game)) {
             mSelectedGames.remove(game);
+            Log.d("Des", game.getIndex() + "");
             return false;
         } else {
             mSelectedGames.add(game);
+            Log.d("Sel", game.getIndex() + "");
             return true;
         }
     }
@@ -102,6 +110,13 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         if (mSelectedGames.isEmpty()) return;
         mSelectedGames.clear();
         notifyDataSetChanged();
+    }
+
+    private void refreshIndex() {
+        int i = 0;
+        for (Game g : mGameList) {
+            g.setIndex(i++);
+        }
     }
     //</editor-fold>
 
@@ -113,7 +128,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
     public List<Game> getSelectedItems() {
         return new ArrayList<>(mSelectedGames);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Getter Setter">
     public void setListener(IOnSelectListener listener) {
         mListener = listener;
     }
