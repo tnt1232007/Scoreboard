@@ -23,4 +23,19 @@ public final class PrefUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPrefs.getString(context.getString(R.string.pref_key_theme), "");
     }
+
+    public static String getOrientation(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getString(context.getString(R.string.pref_key_orientation), "");
+    }
+
+    public static int getStartingScore(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getInt(context.getString(R.string.pref_key_starting_score), -1);
+    }
+
+    public static int getUpdateDelay(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getInt(context.getString(R.string.pref_key_update_delay), -1);
+    }
 }

@@ -1,74 +1,108 @@
 package com.tnt.scoreboard;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.view.Gravity;
-import android.widget.LinearLayout;
+import android.view.View;
 import android.widget.NumberPicker;
 
-//TODO: Need refined
+
 public class NumberPickerPreference extends DialogPreference {
+
+    private static final int VALUE = 0;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 100;
-    private static final boolean WRAP_SELECTOR_WHEEL = true;
+    private static final int INCREMENT = 1;
+    private static final boolean INFINITE_SCROLL = true;
     private final int mMinValue;
     private final int mMaxValue;
-    private final boolean mWrapSelectorWheel;
-    private int mSelectedValue;
+    private final int mIncrement;
+    private final boolean mInfiniteScroll;
+    private int mCurrentValue;
+    private int mDisplayedValue;
+    private String mInitialSummary;
     private NumberPicker mNumberPicker;
 
-    public NumberPickerPreference(final Context context, final AttributeSet attrs) {
+    public NumberPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mMinValue = MIN_VALUE;
-        mMaxValue = MAX_VALUE;
-        mWrapSelectorWheel = WRAP_SELECTOR_WHEEL;
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.NumberPickerPreference);
+        mMinValue = a.getInt(R.styleable.NumberPickerPreference_minValue, MIN_VALUE);
+        mMaxValue = a.getInt(R.styleable.NumberPickerPreference_maxValue, MAX_VALUE);
+        mIncrement = a.getInt(R.styleable.NumberPickerPreference_increment, INCREMENT);
+        mInfiniteScroll = a.getBoolean(
+                R.styleable.NumberPickerPreference_infiniteScroll, INFINITE_SCROLL);
+        mInitialSummary = getSummary().toString();
+        a.recycle();
+
+        setDialogLayoutResource(R.layout.pref_number_picker);
     }
 
     @Override
-    protected void onSetInitialValue(final boolean restoreValue, final Object defaultValue) {
-        mSelectedValue = restoreValue ? this.getPersistedInt(0) : (Integer) defaultValue;
-        this.updateSummary();
-    }
-
-    @Override
-    protected Object onGetDefaultValue(final TypedArray a, final int index) {
-        return a.getInteger(index, 0);
-    }
-
-    @Override
-    protected void onPrepareDialogBuilder(final AlertDialog.Builder builder) {
-        super.onPrepareDialogBuilder(builder);
-
-        mNumberPicker = new NumberPicker(this.getContext());
+    protected void onBindDialogView(@NonNull View view) {
+        super.onBindDialogView(view);
+        mNumberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
         mNumberPicker.setMinValue(mMinValue);
-        mNumberPicker.setMaxValue(mMaxValue);
-        mNumberPicker.setValue(mSelectedValue);
-        mNumberPicker.setWrapSelectorWheel(mWrapSelectorWheel);
-        mNumberPicker.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        final LinearLayout linearLayout = new LinearLayout(this.getContext());
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.addView(mNumberPicker);
-
-        builder.setView(linearLayout);
+        if (mIncrement == INCREMENT) {
+            mNumberPicker.setMaxValue(mMaxValue);
+        } else {
+            String[] values = calculateDisplayedValues(mMinValue, mMaxValue, mIncrement);
+            mNumberPicker.setDisplayedValues(values);
+            mNumberPicker.setMaxValue(mMinValue + values.length - 1);
+        }
+        mNumberPicker.setValue(mCurrentValue);
+        mNumberPicker.setWrapSelectorWheel(mInfiniteScroll);
     }
 
     @Override
-    protected void onDialogClosed(final boolean positiveResult) {
-        if (positiveResult && this.shouldPersist()) {
-            mSelectedValue = mNumberPicker.getValue();
-            this.persistInt(mSelectedValue);
-            this.updateSummary();
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        mDisplayedValue = restoreValue ? getPersistedInt(VALUE) : (Integer) defaultValue;
+        mCurrentValue = calculateActualValue(mDisplayedValue);
+        persistInt(mDisplayedValue);
+        setSummary(null);
+    }
+
+    @Override
+    protected Object onGetDefaultValue(TypedArray a, int index) {
+        return a.getInteger(index, VALUE);
+    }
+
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+        if (positiveResult) {
+            mCurrentValue = mNumberPicker.getValue();
+            mDisplayedValue = calculateDisplayedValue(mCurrentValue);
+            persistInt(mDisplayedValue);
+            setSummary(null);
         }
     }
 
-    private void updateSummary() {
-        super.setSummary(String.format("Wait %d second(s) before update score history", mSelectedValue));
+    @Override
+    public void setSummary(CharSequence summary) {
+        super.setSummary(String.format(mDisplayedValue == 1
+                ? mInitialSummary.replace("(es)", "").replace("(s)", "")
+                : mInitialSummary.replace("(es)", "es").replace("(s)", "s")
+                , mDisplayedValue));
+    }
+
+    private String[] calculateDisplayedValues(int minValue, int maxValue, int increment) {
+        String[] values = new String[(maxValue - minValue) / increment + 1];
+        for (int i = 0; i < values.length; i++) {
+            int value = minValue + i * increment;
+            if (value > maxValue)
+                break;
+            values[i] = String.valueOf(value);
+        }
+        return values;
+    }
+
+    private int calculateDisplayedValue(int value) {
+        return mMinValue + (value - mMinValue) * mIncrement;
+    }
+
+    private int calculateActualValue(int displayedValue) {
+        return (displayedValue - mMinValue) / mIncrement + mMinValue;
     }
 }

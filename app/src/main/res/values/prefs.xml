@@ -6,24 +6,30 @@
     <string name="pref_value_user_name">TNT</string>
     <string name="pref_key_name_format">name_format</string>
     <string name="pref_title_name_format">Naming Convention</string>
+    <bool name="pref_value_name_format">true</bool>
     <string name="pref_on_name_format">Last, First</string>
     <string name="pref_off_name_format">First, Last</string>
 
     <string name="pref_header_appearance">Appearance</string>
     <string name="pref_key_theme">theme</string>
-    <string name="pref_title_theme">Theme (Score screen only)</string>
+    <string name="pref_title_theme">Theme</string>
     <string name="pref_value_theme">Light</string>
     <string name="pref_key_orientation">orientation</string>
     <string name="pref_title_orientation">Orientation</string>
-    <string name="pref_value_orientation">System</string>
+    <string name="pref_value_orientation">Auto-rotate</string>
 
     <string name="pref_header_configuration">Configuration</string>
     <string name="pref_key_starting_score">starting_score</string>
     <string name="pref_title_starting_score">Starting Score</string>
-    <string name="pref_value_starting_score">0</string>
-    <string name="pref_summary_starting_score">All players start with %d score(s)</string>
+    <string name="pref_summary_starting_score">At %d score(s) for each player</string>
+    <integer name="pref_value_starting_score">0</integer>
+    <integer name="pref_min_starting_score">0</integer>
+    <integer name="pref_max_starting_score">100</integer>
+    <integer name="pref_increment_starting_score">5</integer>
     <string name="pref_key_update_delay">update_delay</string>
     <string name="pref_title_update_delay">Update Delay</string>
-    <string name="pref_value_update_delay">10</string>
-    <string name="pref_summary_update_delay">Wait %d second(s) before update score history</string>
+    <string name="pref_summary_update_delay">For %d second(s) after modification</string>
+    <integer name="pref_value_update_delay">10</integer>
+    <integer name="pref_min_update_delay">1</integer>
+    <integer name="pref_max_update_delay">30</integer>
 </resources>

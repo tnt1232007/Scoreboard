@@ -1,6 +1,5 @@
 package com.tnt.scoreboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -48,10 +47,6 @@ public abstract class BaseActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent i = new Intent(this, SettingActivity.class);
-                startActivity(i);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
