@@ -1,5 +1,6 @@
 package com.tnt.scoreboard;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -30,12 +31,12 @@ public abstract class BaseActivity extends ActionBarActivity
     private PlayerDAO playerDAO;
 
     protected void onCreate(Bundle savedInstanceState, int layoutId) {
+        PreferenceManager.setDefaultValues(this, R.xml.setting, false);
         switchTheme(PrefUtils.getTheme(this));
         switchOrientation(PrefUtils.getOrientation(this));
 
         super.onCreate(savedInstanceState);
         setContentView(layoutId);
-        PreferenceManager.setDefaultValues(this, R.xml.setting, false);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -52,7 +53,16 @@ public abstract class BaseActivity extends ActionBarActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
+            case R.id.action_settings:
+                intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_help:
+                intent = new Intent(this, HelpFeedbackActivity.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -77,9 +87,9 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     private void switchOrientation(String orientation) {
-        if (orientation.equals(getString(R.string.portrait))) {
+        if (orientation.equals(getString(R.string.pref_orientation_portrait))) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else if (orientation.equals(getString(R.string.landscape))) {
+        } else if (orientation.equals(getString(R.string.pref_orientation_landscape))) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
@@ -87,11 +97,13 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     private void switchTheme(String theme) {
-        boolean isLight = theme.equals(getString(R.string.light));
+        boolean isLight = theme.equals(getString(R.string.pref_theme_light));
         if (this instanceof GameScoreActivity) {
             setTheme(isLight ? R.style.GameScoreLightTheme : R.style.GameScoreTheme);
         } else if (this instanceof SettingActivity) {
             setTheme(isLight ? R.style.SettingLightTheme : R.style.SettingTheme);
+        } else if (this instanceof GameNewActivity) {
+            setTheme(isLight ? R.style.GameNewLightTheme : R.style.GameNewTheme);
         } else {
             setTheme(isLight ? R.style.BaseLightTheme : R.style.BaseTheme);
         }

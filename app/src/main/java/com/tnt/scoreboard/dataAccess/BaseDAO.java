@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.tnt.scoreboard.models.Base;
 
@@ -16,7 +15,6 @@ import java.util.List;
 
 public abstract class BaseDAO<T extends Base> {
 
-    private static final String TAG = "BaseDAO";
     protected SQLiteDatabase db;
     protected SQLiteHelper daoHelper;
     private String tableName;
@@ -66,7 +64,8 @@ public abstract class BaseDAO<T extends Base> {
     public List<T> get(String selection, String[] selectionArgs, String groupBy,
                        String having, String orderBy, String limit) {
         List<T> bases = new ArrayList<>();
-        Cursor cursor = db.query(tableName, allColumns, selection, selectionArgs, groupBy, having, orderBy, limit);
+        Cursor cursor = db.query(tableName, allColumns, selection,
+                selectionArgs, groupBy, having, orderBy, limit);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             bases.add(cursorToBase(cursor));
@@ -94,7 +93,6 @@ public abstract class BaseDAO<T extends Base> {
         try {
             return dateFormat.parse(sqlDate);
         } catch (ParseException e) {
-            Log.e(TAG, "Parsing datetime failed", e);
             return new Date(0);
         }
     }

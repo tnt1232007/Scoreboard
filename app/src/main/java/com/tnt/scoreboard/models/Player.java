@@ -10,16 +10,16 @@ public class Player extends Base {
 
     private long gameId;
     private String name;
-    private double score;
+    private long score;
     private long color;
 
-    public Player(String name, long color) {
+    public Player(String name, long color, long score) {
         this.name = name;
         this.color = color;
-        score = 0;
+        this.score = score;
     }
 
-    public Player(long id, long gameId, String name, double score, long color) {
+    public Player(long id, long gameId, String name, long score, long color) {
         this.id = id;
         this.gameId = gameId;
         this.name = name;
@@ -43,11 +43,11 @@ public class Player extends Base {
         this.name = name;
     }
 
-    public double getScore() {
+    public long getScore() {
         return score;
     }
 
-    public void setScore(double score) {
+    public void setScore(long score) {
         this.score = score;
     }
 

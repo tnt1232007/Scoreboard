@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="closeButtonIcon" format="reference"/>
 
     <style name="BaseLightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="actionModeBackground">@color/grayDark</item>
@@ -8,6 +9,7 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="undoBarStyle">@style/MyUndoBar</item>
         <item name="android:colorControlHighlight">@color/dimWhite</item>
+        <item name="closeButtonIcon">@drawable/ic_close_light</item>
     </style>
 
     <style name="GameNewLightTheme" parent="BaseLightTheme">
@@ -32,6 +34,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="undoBarStyle">@style/MyUndoBar</item>
         <item name="android:colorControlHighlight">@color/lightBlack</item>
+        <item name="closeButtonIcon">@drawable/ic_close_dark</item>
     </style>
 
     <style name="GameNewTheme" parent="BaseTheme">

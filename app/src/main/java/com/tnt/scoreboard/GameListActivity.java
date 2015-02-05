@@ -97,18 +97,9 @@ public class GameListActivity extends BaseActivity implements
         }
     }
 
-    public void updateEmptyView(ActivityUtils.Screen screen) {
-        boolean visible = mGameAdapter.getItemCount() == 0;
-        findViewById(R.id.layout).setBackgroundResource(
-                visible ? screen.COLOR_ACCENT : android.R.color.transparent);
-        findViewById(R.id.emptyLayout).setVisibility(visible ? View.VISIBLE : View.GONE);
-        ((ImageView) findViewById(R.id.emptyImage)).setImageResource(screen.EMPTY_BACKGROUND);
-        ((TextView) findViewById(R.id.emptyHeader)).setText(screen.EMPTY_HEADER);
-        ((TextView) findViewById(R.id.emptyText)).setText(screen.EMPTY_TEXT);
-    }
-
     @Override
     public void onNavigationClick(View v, int navigationOption) {
+        Intent intent;
         mUndoBar.clear();
         mFab.collapse();
         mDrawerLayout.closeDrawers();
@@ -141,10 +132,12 @@ public class GameListActivity extends BaseActivity implements
                 ((TextView) findViewById(R.id.emptyText)).setText(mScreen.EMPTY_TEXT);
                 break;
             case ActivityUtils.SETTINGS:
-                Intent intent = new Intent(this, SettingActivity.class);
+                intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
                 break;
             case ActivityUtils.HELP:
+                intent = new Intent(this, HelpFeedbackActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -179,7 +172,8 @@ public class GameListActivity extends BaseActivity implements
     @Override
     public boolean onActionItemClicked(final ActionMode actionMode, MenuItem menuItem) {
         final List<Game> selectedGames = mGameAdapter.getSelectedItems();
-        String msg = selectedGames.size() + (selectedGames.size() == 1 ? " game" : " games");
+        String count = String.valueOf(selectedGames.size());
+        String deleteMsg = selectedGames.size() == 1 ? "game" : count + " games";
         Bundle bundle = new Bundle();
         bundle.putInt(ACTION, menuItem.getItemId());
         bundle.putParcelable(SCREEN, mScreen);
@@ -205,25 +199,25 @@ public class GameListActivity extends BaseActivity implements
                             }
                         };
                 new AlertDialog.Builder(this)
-                        .setMessage("Delete " + msg + " forever?")
+                        .setMessage("Delete " + deleteMsg + " forever?")
                         .setPositiveButton("Yes", dialogListener)
                         .setNegativeButton("No", dialogListener).show();
                 return true;
             case R.id.action_archive:
                 changeState(selectedGames, Game.State.ARCHIVE);
-                mUndoBar.message(msg + " archived");
+                mUndoBar.message(count + " archived");
                 break;
             case R.id.action_unarchive:
                 changeState(selectedGames, Game.State.NORMAL);
-                mUndoBar.message(msg + " unarchived");
+                mUndoBar.message(count + " unarchived");
                 break;
             case R.id.action_delete:
                 changeState(selectedGames, Game.State.DELETE);
-                mUndoBar.message(msg + " moved to Trash");
+                mUndoBar.message(count + " moved to Trash");
                 break;
             case R.id.action_restore:
                 changeState(selectedGames, Game.State.NORMAL);
-                mUndoBar.message(msg + " restored");
+                mUndoBar.message(count + " restored");
                 break;
         }
 
@@ -276,6 +270,16 @@ public class GameListActivity extends BaseActivity implements
         mGameAdapter.add(mUndoGames);
         updateEmptyView(screen);
         mFab.move(false);
+    }
+
+    private void updateEmptyView(ActivityUtils.Screen screen) {
+        boolean visible = mGameAdapter.getItemCount() == 0;
+        findViewById(R.id.layout).setBackgroundResource(
+                visible ? screen.COLOR_ACCENT : android.R.color.transparent);
+        findViewById(R.id.emptyLayout).setVisibility(visible ? View.VISIBLE : View.GONE);
+        ((ImageView) findViewById(R.id.emptyImage)).setImageResource(screen.EMPTY_BACKGROUND);
+        ((TextView) findViewById(R.id.emptyHeader)).setText(screen.EMPTY_HEADER);
+        ((TextView) findViewById(R.id.emptyText)).setText(screen.EMPTY_TEXT);
     }
 
     //<editor-fold desc="TODO: Animate toolbar color change">

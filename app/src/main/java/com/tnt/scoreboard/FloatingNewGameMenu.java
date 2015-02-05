@@ -25,7 +25,7 @@ import java.util.List;
 public class FloatingNewGameMenu extends FloatingActionsMenu {
 
     public static final int NEW_GAME_REQUEST = 1;
-    public static final String RECENT_GAMES = "Recent games will appear here";
+    public static final String RECENT_GAMES = "Recent games will show up here";
     private final TextDrawable.IBuilder mDrawableBuilder =
             TextDrawable.builder().beginConfig().fontSize(40).bold().endConfig().round();
     private final ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
@@ -161,12 +161,14 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
         int delta = up ? 40 * mDensity : -40 * mDensity;
 
         final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
+        final RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) mFabBlankLayout.getLayoutParams();
         ValueAnimator anim = ValueAnimator.ofInt(params.bottomMargin, params.bottomMargin + delta);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                params.bottomMargin = (int) (valueAnimator.getAnimatedValue());
+                params.bottomMargin = params2.bottomMargin = (int) (valueAnimator.getAnimatedValue());
                 setLayoutParams(params);
+                mFabBlankLayout.setLayoutParams(params2);
             }
         });
         anim.setDuration(150);

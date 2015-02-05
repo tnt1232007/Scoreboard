@@ -12,7 +12,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String DATABASE_NAME = "scoreboard.sqlite";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
 
     private static final String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE_NAME + "("
             + Game.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -25,7 +25,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Player.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Player.COLUMN_GAME_ID + " INTEGER NOT NULL, "
             + Player.COLUMN_NAME + " VARCHAR NOT NULL, "
-            + Player.COLUMN_SCORE + " DOUBLE NOT NULL, "
+            + Player.COLUMN_SCORE + " INTEGER NOT NULL, "
             + Player.COLUMN_COLOR + " INTEGER NOT NULL"
             + ");";
 

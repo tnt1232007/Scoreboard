@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
-    tools:context="com.tnt.scoreboard.NavigationDrawerFragment"
-    tools:layout_width="288dp">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/colorBackground"
+                tools:context="com.tnt.scoreboard.NavigationDrawerFragment"
+                tools:layout_width="288dp">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -19,21 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/default_image"
-            android:src="@drawable/gradient" />
+            android:src="@drawable/gradient"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar"
             android:layout_width="68dp"
             android:layout_height="68dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            tools:src="@drawable/avatar" />
+            tools:src="@drawable/avatar"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -43,7 +43,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                tools:text="Albert Einstein" />
+                tools:text="Albert Einstein"/>
 
             <TextView
                 android:id="@+id/email"
@@ -52,7 +52,7 @@
                 android:fontFamily="sans-serif"
                 android:textColor="@color/dimWhite"
                 android:textSize="14sp"
-                tools:text="albert.einstein@gmail.com" />
+                tools:text="albert.einstein@gmail.com"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -61,6 +61,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"/>
 
 </RelativeLayout>

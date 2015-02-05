@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:id="@+id/scrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.tnt.scoreboard.GameNewActivity">
@@ -12,7 +13,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+            layout="@layout/toolbar"/>
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -23,7 +24,7 @@
             android:animateLayoutChanges="true"
             android:divider="@drawable/divider"
             android:orientation="vertical"
-            android:showDividers="middle" />
+            android:showDividers="middle"/>
 
         <Button
             android:id="@+id/newPlayerButton"
@@ -32,10 +33,9 @@
             android:layout_below="@+id/toolbar"
             android:layout_marginTop="6dp"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center_vertical|left"
+            android:gravity="center_vertical|start"
             android:paddingLeft="48dp"
             android:paddingRight="48dp"
-            android:text="@string/text_new_player"
-            android:textColor="@color/grayDark" />
+            android:text="@string/text_new_player"/>
     </RelativeLayout>
 </ScrollView>

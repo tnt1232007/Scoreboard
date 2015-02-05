@@ -32,7 +32,7 @@ public class PlayerDAO extends BaseDAO<Player> {
                 cursor.getLong(cursor.getColumnIndexOrThrow(Player.COLUMN_ID)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Player.COLUMN_GAME_ID)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Player.COLUMN_NAME)),
-                cursor.getDouble(cursor.getColumnIndexOrThrow(Player.COLUMN_SCORE)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Player.COLUMN_SCORE)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Player.COLUMN_COLOR))
         );
     }

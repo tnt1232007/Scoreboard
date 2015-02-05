@@ -27,19 +27,19 @@
         <item>@null</item>
     </string-array>
 
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
+    <string name="pref_theme_light">Light</string>
+    <string name="pref_theme_dark">Dark</string>
     <string-array name="pref_entries_theme">
-        <item>@string/light</item>
-        <item>@string/dark</item>
+        <item>@string/pref_theme_light</item>
+        <item>@string/pref_theme_dark</item>
     </string-array>
 
-    <string name="system">System defined</string>
-    <string name="portrait">Portrait</string>
-    <string name="landscape">Landscape</string>
+    <string name="pref_orientation_system">System defined</string>
+    <string name="pref_orientation_portrait">Portrait</string>
+    <string name="pref_orientation_landscape">Landscape</string>
     <string-array name="pref_entries_orientation">
-        <item>@string/system</item>
-        <item>@string/portrait</item>
-        <item>@string/landscape</item>
+        <item>@string/pref_orientation_system</item>
+        <item>@string/pref_orientation_portrait</item>
+        <item>@string/pref_orientation_landscape</item>
     </string-array>
 </resources>

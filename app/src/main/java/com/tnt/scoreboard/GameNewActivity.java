@@ -172,15 +172,20 @@ public class GameNewActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save:
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_start:
                 if (fragmentList.size() < MIN_PLAYER_NUM) {
-                    Toast.makeText(this, String.format(MINIMUM_ALLOW, MIN_PLAYER_NUM), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, String.format(MINIMUM_ALLOW, MIN_PLAYER_NUM),
+                            Toast.LENGTH_SHORT).show();
                     return true;
                 }
 
                 List<Player> playerList = new ArrayList<>();
                 for (PlayerNewFragment frag : fragmentList) {
-                    Player p = new Player(frag.getPlayerName(), frag.getColor());
+                    Player p = new Player(frag.getPlayerName(), frag.getColor(),
+                            PrefUtils.getStartingScore(this));
                     playerList.add(p);
                 }
                 Game game = addGame(playerList);
