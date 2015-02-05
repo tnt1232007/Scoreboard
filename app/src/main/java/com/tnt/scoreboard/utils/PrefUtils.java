@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.tnt.scoreboard.R;
 
-
 public final class PrefUtils {
 
     public static String getDefaultName(Context context) {

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.tnt.scoreboard.adapters.ColorViewHolder;
 
-
 public class PlayerNewFragment extends Fragment {
 
     private static final String PLAYER_NAME = "playerName";

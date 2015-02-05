@@ -22,7 +22,6 @@ import com.tnt.scoreboard.utils.StringUtils;
 
 import java.util.List;
 
-
 public class FloatingNewMenu extends FloatingActionsMenu {
 
     public static final int NEW_GAME_REQUEST = 1;

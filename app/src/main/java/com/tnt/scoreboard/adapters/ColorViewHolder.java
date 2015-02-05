@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.tnt.scoreboard.R;
 
-
 public class ColorViewHolder {
 
     private ImageView background;

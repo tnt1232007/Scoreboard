@@ -9,7 +9,6 @@ import com.tnt.scoreboard.adapters.ColorAdapter;
 import com.tnt.scoreboard.adapters.ColorViewHolder;
 import com.tnt.scoreboard.utils.ColorUtils;
 
-
 public class ColorPickerDialog extends DialogFragment {
 
     private int currentColor;

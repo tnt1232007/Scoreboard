@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.tnt.scoreboard.R;
 
-
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder> {
 
     public static final String PREFIX = "#";

@@ -6,7 +6,6 @@ import android.graphics.Color;
 
 import com.tnt.scoreboard.R;
 
-
 public final class ColorUtils {
 
     private static LinkMap<String, Integer> colorMap;

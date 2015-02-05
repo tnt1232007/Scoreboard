@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.StringUtils;
 
-
 public class GameScoreActivity extends BaseActivity {
 
     @Override

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
@@ -15,7 +14,7 @@
         android:layout_marginLeft="6dp"
         android:contentDescription="@string/default_image"
         android:padding="14dp"
-        tools:src="?android:colorPrimary"/>
+        tools:src="?android:colorPrimary" />
 
     <ImageView
         android:id="@+id/background"
@@ -25,7 +24,7 @@
         android:layout_marginLeft="6dp"
         android:contentDescription="@string/default_image"
         android:padding="18dp"
-        android:src="@drawable/circle"/>
+        android:src="@drawable/circle" />
 
     <TextView
         android:id="@+id/colorText"
@@ -35,7 +34,7 @@
         android:layout_marginLeft="16dp"
         android:layout_toEndOf="@+id/colorIcon"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        tools:text="Color"/>
+        tools:text="Color" />
 
     <ImageView
         android:id="@+id/check"
@@ -46,6 +45,6 @@
         android:layout_marginRight="6dp"
         android:contentDescription="@string/default_image"
         android:padding="16dp"
-        android:src="@drawable/ic_check_light"/>
+        android:src="@drawable/ic_check_light" />
 
 </RelativeLayout>

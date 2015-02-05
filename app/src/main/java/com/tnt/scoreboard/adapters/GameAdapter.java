@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-
 public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
     private List<Game> mGameList;
@@ -133,7 +132,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         mListener = listener;
     }
     //</editor-fold>
-
 
     public interface IOnGameSelectListener {
 

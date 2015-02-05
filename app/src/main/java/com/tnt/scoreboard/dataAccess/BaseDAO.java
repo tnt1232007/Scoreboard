@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 public abstract class BaseDAO<T extends Base> {
 
     private static final String TAG = "BaseDAO";

@@ -29,7 +29,7 @@
         <item>Dark</item>
     </string-array>
     <string-array name="pref_entries_orientation">
-        <item>Auto-rotate</item>
+        <item>System define</item>
         <item>Portrait</item>
         <item>Landscape</item>
     </string-array>

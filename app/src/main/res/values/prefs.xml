@@ -16,7 +16,7 @@
     <string name="pref_value_theme">Light</string>
     <string name="pref_key_orientation">orientation</string>
     <string name="pref_title_orientation">Orientation</string>
-    <string name="pref_value_orientation">Auto-rotate</string>
+    <string name="pref_value_orientation">System define</string>
 
     <string name="pref_header_configuration">Configuration</string>
     <string name="pref_key_starting_score">starting_score</string>

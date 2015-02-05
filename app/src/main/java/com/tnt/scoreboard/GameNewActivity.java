@@ -22,7 +22,6 @@ import com.tnt.scoreboard.utils.PrefUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GameNewActivity extends BaseActivity {
 
     public static final String PLAYER = "Player ";

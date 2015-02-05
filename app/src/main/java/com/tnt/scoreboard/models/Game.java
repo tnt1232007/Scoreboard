@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import java.util.Date;
 import java.util.List;
 
-
 public class Game extends Base implements Comparable<Game> {
 
     public static final String TABLE_NAME = "game";

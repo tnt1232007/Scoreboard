@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.utils.LinkMap;
 
-
 public class ColorAdapter extends BaseAdapter {
 
     private int currentColor;

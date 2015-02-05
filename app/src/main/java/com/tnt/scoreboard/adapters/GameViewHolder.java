@@ -14,7 +14,6 @@ import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.PrefUtils;
 import com.tnt.scoreboard.utils.StringUtils;
 
-
 public class GameViewHolder extends RecyclerView.ViewHolder {
 
     private boolean mIsFirstNameLast;

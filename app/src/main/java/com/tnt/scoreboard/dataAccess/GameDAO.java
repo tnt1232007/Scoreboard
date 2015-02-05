@@ -6,7 +6,6 @@ import android.database.Cursor;
 
 import com.tnt.scoreboard.models.Game;
 
-
 public class GameDAO extends BaseDAO<Game> {
 
     public GameDAO(Context context) {

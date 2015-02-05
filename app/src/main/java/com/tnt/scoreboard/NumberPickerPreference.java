@@ -8,18 +8,19 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.NumberPicker;
 
-
 public class NumberPickerPreference extends DialogPreference {
 
     private static final int VALUE = 0;
     private static final int MIN_VALUE = 0;
-    private static final int MAX_VALUE = 100;
+    private static final int MAX_VALUE = 10;
     private static final int INCREMENT = 1;
     private static final boolean INFINITE_SCROLL = true;
-    private final int mMinValue;
-    private final int mMaxValue;
-    private final int mIncrement;
-    private final boolean mInfiniteScroll;
+
+    private int mMinValue;
+    private int mMaxValue;
+    private int mIncrement;
+    private boolean mInfiniteScroll;
+
     private int mCurrentValue;
     private int mDisplayedValue;
     private String mInitialSummary;
@@ -105,4 +106,38 @@ public class NumberPickerPreference extends DialogPreference {
     private int calculateActualValue(int displayedValue) {
         return (displayedValue - mMinValue) / mIncrement + mMinValue;
     }
+
+    //<editor-fold desc="Getter Setter">
+    public int getMinValue() {
+        return mMinValue;
+    }
+
+    public void setMinValue(int minValue) {
+        mMinValue = minValue;
+    }
+
+    public int getMaxValue() {
+        return mMaxValue;
+    }
+
+    public void setMaxValue(int maxValue) {
+        mMaxValue = maxValue;
+    }
+
+    public int getIncrement() {
+        return mIncrement;
+    }
+
+    public void setIncrement(int increment) {
+        mIncrement = increment;
+    }
+
+    public boolean isInfiniteScroll() {
+        return mInfiniteScroll;
+    }
+
+    public void setInfiniteScroll(boolean infiniteScroll) {
+        mInfiniteScroll = infiniteScroll;
+    }
+    //</editor-fold>
 }

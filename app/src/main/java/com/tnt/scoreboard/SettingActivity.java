@@ -3,7 +3,6 @@ package com.tnt.scoreboard;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-
 public class SettingActivity extends BaseActivity {
 
     @Override

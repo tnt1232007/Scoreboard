@@ -42,6 +42,6 @@
     <style name="SettingTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/grayDark</item>
         <item name="colorPrimaryDark">@color/lightBlack</item>
-        <item name="colorAccent">@color/blueAccent</item>
+        <item name="colorAccent">@color/teal</item>
     </style>
 </resources>

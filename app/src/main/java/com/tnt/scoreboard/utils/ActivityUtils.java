@@ -7,7 +7,6 @@ import android.view.View;
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.models.Game;
 
-
 public final class ActivityUtils {
 
     public static final int GAMES = 0;

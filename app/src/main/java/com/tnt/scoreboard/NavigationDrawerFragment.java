@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.tnt.scoreboard.adapters.NavigationAdapter;
 import com.tnt.scoreboard.adapters.NavigationViewHolder;
 
-
 public class NavigationDrawerFragment extends Fragment {
 
     private ActionBarDrawerToggle mDrawerToggle;

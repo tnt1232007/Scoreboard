@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-
 public class SettingFragment extends PreferenceFragment {
 
     @Override

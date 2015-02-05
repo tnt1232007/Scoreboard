@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.tnt.scoreboard.R;
 
-
 public class NavigationViewHolder extends RecyclerView.ViewHolder {
 
     private ImageView mBackground = null;

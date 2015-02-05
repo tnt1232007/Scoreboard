@@ -8,7 +8,6 @@ import android.util.Log;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 
-
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
