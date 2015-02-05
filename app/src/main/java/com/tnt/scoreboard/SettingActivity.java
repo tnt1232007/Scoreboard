@@ -1,6 +1,7 @@
 package com.tnt.scoreboard;
 
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.view.MenuItem;
 
 public class SettingActivity extends BaseActivity {
@@ -23,6 +24,15 @@ public class SettingActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public static class SettingFragment extends PreferenceFragment {
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.setting);
         }
     }
 }

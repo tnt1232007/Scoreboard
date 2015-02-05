@@ -11,12 +11,16 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.models.Game;
+import com.tnt.scoreboard.utils.ColorUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
 import com.tnt.scoreboard.utils.StringUtils;
 
 public class GameViewHolder extends RecyclerView.ViewHolder {
 
-    private boolean mIsFirstNameLast;
+    private final int mHighlightColor;
+    private final int mCheckColor;
+    private final boolean mIsFirstNameLast;
+
     private ImageView mIcon;
     private ImageView mCheck;
     private ImageView mBackground;
@@ -37,6 +41,9 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         mCurrentRound = (TextView) itemView.findViewById(R.id.currentRound);
         mDateTime = (TextView) itemView.findViewById(R.id.dateTime);
         mIsFirstNameLast = PrefUtils.isFirstNameLast(itemView.getContext());
+        mHighlightColor = ColorUtils.GetAttrColor(itemView.getContext(),
+                android.R.attr.colorControlHighlight);
+        mCheckColor = itemView.getContext().getResources().getColor(R.color.grayDark);
 
         mIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +77,8 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
 
     public void updateState(Game game, boolean selected) {
         if (selected) {
-            mIcon.setImageDrawable(mDrawableBuilder.build(" ", 0xff616161));
-            mBackground.setBackgroundColor(0x669be6ff);
+            mIcon.setImageDrawable(mDrawableBuilder.build(" ", mCheckColor));
+            mBackground.setBackgroundColor(mHighlightColor);
             mCheck.setVisibility(View.VISIBLE);
         } else {
             String[] nameArray = game.getPlayers().get(0).getName().split(" ");

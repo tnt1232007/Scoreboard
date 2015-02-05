@@ -8,6 +8,7 @@
         <item>@drawable/ic_navi_settings</item>
         <item>@drawable/ic_navi_help</item>
     </string-array>
+
     <string-array name="navigation_items">
         <item>Games</item>
         <item>Archive</item>
@@ -16,6 +17,7 @@
         <item>Settings</item>
         <item>Help &amp; feedback</item>
     </string-array>
+
     <string-array name="navigation_colors">
         <item>@color/blueDark</item>
         <item>@color/orangeDark</item>
@@ -24,13 +26,20 @@
         <item>@null</item>
         <item>@null</item>
     </string-array>
+
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
     <string-array name="pref_entries_theme">
-        <item>Light</item>
-        <item>Dark</item>
+        <item>@string/light</item>
+        <item>@string/dark</item>
     </string-array>
+
+    <string name="system">System defined</string>
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
     <string-array name="pref_entries_orientation">
-        <item>System define</item>
-        <item>Portrait</item>
-        <item>Landscape</item>
+        <item>@string/system</item>
+        <item>@string/portrait</item>
+        <item>@string/landscape</item>
     </string-array>
 </resources>

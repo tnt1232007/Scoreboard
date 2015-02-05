@@ -1,5 +1,7 @@
 package com.tnt.scoreboard;
 
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -11,13 +13,15 @@ import com.tnt.scoreboard.dataAccess.GameDAO;
 import com.tnt.scoreboard.dataAccess.PlayerDAO;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.utils.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends ActionBarActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String DESC = " DESC";
     private static final String EQUALS = " = ";
@@ -26,6 +30,9 @@ public abstract class BaseActivity extends ActionBarActivity {
     private PlayerDAO playerDAO;
 
     protected void onCreate(Bundle savedInstanceState, int layoutId) {
+        switchTheme(PrefUtils.getTheme(this));
+        switchOrientation(PrefUtils.getOrientation(this));
+
         super.onCreate(savedInstanceState);
         setContentView(layoutId);
         PreferenceManager.setDefaultValues(this, R.xml.setting, false);
@@ -48,6 +55,45 @@ public abstract class BaseActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.pref_key_orientation))) {
+            String orientation = sharedPreferences.getString(key, "");
+            switchOrientation(orientation);
+        } else if (key.equals(getString(R.string.pref_key_theme))) {
+            //Must recreate to switch theme
+            recreate();
+        }
+    }
+
+    private void switchOrientation(String orientation) {
+        if (orientation.equals(getString(R.string.portrait))) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else if (orientation.equals(getString(R.string.landscape))) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
+
+    private void switchTheme(String theme) {
+        boolean isLight = theme.equals(getString(R.string.light));
+        if (this instanceof GameScoreActivity) {
+            setTheme(isLight ? R.style.GameScoreLightTheme : R.style.GameScoreTheme);
+        } else if (this instanceof SettingActivity) {
+            setTheme(isLight ? R.style.SettingLightTheme : R.style.SettingTheme);
+        } else {
+            setTheme(isLight ? R.style.BaseLightTheme : R.style.BaseTheme);
         }
     }
 

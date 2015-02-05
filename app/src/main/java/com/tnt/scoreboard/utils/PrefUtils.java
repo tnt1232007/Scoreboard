@@ -8,9 +8,9 @@ import com.tnt.scoreboard.R;
 
 public final class PrefUtils {
 
-    public static String getDefaultName(Context context) {
+    public static String getName(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPrefs.getString(context.getString(R.string.pref_key_user_name), "");
+        return sharedPrefs.getString(context.getString(R.string.pref_key_name), "");
     }
 
     public static boolean isFirstNameLast(Context context) {

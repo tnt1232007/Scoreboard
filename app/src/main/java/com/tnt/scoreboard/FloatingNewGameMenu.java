@@ -16,7 +16,6 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.tnt.scoreboard.models.Game;
-import com.tnt.scoreboard.utils.ColorUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
 import com.tnt.scoreboard.utils.StringUtils;
 
@@ -131,7 +130,7 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
     private FloatingActionButton createRecentGameButton(final Game game) {
         String[] nameArray = game.getPlayers().get(0).getName().split(" ");
         String firstName = nameArray[mIsFirstNameLast ? nameArray.length - 1 : 0];
-        int color = ColorUtils.darken(mColorGenerator.getColor(firstName.charAt(0)));
+        int color = mColorGenerator.getColor(firstName.charAt(0));
 
         FloatingActionButton button = new FloatingActionButton(mActivity);
         button.setTitle(StringUtils.join(game.getPlayers(), ", ", 28));

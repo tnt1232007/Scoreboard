@@ -3,6 +3,7 @@ package com.tnt.scoreboard.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.TypedValue;
 
 import com.tnt.scoreboard.R;
 
@@ -41,11 +42,16 @@ public final class ColorUtils {
         return colorMap;
     }
 
-    public static int darken(int color) {
+    public static int Darken(int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.8f;
         return Color.HSVToColor(hsv);
+    }
+
+    public static int GetAttrColor(Context context, int colorAttrId) {
+        return context.obtainStyledAttributes(
+                new TypedValue().resourceId, new int[]{colorAttrId}).getColor(0, -1);
     }
 }
 

@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_header_general">General</string>
-    <string name="pref_key_user_name">user_name</string>
-    <string name="pref_title_user_name">Username</string>
-    <string name="pref_value_user_name">TNT</string>
+
+    <string name="pref_key_name">name</string>
+    <string name="pref_title_name">First-player name</string>
+    <string name="pref_value_name">TNT</string>
+
     <string name="pref_key_name_format">name_format</string>
     <string name="pref_title_name_format">Naming convention</string>
     <bool name="pref_value_name_format">true</bool>
     <string name="pref_on_name_format">Last, First</string>
     <string name="pref_off_name_format">First, Last</string>
 
+
     <string name="pref_header_appearance">Appearance</string>
+
     <string name="pref_key_theme">theme</string>
     <string name="pref_title_theme">Theme</string>
     <string name="pref_value_theme">Light</string>
+
     <string name="pref_key_orientation">orientation</string>
     <string name="pref_title_orientation">Orientation</string>
     <string name="pref_value_orientation">System define</string>
 
+
     <string name="pref_header_configuration">Configuration</string>
+
     <string name="pref_key_starting_score">starting_score</string>
     <string name="pref_title_starting_score">Starting score</string>
     <string name="pref_summary_starting_score">At %d score(s) for each player</string>
@@ -26,6 +33,7 @@
     <integer name="pref_min_starting_score">0</integer>
     <integer name="pref_max_starting_score">100</integer>
     <integer name="pref_increment_starting_score">5</integer>
+
     <string name="pref_key_update_delay">update_delay</string>
     <string name="pref_title_update_delay">Update delay</string>
     <string name="pref_summary_update_delay">For %d second(s) after modification</string>

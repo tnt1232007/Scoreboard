@@ -1,6 +1,6 @@
 package com.tnt.scoreboard.adapters;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,17 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tnt.scoreboard.R;
+import com.tnt.scoreboard.utils.ColorUtils;
 
 public class NavigationViewHolder extends RecyclerView.ViewHolder {
 
+    private final int mTextColor;
+    private final int mHighlightColor;
     private ImageView mBackground = null;
     private ImageView mIcon = null;
     private TextView mText = null;
     private int mColor;
     private IOnNavigationClickListener mListener;
+    private Context mContext;
 
     public NavigationViewHolder(View itemView, int viewType) {
         super(itemView);
+        mContext = itemView.getContext();
+        mHighlightColor = ColorUtils.GetAttrColor(mContext, android.R.attr.colorControlHighlight);
+        mTextColor = ColorUtils.GetAttrColor(mContext, android.R.attr.textColorPrimary);
+
         switch (viewType) {
             case NavigationAdapter.TYPE_HEADER:
                 mText = (TextView) itemView.findViewById(R.id.text);
@@ -51,7 +59,7 @@ public class NavigationViewHolder extends RecyclerView.ViewHolder {
                     updateState();
                 } else {
                     mBackground.setBackgroundColor(Color.TRANSPARENT);
-                    mText.setTextColor(Color.BLACK);
+                    mText.setTextColor(mTextColor);
                 }
                 break;
         }
@@ -59,9 +67,8 @@ public class NavigationViewHolder extends RecyclerView.ViewHolder {
 
     private void updateState() {
         if (mColor == 0) return;
-        Resources resources = itemView.getContext().getResources();
-        mBackground.setBackgroundColor(resources.getColor(R.color.highlighted));
-        mText.setTextColor(resources.getColor(mColor));
+        mBackground.setBackgroundColor(mHighlightColor);
+        mText.setTextColor(mContext.getResources().getColor(mColor));
     }
 
     //<editor-fold desc="Getter Setter">

@@ -100,7 +100,7 @@ public class GameListActivity extends BaseActivity implements
     public void updateEmptyView(ActivityUtils.Screen screen) {
         boolean visible = mGameAdapter.getItemCount() == 0;
         findViewById(R.id.layout).setBackgroundResource(
-                visible ? screen.COLOR_ACCENT : android.R.color.background_light);
+                visible ? screen.COLOR_ACCENT : android.R.color.transparent);
         findViewById(R.id.emptyLayout).setVisibility(visible ? View.VISIBLE : View.GONE);
         ((ImageView) findViewById(R.id.emptyImage)).setImageResource(screen.EMPTY_BACKGROUND);
         ((TextView) findViewById(R.id.emptyHeader)).setText(screen.EMPTY_HEADER);
@@ -134,7 +134,7 @@ public class GameListActivity extends BaseActivity implements
 
                 boolean visible = mGameAdapter.getItemCount() == 0;
                 findViewById(R.id.layout).setBackgroundResource(
-                        visible ? mScreen.COLOR_ACCENT : android.R.color.background_light);
+                        visible ? mScreen.COLOR_ACCENT : android.R.color.transparent);
                 findViewById(R.id.emptyLayout).setVisibility(visible ? View.VISIBLE : View.GONE);
                 ((ImageView) findViewById(R.id.emptyImage)).setImageResource(mScreen.EMPTY_BACKGROUND);
                 ((TextView) findViewById(R.id.emptyHeader)).setText(mScreen.EMPTY_HEADER);

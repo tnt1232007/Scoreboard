@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?android:attr/colorBackground"
     tools:context="com.tnt.scoreboard.NavigationDrawerFragment"
     tools:layout_width="288dp">
 
@@ -43,18 +43,17 @@
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                tools:text="TNT" />
+                tools:text="Albert Einstein" />
 
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/highlighted"
+                android:textColor="@color/dimWhite"
                 android:textSize="14sp"
-                tools:text="tnt1232007@gmail.com" />
+                tools:text="albert.einstein@gmail.com" />
         </LinearLayout>
-
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

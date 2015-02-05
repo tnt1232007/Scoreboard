@@ -61,7 +61,7 @@ public class GameNewActivity extends BaseActivity {
 
         Game game = getGame(getIntent().getLongExtra(Game.COLUMN_ID, -1));
         if (game == null) {
-            addNewPlayerFragment(PrefUtils.getDefaultName(this), -1, false, false);
+            addNewPlayerFragment(PrefUtils.getName(this), -1, false, false);
             addNewPlayerFragment(null, -1, false, false);
         } else {
             for (Player p : game.getPlayers()) {

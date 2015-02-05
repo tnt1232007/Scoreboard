@@ -17,7 +17,7 @@
         tools:src="?android:colorPrimary" />
 
     <ImageView
-        android:id="@+id/background"
+        android:id="@+id/cover"
         android:layout_width="?android:attr/listPreferredItemHeightSmall"
         android:layout_height="?android:attr/listPreferredItemHeightSmall"
         android:layout_centerVertical="true"
