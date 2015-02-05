@@ -20,14 +20,17 @@ import com.tnt.scoreboard.utils.ColorUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
 import com.tnt.scoreboard.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FloatingNewMenu extends FloatingActionsMenu {
+public class FloatingNewGameMenu extends FloatingActionsMenu {
 
     public static final int NEW_GAME_REQUEST = 1;
+    public static final String RECENT_GAMES = "Recent games will appear here";
     private final TextDrawable.IBuilder mDrawableBuilder =
             TextDrawable.builder().beginConfig().fontSize(40).bold().endConfig().round();
     private final ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
+    private final List<FloatingActionButton> buttonList = new ArrayList<>();
 
     private BaseActivity mActivity;
     private ImageView mDimBackground;
@@ -35,15 +38,15 @@ public class FloatingNewMenu extends FloatingActionsMenu {
     private int mDensity;
     private boolean mIsFirstNameLast;
 
-    public FloatingNewMenu(Context context) {
+    public FloatingNewGameMenu(Context context) {
         super(context);
     }
 
-    public FloatingNewMenu(Context context, AttributeSet attrs) {
+    public FloatingNewGameMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FloatingNewMenu(Context context, AttributeSet attrs, int defStyle) {
+    public FloatingNewGameMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -88,7 +91,6 @@ public class FloatingNewMenu extends FloatingActionsMenu {
                 collapse();
             }
         });
-
         mActivity.findViewById(R.id.fabBlank).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,9 +99,33 @@ public class FloatingNewMenu extends FloatingActionsMenu {
             }
         });
 
-        for (Game g : gameList) {
-            addButton(createRecentGameButton(g));
+        for (FloatingActionButton button : buttonList) {
+            removeButton(button);
         }
+        for (Game g : gameList) {
+            FloatingActionButton button = createRecentGameButton(g);
+            addButton(button);
+            buttonList.add(button);
+        }
+        if (gameList.isEmpty()) {
+            FloatingActionButton button = createInfoButton();
+            addButton(button);
+            buttonList.add(button);
+        }
+    }
+
+    private FloatingActionButton createInfoButton() {
+        FloatingActionButton button = new FloatingActionButton(mActivity);
+        button.setTitle(RECENT_GAMES);
+        button.setSize(FloatingActionButton.SIZE_MINI);
+        button.setIcon(R.drawable.ic_etc);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collapse();
+            }
+        });
+        return button;
     }
 
     private FloatingActionButton createRecentGameButton(final Game game) {

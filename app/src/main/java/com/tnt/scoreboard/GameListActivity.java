@@ -41,7 +41,7 @@ public class GameListActivity extends BaseActivity implements
 
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
-    private FloatingNewMenu mFab;
+    private FloatingNewGameMenu mFab;
     private RecyclerView mRecyclerView;
     private UndoBarController.UndoBar mUndoBar;
     private NavigationDrawerFragment mNavigationDrawer;
@@ -52,7 +52,7 @@ public class GameListActivity extends BaseActivity implements
         super.onCreate(savedInstanceState, R.layout.activity_game_list);
         mUndoBar = new UndoBarController.UndoBar(this);
 
-        mFab = (FloatingNewMenu) findViewById(R.id.fab);
+        mFab = (FloatingNewGameMenu) findViewById(R.id.fab);
         mFab.setup(this, getRecentGameList(3));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -87,9 +87,10 @@ public class GameListActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
         switch (requestCode) {
-            case FloatingNewMenu.NEW_GAME_REQUEST:
+            case FloatingNewGameMenu.NEW_GAME_REQUEST:
                 long gameId = data.getLongExtra(Game.COLUMN_ID, -1);
                 mGameAdapter.add(getGame(gameId));
+                mFab.setup(this, getRecentGameList(3));
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -196,6 +197,7 @@ public class GameListActivity extends BaseActivity implements
                                         mGameAdapter.remove();
                                         mFab.move(true);
                                         actionMode.finish();
+                                        mFab.setup(GameListActivity.this, getRecentGameList(3));
                                         break;
                                     case DialogInterface.BUTTON_NEGATIVE:
                                         break;

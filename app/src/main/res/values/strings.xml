@@ -10,7 +10,7 @@
     <string name="action_restore">Restore</string>
     <string name="action_delete_forever">Delete forever</string>
     <string name="action_save">Start</string>
-    <string name="action_blank">Blank</string>
+    <string name="action_blank">New blank</string>
 
     <string name="default_image">No Image</string>
     <string name="text_new_player">Add player</string>
