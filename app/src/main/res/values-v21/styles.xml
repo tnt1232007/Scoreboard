@@ -10,6 +10,9 @@
         <item name="undoBarStyle">@style/MyUndoBar</item>
         <item name="android:colorControlHighlight">@color/dimWhite</item>
         <item name="closeButtonIcon">@drawable/ic_close_light</item>
+        <item name="colorPrimary">@color/grayDark</item>
+        <item name="colorPrimaryDark">@color/lightBlack</item>
+        <item name="colorAccent">@color/teal</item>
     </style>
 
     <style name="GameNewLightTheme" parent="BaseLightTheme">
@@ -22,12 +25,6 @@
         <item name="colorPrimaryDark">@color/greenDark</item>
     </style>
 
-    <style name="SettingLightTheme" parent="BaseLightTheme">
-        <item name="colorPrimary">@color/grayDark</item>
-        <item name="colorPrimaryDark">@color/lightBlack</item>
-        <item name="colorAccent">@color/teal</item>
-    </style>
-
 
     <style name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="actionModeBackground">@color/grayDark</item>
@@ -35,6 +32,9 @@
         <item name="undoBarStyle">@style/MyUndoBar</item>
         <item name="android:colorControlHighlight">@color/lightBlack</item>
         <item name="closeButtonIcon">@drawable/ic_close_dark</item>
+        <item name="colorPrimary">@color/grayDark</item>
+        <item name="colorPrimaryDark">@color/lightBlack</item>
+        <item name="colorAccent">@color/teal</item>
     </style>
 
     <style name="GameNewTheme" parent="BaseTheme">
@@ -45,11 +45,5 @@
     <style name="GameScoreTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/greenDark</item>
-    </style>
-
-    <style name="SettingTheme" parent="BaseTheme">
-        <item name="colorPrimary">@color/grayDark</item>
-        <item name="colorPrimaryDark">@color/lightBlack</item>
-        <item name="colorAccent">@color/teal</item>
     </style>
 </resources>

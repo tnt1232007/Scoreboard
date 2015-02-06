@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -26,6 +27,7 @@ import com.tnt.scoreboard.adapters.GameAdapter;
 import com.tnt.scoreboard.adapters.NavigationViewHolder;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.ActivityUtils;
+import com.tnt.scoreboard.utils.DrawableUtils;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class GameListActivity extends BaseActivity implements
 
     public static final String ACTION = "action";
     public static final String SCREEN = "screen";
-    public static final int RECENT_NUM = 3;
+    public static final int RECENT_GAMES_NUM = 3;
 
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
@@ -48,13 +50,14 @@ public class GameListActivity extends BaseActivity implements
     private NavigationDrawerFragment mNavigationDrawer;
     private ActivityUtils.Screen mScreen;
     private DrawerLayout mDrawerLayout;
+    private Bitmap mBitmap;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_game_list);
         mUndoBar = new UndoBarController.UndoBar(this);
 
         mFab = (FloatingNewGameMenu) findViewById(R.id.fab);
-        mFab.setup(this, getRecentGameList(RECENT_NUM));
+        mFab.setup(this, getRecentGameList(RECENT_GAMES_NUM));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationDrawer = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigationDrawer);
@@ -91,7 +94,7 @@ public class GameListActivity extends BaseActivity implements
             case FloatingNewGameMenu.NEW_GAME_REQUEST:
                 long gameId = data.getLongExtra(Game.COLUMN_ID, -1);
                 mGameAdapter.add(getGame(gameId));
-                mFab.setup(this, getRecentGameList(RECENT_NUM));
+                mFab.setup(this, getRecentGameList(RECENT_GAMES_NUM));
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -138,6 +141,9 @@ public class GameListActivity extends BaseActivity implements
                 break;
             case ActivityUtils.HELP:
                 intent = new Intent(this, HelpFeedbackActivity.class);
+                if (mBitmap != null)
+                    intent.putExtra(HelpFeedbackActivity.SCREENSHOT,
+                            DrawableUtils.bitmapToByteArray(mBitmap));
                 startActivity(intent);
                 break;
         }
@@ -192,7 +198,7 @@ public class GameListActivity extends BaseActivity implements
                                         mGameAdapter.remove();
                                         mFab.move(true);
                                         actionMode.finish();
-                                        mFab.setup(GameListActivity.this, getRecentGameList(RECENT_NUM));
+                                        mFab.setup(GameListActivity.this, getRecentGameList(RECENT_GAMES_NUM));
                                         break;
                                     case DialogInterface.BUTTON_NEGATIVE:
                                         break;
@@ -271,6 +277,19 @@ public class GameListActivity extends BaseActivity implements
         mGameAdapter.add(mUndoGames);
         updateEmptyView(screen);
         mFab.move(false);
+    }
+
+    @Override
+    public void onDrawerOpened(Parcelable parcelable) {
+        super.onDrawerOpened(parcelable);
+        if (parcelable instanceof Bitmap) {
+            mBitmap = (Bitmap) parcelable;
+        }
+    }
+
+    @Override
+    public void onDrawerClosed(Parcelable parcelable) {
+        super.onDrawerClosed(parcelable);
     }
 
     private void updateEmptyView(ActivityUtils.Screen screen) {

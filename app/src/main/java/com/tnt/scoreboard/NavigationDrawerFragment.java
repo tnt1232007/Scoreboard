@@ -1,12 +1,16 @@
 package com.tnt.scoreboard;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +21,11 @@ import android.widget.TextView;
 
 import com.tnt.scoreboard.adapters.NavigationAdapter;
 import com.tnt.scoreboard.adapters.NavigationViewHolder;
+import com.tnt.scoreboard.utils.DrawableUtils;
 
 public class NavigationDrawerFragment extends Fragment {
 
+    private OnDrawerToggle mCallback;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationAdapter mNavigationAdapter;
 
@@ -53,10 +59,44 @@ public class NavigationDrawerFragment extends Fragment {
         return view;
     }
 
-    public void setup(DrawerLayout drawerLayout, NavigationViewHolder.IOnNavigationClickListener listener) {
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (OnDrawerToggle) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
+    public void setup(final DrawerLayout drawerLayout,
+                      NavigationViewHolder.IOnNavigationClickListener listener) {
         mNavigationAdapter.setListener(listener);
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,
                 R.string.draw_open, R.string.draw_close) {
+            @Override
+            public boolean onOptionsItemSelected(MenuItem item) {
+                boolean selected = super.onOptionsItemSelected(item);
+                if (selected) {
+                    Bitmap bitmap = DrawableUtils.takeScreenShot(
+                            getActivity().getWindow().getDecorView().getRootView());
+                    mCallback.onDrawerOpened(bitmap);
+                }
+                return selected;
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+                if (newState == DrawerLayout.STATE_DRAGGING
+                        && !drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    Bitmap bitmap = DrawableUtils.takeScreenShot(
+                            getActivity().getWindow().getDecorView().getRootView());
+                    mCallback.onDrawerOpened(bitmap);
+                }
+            }
+
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -87,4 +127,10 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerToggle.onOptionsItemSelected(item);
     }
     //</editor-fold>
+
+    public interface OnDrawerToggle {
+        public void onDrawerOpened(Parcelable parcelable);
+
+        public void onDrawerClosed(Parcelable parcelable);
+    }
 }

@@ -3,7 +3,9 @@ package com.tnt.scoreboard;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import com.tnt.scoreboard.dataAccess.GameDAO;
 import com.tnt.scoreboard.dataAccess.PlayerDAO;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.utils.DrawableUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
 
 import java.util.ArrayList;
@@ -22,11 +25,12 @@ import java.util.List;
 import java.util.TreeSet;
 
 public abstract class BaseActivity extends ActionBarActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+        implements SharedPreferences.OnSharedPreferenceChangeListener,
+        NavigationDrawerFragment.OnDrawerToggle {
 
     private static final String DESC = " DESC";
     private static final String EQUALS = " = ";
-    protected Toolbar mToolbar;
+    protected static Toolbar mToolbar;
     private GameDAO gameDAO;
     private PlayerDAO playerDAO;
 
@@ -60,7 +64,11 @@ public abstract class BaseActivity extends ActionBarActivity
                 startActivity(intent);
                 return true;
             case R.id.action_help:
+                Bitmap bitmap = DrawableUtils.takeScreenShot(
+                        getWindow().getDecorView().getRootView());
                 intent = new Intent(this, HelpFeedbackActivity.class);
+                intent.putExtra(HelpFeedbackActivity.SCREENSHOT,
+                        DrawableUtils.bitmapToByteArray(bitmap));
                 startActivity(intent);
                 return true;
             default:
@@ -81,9 +89,16 @@ public abstract class BaseActivity extends ActionBarActivity
             String orientation = sharedPreferences.getString(key, "");
             switchOrientation(orientation);
         } else if (key.equals(getString(R.string.pref_key_theme))) {
-            //Must recreate to switch theme
             recreate();
         }
+    }
+
+    @Override
+    public void onDrawerOpened(Parcelable parcelable) {
+    }
+
+    @Override
+    public void onDrawerClosed(Parcelable parcelable) {
     }
 
     private void switchOrientation(String orientation) {
@@ -100,8 +115,6 @@ public abstract class BaseActivity extends ActionBarActivity
         boolean isLight = theme.equals(getString(R.string.pref_theme_light));
         if (this instanceof GameScoreActivity) {
             setTheme(isLight ? R.style.GameScoreLightTheme : R.style.GameScoreTheme);
-        } else if (this instanceof SettingActivity) {
-            setTheme(isLight ? R.style.SettingLightTheme : R.style.SettingTheme);
         } else if (this instanceof GameNewActivity) {
             setTheme(isLight ? R.style.GameNewLightTheme : R.style.GameNewTheme);
         } else {

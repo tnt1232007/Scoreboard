@@ -12,15 +12,14 @@
     <string name="action_delete_forever">Delete forever</string>
     <string name="action_save">Start</string>
     <string name="action_blank">New blank</string>
-
-    <string name="default_image">No Image</string>
-    <string name="text_new_player">Add player</string>
+    <string name="action_send">Send</string>
 
     <string name="title_activity_archive">Archive</string>
     <string name="title_activity_games">Games</string>
     <string name="title_activity_game_new">New game</string>
     <string name="title_activity_score">Score</string>
-    <string name="title_activity_setting">Setting</string>
+    <string name="title_activity_setting">Settings</string>
+    <string name="title_activity_help">Help &amp; feedback</string>
     <string name="title_activity_trash">Trash</string>
 
     <string name="draw_open">Open</string>
@@ -32,4 +31,16 @@
     <string name="empty_text_games">Click button below to start a new game</string>
     <string name="empty_text_archive">Games archived will show up here</string>
     <string name="empty_text_trash">Games moved to Trash will show up here</string>
+
+    <string name="default_image">No Image</string>
+    <string name="text_new_player">Add player</string>
+    <string name="feedback_hint">Write your feedback</string>
+    <string name="feedback_check">Include screenshot and logs</string>
+    <string name="feedback_note">Your feedback, system information and email address will be sent to the developer.</string>
+    <string name="mailto_email">mailto:tnt1232007@gmail.com</string>
+    <string name="email_to">tnt1232007@gmail.com</string>
+    <string name="email_subject">[Scoreboard Support] &lt;Subject&gt;</string>
+    <string name="email_content">&lt;Description&gt;</string>
+    <string name="screenshot_caption">Touch to preview</string>
+    <string name="preview_caption">Touch to close</string>
 </resources>

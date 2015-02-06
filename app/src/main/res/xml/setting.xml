@@ -1,5 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:npp="http://schemas.android.com/apk/res-auto">
+                  xmlns:npp="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/pref_header_general">
         <EditTextPreference
@@ -10,13 +10,13 @@
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/pref_title_name" />
+            android:title="@string/pref_title_name"/>
         <SwitchPreference
             android:defaultValue="@bool/pref_value_name_format"
             android:key="@string/pref_key_name_format"
             android:summaryOff="@string/pref_off_name_format"
             android:summaryOn="@string/pref_on_name_format"
-            android:title="@string/pref_title_name_format" />
+            android:title="@string/pref_title_name_format"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_appearance">
         <ListPreference
@@ -27,7 +27,7 @@
             android:negativeButtonText="Cancel"
             android:positiveButtonText="@null"
             android:summary="%s"
-            android:title="@string/pref_title_theme" />
+            android:title="@string/pref_title_theme"/>
         <ListPreference
             android:defaultValue="@string/pref_value_orientation"
             android:entries="@array/pref_entries_orientation"
@@ -36,7 +36,7 @@
             android:negativeButtonText="Cancel"
             android:positiveButtonText="@null"
             android:summary="%s"
-            android:title="@string/pref_title_orientation" />
+            android:title="@string/pref_title_orientation"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_configuration">
         <com.tnt.scoreboard.NumberPickerPreference
@@ -46,13 +46,34 @@
             android:title="@string/pref_title_starting_score"
             npp:increment="@integer/pref_increment_starting_score"
             npp:maxValue="@integer/pref_max_starting_score"
-            npp:minValue="@integer/pref_min_starting_score" />
+            npp:minValue="@integer/pref_min_starting_score"/>
         <com.tnt.scoreboard.NumberPickerPreference
             android:defaultValue="@integer/pref_value_update_delay"
             android:key="@string/pref_key_update_delay"
             android:summary="@string/pref_summary_update_delay"
             android:title="@string/pref_title_update_delay"
             npp:maxValue="@integer/pref_max_update_delay"
-            npp:minValue="@integer/pref_min_update_delay" />
+            npp:minValue="@integer/pref_min_update_delay"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_about">
+        <Preference
+            android:key="@string/pref_key_developer"
+            android:summary="@string/pref_summary_developer"
+            android:title="@string/pref_title_developer">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/mailto_email">
+                <extra
+                    android:name="android.intent.extra.TEXT"
+                    android:value="@string/email_content"/>
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="@string/email_subject"/>
+            </intent>
+        </Preference>
+        <Preference
+            android:key="@string/pref_key_version"
+            android:summary="@string/pref_summary_version"
+            android:title="@string/pref_title_version"/>
     </PreferenceCategory>
 </PreferenceScreen>
