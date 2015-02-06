@@ -38,6 +38,7 @@ public class GameListActivity extends BaseActivity implements
 
     public static final String ACTION = "action";
     public static final String SCREEN = "screen";
+    public static final int RECENT_NUM = 3;
 
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
@@ -53,7 +54,7 @@ public class GameListActivity extends BaseActivity implements
         mUndoBar = new UndoBarController.UndoBar(this);
 
         mFab = (FloatingNewGameMenu) findViewById(R.id.fab);
-        mFab.setup(this, getRecentGameList(3));
+        mFab.setup(this, getRecentGameList(RECENT_NUM));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationDrawer = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigationDrawer);
@@ -90,7 +91,7 @@ public class GameListActivity extends BaseActivity implements
             case FloatingNewGameMenu.NEW_GAME_REQUEST:
                 long gameId = data.getLongExtra(Game.COLUMN_ID, -1);
                 mGameAdapter.add(getGame(gameId));
-                mFab.setup(this, getRecentGameList(3));
+                mFab.setup(this, getRecentGameList(RECENT_NUM));
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -191,7 +192,7 @@ public class GameListActivity extends BaseActivity implements
                                         mGameAdapter.remove();
                                         mFab.move(true);
                                         actionMode.finish();
-                                        mFab.setup(GameListActivity.this, getRecentGameList(3));
+                                        mFab.setup(GameListActivity.this, getRecentGameList(RECENT_NUM));
                                         break;
                                     case DialogInterface.BUTTON_NEGATIVE:
                                         break;

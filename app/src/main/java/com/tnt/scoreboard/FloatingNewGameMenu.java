@@ -101,6 +101,7 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
         for (FloatingActionButton button : buttonList) {
             removeButton(button);
         }
+        buttonList.clear();
         for (Game g : gameList) {
             FloatingActionButton button = createRecentGameButton(g);
             addButton(button);
