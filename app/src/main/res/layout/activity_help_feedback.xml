@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +6,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -24,7 +23,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginStart="4dp"
             android:textAppearance="?android:attr/textAppearance"
-            tools:text="From: albert.einstein@gmail.com"/>
+            tools:text="From: albert.einstein@gmail.com" />
 
         <EditText
             android:id="@+id/emailText"
@@ -33,7 +32,7 @@
             android:layout_below="@+id/emailFrom"
             android:layout_marginBottom="16dp"
             android:hint="@string/feedback_hint"
-            android:inputType="textMultiLine"/>
+            android:inputType="textMultiLine|textEmailSubject" />
 
         <CheckBox
             android:id="@+id/feedbackCheck"
@@ -42,7 +41,7 @@
             android:layout_below="@+id/emailText"
             android:layout_marginBottom="16dp"
             android:checked="true"
-            android:text="@string/feedback_check"/>
+            android:text="@string/feedback_check" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +62,7 @@
                     android:layout_above="@+id/screenshotCaption"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
-                    android:contentDescription="@string/default_image"/>
+                    android:contentDescription="@string/default_image" />
 
                 <TextView
                     android:id="@+id/screenshotCaption"
@@ -72,7 +71,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/screenshot_caption"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
             </RelativeLayout>
 
             <TextView
@@ -81,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="@string/feedback_note"
-                android:textAppearance="?android:attr/textAppearance"/>
+                android:textAppearance="?android:attr/textAppearance" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -102,7 +101,7 @@
             android:layout_above="@+id/previewCaption"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
-            android:contentDescription="@string/default_image"/>
+            android:contentDescription="@string/default_image" />
 
         <TextView
             android:id="@+id/previewCaption"
@@ -111,7 +110,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:text="@string/preview_caption"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 
 </RelativeLayout>

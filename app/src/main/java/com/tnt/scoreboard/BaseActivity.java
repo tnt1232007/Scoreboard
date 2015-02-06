@@ -30,7 +30,7 @@ public abstract class BaseActivity extends ActionBarActivity
 
     private static final String DESC = " DESC";
     private static final String EQUALS = " = ";
-    protected static Toolbar mToolbar;
+    protected Toolbar mToolbar;
     private GameDAO gameDAO;
     private PlayerDAO playerDAO;
 

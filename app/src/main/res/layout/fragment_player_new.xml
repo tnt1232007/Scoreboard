@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="6dp"
-              android:layout_marginEnd="6dp"
-              android:layout_marginStart="6dp"
-              android:layout_marginTop="6dp"
-              android:gravity="center_vertical|center_horizontal"
-              tools:context="com.tnt.scoreboard.PlayerNewFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:layout_marginEnd="6dp"
+    android:layout_marginStart="6dp"
+    android:layout_marginTop="6dp"
+    android:gravity="center_vertical|center_horizontal"
+    tools:context="com.tnt.scoreboard.PlayerNewFragment">
 
     <ImageView
         android:id="@+id/colorIcon"
         android:layout_width="?android:attr/listPreferredItemHeightSmall"
         android:layout_height="?android:attr/listPreferredItemHeightSmall"
-        android:background="@drawable/circle_ripple"
+        android:background="@drawable/circle_ripple_transparent"
         android:contentDescription="@string/default_image"
         android:padding="12dp"
-        tools:src="?android:colorPrimary"/>
+        tools:src="?android:colorPrimary" />
 
     <EditText
         android:id="@+id/playerName"
@@ -28,13 +28,13 @@
         android:layout_weight="1"
         android:background="#0000"
         android:inputType="textCapWords"
-        tools:text="TNT"/>
+        tools:text="TNT" />
 
     <ImageButton
         android:id="@+id/removeButton"
         android:layout_width="?android:attr/listPreferredItemHeightSmall"
         android:layout_height="?android:attr/listPreferredItemHeightSmall"
-        android:background="@drawable/circle_ripple"
+        android:background="@drawable/circle_ripple_transparent"
         android:contentDescription="@string/default_image"
-        android:src="?attr/closeButtonIcon"/>
+        android:src="?attr/closeButtonIcon" />
 </LinearLayout>
