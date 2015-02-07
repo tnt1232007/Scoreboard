@@ -106,13 +106,13 @@ public class GameListActivity extends BaseActivity implements
         Intent intent;
         mUndoBar.clear();
         mFab.collapse();
-        mDrawerLayout.closeDrawers();
         if (mActionMode != null) mActionMode.finish();
 
         switch (navigationOption) {
             case ActivityUtils.GAMES:
             case ActivityUtils.ARCHIVE:
             case ActivityUtils.TRASH:
+                mDrawerLayout.closeDrawers();
                 if (mScreen == ActivityUtils.SCREENS[navigationOption])
                     return;
 
@@ -141,10 +141,8 @@ public class GameListActivity extends BaseActivity implements
                 break;
             case ActivityUtils.HELP:
                 intent = new Intent(this, HelpFeedbackActivity.class);
-                if (mBitmap != null)
-                    intent.putExtra(HelpFeedbackActivity.SCREENSHOT,
-                            DrawableUtils.bitmapToByteArray(mBitmap));
                 startActivity(intent);
+                DrawableUtils.saveBitmap(mBitmap, HelpFeedbackActivity.SCREENSHOT);
                 break;
         }
     }

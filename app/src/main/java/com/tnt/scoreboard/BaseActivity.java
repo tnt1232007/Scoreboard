@@ -66,9 +66,8 @@ public abstract class BaseActivity extends ActionBarActivity
             case R.id.action_help:
                 Bitmap bitmap = DrawableUtils.takeScreenShot(
                         getWindow().getDecorView().getRootView());
+                DrawableUtils.saveBitmap(bitmap, HelpFeedbackActivity.SCREENSHOT);
                 intent = new Intent(this, HelpFeedbackActivity.class);
-                intent.putExtra(HelpFeedbackActivity.SCREENSHOT,
-                        DrawableUtils.bitmapToByteArray(bitmap));
                 startActivity(intent);
                 return true;
             default:

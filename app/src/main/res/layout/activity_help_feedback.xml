@@ -15,15 +15,23 @@
         android:layout_margin="16dp">
 
         <TextView
-            android:id="@+id/emailFrom"
-            android:layout_width="match_parent"
+            android:id="@+id/labelFrom"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="4dp"
             android:layout_marginStart="4dp"
-            android:textAppearance="?android:attr/textAppearance"
-            tools:text="From: albert.einstein@gmail.com" />
+            android:text="@string/email_from"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/emailFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/labelFrom"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@+id/labelFrom"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            tools:text="albert.einstein@gmail.com" />
 
         <EditText
             android:id="@+id/emailText"
@@ -43,46 +51,40 @@
             android:checked="true"
             android:text="@string/feedback_check" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/feedbackCheck"
+            android:text="@string/feedback_note"
+            android:textAppearance="?android:attr/textAppearance" />
+
+        <RelativeLayout
+            android:id="@+id/screenshotLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/feedbackCheck"
-            android:orientation="horizontal">
+            android:layout_below="@+id/feedbackCheck"
+            android:layout_toLeftOf="@+id/note">
 
-            <RelativeLayout
-                android:id="@+id/screenshotLayout"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5">
-
-                <ImageView
-                    android:id="@+id/screenshot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/screenshotCaption"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
-                    android:contentDescription="@string/default_image" />
-
-                <TextView
-                    android:id="@+id/screenshotCaption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/screenshot_caption"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </RelativeLayout>
+            <ImageView
+                android:id="@+id/screenshot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/screenshotCaption"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@string/default_image" />
 
             <TextView
-                android:id="@+id/note"
-                android:layout_width="0dp"
+                android:id="@+id/screenshotCaption"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/feedback_note"
-                android:textAppearance="?android:attr/textAppearance" />
-
-        </LinearLayout>
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/screenshot_caption"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -90,14 +92,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:layout_margin="10dp"
         android:alpha="0"
         android:background="?android:attr/colorBackground"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/preview"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/previewCaption"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
@@ -111,6 +115,6 @@
             android:layout_centerHorizontal="true"
             android:text="@string/preview_caption"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-    </RelativeLayout>
 
+    </RelativeLayout>
 </RelativeLayout>
