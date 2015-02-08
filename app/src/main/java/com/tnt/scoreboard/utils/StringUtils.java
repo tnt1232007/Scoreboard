@@ -1,5 +1,7 @@
 package com.tnt.scoreboard.utils;
 
+import android.content.Context;
+
 public final class StringUtils {
 
     public static <T> String join(Iterable<T> list, String separator) {
@@ -24,5 +26,11 @@ public final class StringUtils {
             tempSeparator = separator;
         }
         return sb.toString();
+    }
+
+    public static String getInitial(Context context, String name) {
+        String[] names = name.split(" ");
+        return String.valueOf(names[PrefUtils.isFirstNameLast(context)
+                ? names.length - 1 : 0].charAt(0));
     }
 }

@@ -24,7 +24,7 @@ public class ColorViewHolder {
 
     public ColorViewHolder(View itemView) {
         Context context = itemView.getContext();
-        mTextColor = ColorUtils.GetAttrColor(context, android.R.attr.textColorPrimary);
+        mTextColor = ColorUtils.getAttrColor(context, android.R.attr.textColorPrimary);
         mTextHighlightColor = context.getResources().getColor(R.color.lightBlueAccent);
 
         cover = (ImageView) itemView.findViewById(R.id.cover);

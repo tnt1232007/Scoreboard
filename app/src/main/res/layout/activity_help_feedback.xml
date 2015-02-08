@@ -30,7 +30,8 @@
             android:layout_alignBaseline="@+id/labelFrom"
             android:layout_marginBottom="16dp"
             android:layout_toEndOf="@+id/labelFrom"
-            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
             tools:text="albert.einstein@gmail.com" />
 
         <EditText

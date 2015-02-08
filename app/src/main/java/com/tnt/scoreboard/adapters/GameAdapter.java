@@ -41,7 +41,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
         final Game game = mGameList.get(position);
         game.setIndex(position);
         holder.updateData(game);
-        holder.updateState(game, false);
+        holder.updateState(game, mSelectedGames.contains(game));
         holder.setListener(new GameViewHolder.IOnGameClickListener() {
             @Override
             public void onGameClick(View v, boolean isCheckClick) {

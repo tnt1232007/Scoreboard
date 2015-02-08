@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.tnt.scoreboard.adapters.NavigationAdapter;
 import com.tnt.scoreboard.adapters.NavigationViewHolder;
-import com.tnt.scoreboard.utils.DrawableUtils;
+import com.tnt.scoreboard.utils.BitmapUtils;
 
 public class NavigationDrawerFragment extends Fragment {
 
@@ -79,7 +79,7 @@ public class NavigationDrawerFragment extends Fragment {
             public boolean onOptionsItemSelected(MenuItem item) {
                 boolean selected = super.onOptionsItemSelected(item);
                 if (selected) {
-                    Bitmap bitmap = DrawableUtils.takeScreenShot(
+                    Bitmap bitmap = BitmapUtils.takeScreenShot(
                             getActivity().getWindow().getDecorView().getRootView());
                     mCallback.onDrawerOpened(bitmap);
                 }
@@ -91,7 +91,7 @@ public class NavigationDrawerFragment extends Fragment {
                 super.onDrawerStateChanged(newState);
                 if (newState == DrawerLayout.STATE_DRAGGING
                         && !drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                    Bitmap bitmap = DrawableUtils.takeScreenShot(
+                    Bitmap bitmap = BitmapUtils.takeScreenShot(
                             getActivity().getWindow().getDecorView().getRootView());
                     mCallback.onDrawerOpened(bitmap);
                 }
@@ -130,7 +130,5 @@ public class NavigationDrawerFragment extends Fragment {
 
     public interface OnDrawerToggle {
         public void onDrawerOpened(Parcelable parcelable);
-
-        public void onDrawerClosed(Parcelable parcelable);
     }
 }

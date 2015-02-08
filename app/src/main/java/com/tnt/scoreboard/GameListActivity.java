@@ -27,7 +27,7 @@ import com.tnt.scoreboard.adapters.GameAdapter;
 import com.tnt.scoreboard.adapters.NavigationViewHolder;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.ActivityUtils;
-import com.tnt.scoreboard.utils.DrawableUtils;
+import com.tnt.scoreboard.utils.FileUtils;
 
 import java.util.List;
 
@@ -142,7 +142,7 @@ public class GameListActivity extends BaseActivity implements
             case ActivityUtils.HELP:
                 intent = new Intent(this, HelpFeedbackActivity.class);
                 startActivity(intent);
-                DrawableUtils.saveBitmap(mBitmap, HelpFeedbackActivity.SCREENSHOT);
+                FileUtils.saveBitmap(mBitmap, HelpFeedbackActivity.SCREENSHOT);
                 break;
         }
     }
@@ -283,11 +283,6 @@ public class GameListActivity extends BaseActivity implements
         if (parcelable instanceof Bitmap) {
             mBitmap = (Bitmap) parcelable;
         }
-    }
-
-    @Override
-    public void onDrawerClosed(Parcelable parcelable) {
-        super.onDrawerClosed(parcelable);
     }
 
     private void updateEmptyView(ActivityUtils.Screen screen) {

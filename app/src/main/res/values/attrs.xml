@@ -7,4 +7,5 @@
         <attr name="increment" format="integer" />
         <attr name="infiniteScroll" format="boolean" />
     </declare-styleable>
+    <attr name="colorControlSelected" format="reference" />
 </resources>

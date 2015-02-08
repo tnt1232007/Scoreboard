@@ -16,7 +16,8 @@ import com.tnt.scoreboard.dataAccess.GameDAO;
 import com.tnt.scoreboard.dataAccess.PlayerDAO;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
-import com.tnt.scoreboard.utils.DrawableUtils;
+import com.tnt.scoreboard.utils.BitmapUtils;
+import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
 
 import java.util.ArrayList;
@@ -64,9 +65,9 @@ public abstract class BaseActivity extends ActionBarActivity
                 startActivity(intent);
                 return true;
             case R.id.action_help:
-                Bitmap bitmap = DrawableUtils.takeScreenShot(
+                Bitmap bitmap = BitmapUtils.takeScreenShot(
                         getWindow().getDecorView().getRootView());
-                DrawableUtils.saveBitmap(bitmap, HelpFeedbackActivity.SCREENSHOT);
+                FileUtils.saveBitmap(bitmap, HelpFeedbackActivity.SCREENSHOT);
                 intent = new Intent(this, HelpFeedbackActivity.class);
                 startActivity(intent);
                 return true;
@@ -94,10 +95,6 @@ public abstract class BaseActivity extends ActionBarActivity
 
     @Override
     public void onDrawerOpened(Parcelable parcelable) {
-    }
-
-    @Override
-    public void onDrawerClosed(Parcelable parcelable) {
     }
 
     private void switchOrientation(String orientation) {

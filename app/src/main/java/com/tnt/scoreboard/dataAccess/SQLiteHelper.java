@@ -7,12 +7,14 @@ import android.util.Log;
 
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.utils.FileUtils;
+import com.tnt.scoreboard.utils.RandUtils;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String DATABASE_NAME = "scoreboard.sqlite";
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 21;
 
     private static final String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE_NAME + "("
             + Game.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -53,35 +55,56 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_GAME);
         db.execSQL(CREATE_TABLE_PLAYER);
 
-        db.execSQL(POPULATE_TABLE_GAME, new Object[]{1, 4, 112, 0});
-        db.execSQL(POPULATE_TABLE_GAME, new Object[]{2, 8, 7, 1});
-        db.execSQL(POPULATE_TABLE_GAME, new Object[]{3, 6, 36, 2});
+        String[] names = new String[]{
+                "Jackson", "Aiden", "Liam", "Lucas", "Noah", "Mason", "Ethan", "Caden", "Jacob",
+                "Logan", "Jayden", "Elijah", "Jack", "Luke", "Michael", "Benjamin", "Alexander",
+                "James", "Jayce", "Caleb", "Connor", "William", "Carter", "Ryan", "Oliver",
+                "Matthew", "Daniel", "Gabriel", "Henry", "Owen", "Grayson", "Dylan", "Landon",
+                "Isaac", "Nicholas", "Wyatt", "Nathan", "Andrew", "Cameron", "Dominic", "Joshua",
+                "Eli", "Sebastian", "Hunter", "Brayden", "David", "Samuel", "Evan", "Gavin",
+                "Christian", "Max", "Anthony", "Joseph", "Julian", "John", "Colton", "Levi",
+                "Muhammad", "Isaiah", "Aaron", "Tyler", "Charlie", "Adam", "Parker", "Austin",
+                "Thomas", "Zachary", "Nolan", "Alex", "Ian", "Jonathan", "Christopher", "Cooper",
+                "Hudson", "Miles", "Adrian", "Leo", "Blake", "Lincoln", "Jordan", "Tristan",
+                "Jason", "Josiah", "Xavier", "Camden", "Chase", "Declan", "Carson", "Colin",
+                "Brody", "Asher", "Jeremiah", "Micah", "Easton", "Xander", "Ryder", "Nathaniel",
+                "Elliot", "Sean", "Cole", "Sophia", "Emma", "Olivia", "Ava", "Isabella", "Mia",
+                "Zoe", "Lily", "Emily", "Madelyn", "Madison", "Chloe", "Charlotte", "Aubrey",
+                "Avery", "Abigail", "Kaylee", "Layla", "Harper", "Ella", "Amelia", "Arianna",
+                "Riley", "Aria", "Hailey", "Hannah", "Aaliyah", "Evelyn", "Addison", "Mackenzie",
+                "Adalyn", "Ellie", "Brooklyn", "Nora", "Scarlett", "Grace", "Anna", "Isabelle",
+                "Natalie", "Kaitlyn", "Lillian", "Sarah", "Audrey", "Elizabeth", "Leah",
+                "Annabelle", "Kylie", "Mila", "Claire", "Victoria", "Maya", "Lila", "Elena",
+                "Lucy", "Savannah", "Gabriella", "Callie", "Alaina", "Sophie", "Makayla", "Kennedy",
+                "Sadie", "Skyler", "Allison", "Caroline", "Charlie", "Penelope", "Alyssa", "Peyton",
+                "Samantha", "Liliana", "Bailey", "Maria", "Reagan", "Violet", "Eliana", "Adeline",
+                "Eva", "Stella", "Keira", "Katherine", "Vivian", "Alice", "Alexandra", "Camilla",
+                "Kayla", "Alexis", "Sydney", "Kaelyn", "Jasmine", "Julia", "Cora", "Lauren",
+                "Piper", "Gianna", "Paisley", "Bella", "London", "Clara", "Cadence"
+        };
+        int[] colors = new int[]{
+                -769226, -14575885, -11751600, -6543440, -5317, -16738680, -26624, -8825528,
+                -1499549, -12627531, -16728876, -7617718, -16121, -6381922, -10011977,
+                -16537100, -3285959, -43230, -10453621
+        };
+        int numOfGames = RandUtils.nextInt(20, 40);
+        for (int i = 0, k = 0; i < numOfGames; i++) {
+            int numOfPlayers = RandUtils.nextInt(2, 8);
+            db.execSQL(POPULATE_TABLE_GAME, new Object[]{i + 1, numOfPlayers,
+                    RandUtils.nextInt(1, 100), RandUtils.nextInt(0, 2)});
 
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{1, 1, "TNT", 246, -1499549});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{2, 1, "KL12", 312, -26624});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{3, 1, "LG", 216, -12627531});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{4, 1, "Sony", -124, -11751600});
-
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{5, 2, "Player S", 62, -16121});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{6, 2, "Player T", 47, -16738680});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{7, 2, "Player U", 27, -11751600});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{8, 2, "Player V", 79, -16537100});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{9, 2, "Player W", 12, -43230});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{10, 2, "Player X", 40, -3285959});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{11, 2, "Player Y", 11, -7617718});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{12, 2, "Player Z", 73, -16728876});
-
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{13, 3, "Adam", 84, -16537100});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{14, 3, "Lily", 72, -12627531});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{15, 3, "Trevor", 92, -10453621});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{16, 3, "Tim", 124, -43230});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{17, 3, "Jessi", 102, -11751600});
-        db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{18, 3, "Doctor", 99, -8825528});
+            for (int j = 0; j < numOfPlayers; j++, k++) {
+                db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{k + 1, i + 1,
+                        names[RandUtils.nextInt(0, names.length - 1)],
+                        RandUtils.nextInt(-1000, 1000),
+                        colors[RandUtils.nextInt(0, colors.length - 1)]});
+            }
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(SQLiteHelper.class.getName(), "Upgrading database from version " + oldVersion + " to "
+        Log.w(FileUtils.APP_NAME, "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + Game.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Player.TABLE_NAME);

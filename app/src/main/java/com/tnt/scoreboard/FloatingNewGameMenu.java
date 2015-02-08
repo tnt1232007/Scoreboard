@@ -16,7 +16,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.tnt.scoreboard.models.Game;
-import com.tnt.scoreboard.utils.PrefUtils;
+import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -35,7 +35,6 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
     private ImageView mDimBackground;
     private View mFabBlankLayout;
     private int mDensity;
-    private boolean mIsFirstNameLast;
 
     public FloatingNewGameMenu(Context context) {
         super(context);
@@ -82,7 +81,6 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
         mDensity = (int) getResources().getDisplayMetrics().density;
         mDimBackground = ((ImageView) mActivity.findViewById(R.id.dimBackground));
         mFabBlankLayout = mActivity.findViewById(R.id.fabBlankLayout);
-        mIsFirstNameLast = PrefUtils.isFirstNameLast(activity);
 
         mDimBackground.setOnClickListener(new OnClickListener() {
             @Override
@@ -129,16 +127,20 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
     }
 
     private FloatingActionButton createRecentGameButton(final Game game) {
-        String[] nameArray = game.getPlayers().get(0).getName().split(" ");
-        String firstName = nameArray[mIsFirstNameLast ? nameArray.length - 1 : 0];
-        int color = mColorGenerator.getColor(firstName.charAt(0));
+        List<Player> players = game.getPlayers();
+        Context context = this.getContext();
+        String s1 = String.format("%s%s", players.size(),
+                StringUtils.getInitial(context, players.get(0).getName()));
+        String s2 = String.format("%s%s", players.size(),
+                StringUtils.getInitial(context, players.get(1).getName()));
+        int color = mColorGenerator.getColor(s2);
 
         FloatingActionButton button = new FloatingActionButton(mActivity);
-        button.setTitle(StringUtils.join(game.getPlayers(), ", ", 28));
+        button.setTitle(StringUtils.join(players, ", ", 28));
         button.setSize(FloatingActionButton.SIZE_MINI);
         button.setColorNormal(color);
         button.setColorPressed(color);
-        button.setIconDrawable(mDrawableBuilder.build(String.valueOf(firstName.charAt(0)), color));
+        button.setIconDrawable(mDrawableBuilder.build(s1, color));
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -24,8 +24,8 @@ public class NavigationViewHolder extends RecyclerView.ViewHolder {
     public NavigationViewHolder(View itemView, int viewType) {
         super(itemView);
         mContext = itemView.getContext();
-        mHighlightColor = ColorUtils.GetAttrColor(mContext, android.R.attr.colorControlHighlight);
-        mTextColor = ColorUtils.GetAttrColor(mContext, android.R.attr.textColorPrimary);
+        mHighlightColor = ColorUtils.getAttrColor(mContext, R.attr.colorControlSelected);
+        mTextColor = ColorUtils.getAttrColor(mContext, android.R.attr.textColorPrimary);
 
         switch (viewType) {
             case NavigationAdapter.TYPE_HEADER:

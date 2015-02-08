@@ -12,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tnt.scoreboard.utils.DrawableUtils;
+import com.tnt.scoreboard.utils.FileUtils;
+
+import java.util.ArrayList;
 
 public class HelpFeedbackActivity extends BaseActivity {
 
-    public static final String SCREENSHOT = "screenshot";
+    public static final String SCREENSHOT = "screenshot.png";
+    public static final String LOGCAT = "logcat.txt";
     public static final String EMAIL_TYPE = "message/rfc822";
     private TextView mEmailText;
     private CheckBox mFeedbackCheck;
@@ -30,7 +33,7 @@ public class HelpFeedbackActivity extends BaseActivity {
         mEmailText = ((TextView) findViewById(R.id.emailText));
         mFeedbackCheck = ((CheckBox) findViewById(R.id.feedbackCheck));
 
-        Bitmap bitmap = DrawableUtils.loadBitmap(SCREENSHOT);
+        Bitmap bitmap = FileUtils.loadBitmap(SCREENSHOT);
         ImageView screenshot = (ImageView) findViewById(R.id.screenshot);
         ImageView preview = (ImageView) findViewById(R.id.preview);
         final View previewLayout = findViewById(R.id.previewLayout);
@@ -73,19 +76,22 @@ public class HelpFeedbackActivity extends BaseActivity {
                 onBackPressed();
                 return true;
             case R.id.action_send:
-                Intent i = new Intent(Intent.ACTION_SEND);
+                Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE);
                 i.setType(EMAIL_TYPE);
                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_to)});
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
                 i.putExtra(Intent.EXTRA_TEXT, mEmailText.getText());
 
                 if (mFeedbackCheck.isChecked()) {
-                    Uri uri = Uri.fromFile(DrawableUtils.getAppFile(SCREENSHOT));
-                    i.putExtra(Intent.EXTRA_STREAM, uri);
+                    FileUtils.saveLog(LOGCAT);
+                    ArrayList<Uri> uris = new ArrayList<>();
+                    uris.add(Uri.fromFile(FileUtils.getFile(SCREENSHOT)));
+                    uris.add(Uri.fromFile(FileUtils.getFile(LOGCAT)));
+                    i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
                 }
 
                 try {
-                    startActivity(Intent.createChooser(i, "Send Mail"));
+                    startActivity(Intent.createChooser(i, "Send mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(this, "There are no email clients installed.",
                             Toast.LENGTH_SHORT).show();
