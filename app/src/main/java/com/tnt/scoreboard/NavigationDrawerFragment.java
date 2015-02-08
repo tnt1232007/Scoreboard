@@ -66,7 +66,7 @@ public class NavigationDrawerFragment extends Fragment {
             mCallback = (OnDrawerToggle) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnDrawerToggleListener");
         }
     }
 

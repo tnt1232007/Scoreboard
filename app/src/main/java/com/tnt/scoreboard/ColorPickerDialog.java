@@ -18,7 +18,8 @@ public class ColorPickerDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        ColorAdapter colorAdapter = new ColorAdapter(ColorUtils.ColorMap(getActivity()), currentColor);
+        ColorAdapter colorAdapter = new ColorAdapter(
+                ColorUtils.ColorMap(getActivity()), currentColor);
         colorAdapter.setListener(new ColorViewHolder.IOnColorPickListener() {
             @Override
             public void onColorPick(int chooseColor) {

@@ -62,7 +62,8 @@ public final class FileUtils {
 
     private static String readLog() {
         try {
-            Process process = Runtime.getRuntime().exec(new String[]{"logcat", "-d"});
+            Process process = Runtime.getRuntime().exec(
+                    new String[]{"logcat", "-d", "-t", APP_NAME + ":V", "*:S"});
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
 

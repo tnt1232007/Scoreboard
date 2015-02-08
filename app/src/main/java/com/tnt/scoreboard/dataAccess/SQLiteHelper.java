@@ -55,6 +55,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_GAME);
         db.execSQL(CREATE_TABLE_PLAYER);
 
+        generateRandomData(db);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.w(FileUtils.APP_NAME, "Upgrading database from version " + oldVersion + " to "
+                + newVersion + ", which will destroy all old data");
+        db.execSQL("DROP TABLE IF EXISTS " + Game.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Player.TABLE_NAME);
+        onCreate(db);
+    }
+
+    private void generateRandomData(SQLiteDatabase db) {
         String[] names = new String[]{
                 "Jackson", "Aiden", "Liam", "Lucas", "Noah", "Mason", "Ethan", "Caden", "Jacob",
                 "Logan", "Jayden", "Elijah", "Jack", "Luke", "Michael", "Benjamin", "Alexander",
@@ -82,7 +95,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "Kayla", "Alexis", "Sydney", "Kaelyn", "Jasmine", "Julia", "Cora", "Lauren",
                 "Piper", "Gianna", "Paisley", "Bella", "London", "Clara", "Cadence"
         };
-        int[] colors = new int[]{
+        Integer[] colors = new Integer[]{
                 -769226, -14575885, -11751600, -6543440, -5317, -16738680, -26624, -8825528,
                 -1499549, -12627531, -16728876, -7617718, -16121, -6381922, -10011977,
                 -16537100, -3285959, -43230, -10453621
@@ -95,19 +108,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
             for (int j = 0; j < numOfPlayers; j++, k++) {
                 db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{k + 1, i + 1,
-                        names[RandUtils.nextInt(0, names.length - 1)],
+                        RandUtils.nextItem(names),
                         RandUtils.nextInt(-1000, 1000),
-                        colors[RandUtils.nextInt(0, colors.length - 1)]});
+                        RandUtils.nextItem(colors)});
             }
         }
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(FileUtils.APP_NAME, "Upgrading database from version " + oldVersion + " to "
-                + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + Game.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + Player.TABLE_NAME);
-        onCreate(db);
     }
 }

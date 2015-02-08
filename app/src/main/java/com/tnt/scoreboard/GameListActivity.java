@@ -196,7 +196,8 @@ public class GameListActivity extends BaseActivity implements
                                         mGameAdapter.remove();
                                         mFab.move(true);
                                         actionMode.finish();
-                                        mFab.setup(GameListActivity.this, getRecentGameList(RECENT_GAMES_NUM));
+                                        mFab.setup(GameListActivity.this,
+                                                getRecentGameList(RECENT_GAMES_NUM));
                                         break;
                                     case DialogInterface.BUTTON_NEGATIVE:
                                         break;

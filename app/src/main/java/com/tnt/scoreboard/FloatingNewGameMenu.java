@@ -164,12 +164,14 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
         int delta = up ? 40 * mDensity : -40 * mDensity;
 
         final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
-        final RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) mFabBlankLayout.getLayoutParams();
+        final RelativeLayout.LayoutParams params2 =
+                (RelativeLayout.LayoutParams) mFabBlankLayout.getLayoutParams();
         ValueAnimator anim = ValueAnimator.ofInt(params.bottomMargin, params.bottomMargin + delta);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                params.bottomMargin = params2.bottomMargin = (int) (valueAnimator.getAnimatedValue());
+                params.bottomMargin = params2.bottomMargin
+                        = (int) (valueAnimator.getAnimatedValue());
                 setLayoutParams(params);
                 mFabBlankLayout.setLayoutParams(params2);
             }

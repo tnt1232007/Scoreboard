@@ -9,4 +9,8 @@ public final class RandUtils {
     public static int nextInt(int min, int max) {
         return rand.nextInt((max - min) + 1) + min;
     }
+
+    public static <T> T nextItem(T[] objects) {
+        return objects[nextInt(0, objects.length - 1)];
+    }
 }
