@@ -33,5 +33,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:1.2.1'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.getbase:floatingactionbutton:1.7.0'
-    compile 'com.cocosw:undobar:1.7.1'
+    compile 'com.nispok:snackbar:2.8.0'
 }

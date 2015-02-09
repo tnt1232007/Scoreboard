@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="closeButtonIcon" format="reference" />
+    <attr name="closeButtonIcon" format="reference"/>
 
     <style name="BaseLightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="actionModeBackground">@color/grayDark</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
-        <item name="undoBarStyle">@style/MyUndoBar</item>
         <item name="colorControlSelected">@color/dimWhite</item>
         <item name="closeButtonIcon">@drawable/ic_close_light</item>
         <item name="colorPrimary">@color/grayDark</item>
@@ -29,7 +28,6 @@
     <style name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="actionModeBackground">@color/grayDark</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="undoBarStyle">@style/MyUndoBar</item>
         <item name="colorControlSelected">@color/lightBlack</item>
         <item name="closeButtonIcon">@drawable/ic_close_dark</item>
         <item name="colorPrimary">@color/grayDark</item>

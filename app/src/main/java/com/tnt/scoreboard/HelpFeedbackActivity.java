@@ -4,10 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,16 +61,6 @@ public class HelpFeedbackActivity extends BaseActivity {
                 });
             }
         });
-
-        SpannableString f = new SpannableString(getString(R.string.feedback_note));
-        f.setSpan(new InternalURLSpan(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO: SystemInformationDialog
-            }
-        }), 15, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        TextView note = (TextView) findViewById(R.id.note);
-        note.setText(f);
-        note.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
@@ -114,18 +100,4 @@ public class HelpFeedbackActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    static class InternalURLSpan extends ClickableSpan {
-        View.OnClickListener mListener;
-
-        public InternalURLSpan(View.OnClickListener listener) {
-            mListener = listener;
-        }
-
-        @Override
-        public void onClick(View widget) {
-            mListener.onClick(widget);
-        }
-    }
-
 }

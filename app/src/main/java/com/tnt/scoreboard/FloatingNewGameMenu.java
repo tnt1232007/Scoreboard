@@ -1,6 +1,5 @@
 package com.tnt.scoreboard;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.transition.Slide;
@@ -8,8 +7,9 @@ import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -34,7 +34,6 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
     private BaseActivity mActivity;
     private ImageView mDimBackground;
     private View mFabBlankLayout;
-    private int mDensity;
 
     public FloatingNewGameMenu(Context context) {
         super(context);
@@ -78,7 +77,6 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
 
     public void setup(final BaseActivity activity, List<Game> gameList) {
         mActivity = activity;
-        mDensity = (int) getResources().getDisplayMetrics().density;
         mDimBackground = ((ImageView) mActivity.findViewById(R.id.dimBackground));
         mFabBlankLayout = mActivity.findViewById(R.id.fabBlankLayout);
 
@@ -152,40 +150,18 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
         return button;
     }
 
-    public void show(boolean visible) {
+    public void show(boolean visible, boolean animated) {
         if (getVisibility() == GONE) return;
-        TransitionManager.beginDelayedTransition(
+        if (animated) TransitionManager.beginDelayedTransition(
                 (ViewGroup) mActivity.findViewById(R.id.layout), new Slide());
         setVisibility(visible ? VISIBLE : INVISIBLE);
     }
 
-    public void move(boolean up) {
-        if (getVisibility() == GONE || isUp() == up) return;
-        int delta = up ? 40 * mDensity : -40 * mDensity;
-
-        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
-        final RelativeLayout.LayoutParams params2 =
-                (RelativeLayout.LayoutParams) mFabBlankLayout.getLayoutParams();
-        ValueAnimator anim = ValueAnimator.ofInt(params.bottomMargin, params.bottomMargin + delta);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                params.bottomMargin = params2.bottomMargin
-                        = (int) (valueAnimator.getAnimatedValue());
-                setLayoutParams(params);
-                mFabBlankLayout.setLayoutParams(params2);
-            }
-        });
-        anim.setDuration(150);
-        anim.start();
-        setUp(up);
-    }
-
-    private boolean isUp() {
-        return getTag() == true;
-    }
-
-    private void setUp(boolean up) {
-        setTag(up);
+    public void move(int value) {
+        if (getVisibility() != VISIBLE) return;
+        Interpolator interpolator = AnimationUtils.loadInterpolator(getContext(), value > 0
+                ? R.interpolator.sb__accelerate_cubic : R.interpolator.sb__decelerate_cubic);
+        animate().yBy(value).setInterpolator(interpolator).start();
+        mFabBlankLayout.animate().setDuration(300).setInterpolator(interpolator).yBy(value).start();
     }
 }

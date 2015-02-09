@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.view.ActionMode;
@@ -22,7 +20,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cocosw.undobar.UndoBarController;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 import com.tnt.scoreboard.adapters.GameAdapter;
 import com.tnt.scoreboard.adapters.NavigationViewHolder;
 import com.tnt.scoreboard.models.Game;
@@ -36,7 +35,7 @@ public class GameListActivity extends BaseActivity implements
         NavigationViewHolder.IOnNavigationClickListener,
         GameAdapter.IOnGameSelectListener,
         ActionMode.Callback,
-        UndoBarController.AdvancedUndoListener {
+        com.nispok.snackbar.listeners.ActionClickListener {
 
     public static final String ACTION = "action";
     public static final String SCREEN = "screen";
@@ -46,7 +45,6 @@ public class GameListActivity extends BaseActivity implements
     private GameAdapter mGameAdapter;
     private FloatingNewGameMenu mFab;
     private RecyclerView mRecyclerView;
-    private UndoBarController.UndoBar mUndoBar;
     private NavigationDrawerFragment mNavigationDrawer;
     private ActivityUtils.Screen mScreen;
     private DrawerLayout mDrawerLayout;
@@ -54,13 +52,13 @@ public class GameListActivity extends BaseActivity implements
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_game_list);
-        mUndoBar = new UndoBarController.UndoBar(this);
 
         mFab = (FloatingNewGameMenu) findViewById(R.id.fab);
         mFab.setup(this, getRecentGameList(RECENT_GAMES_NUM));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mNavigationDrawer = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigationDrawer);
+        mNavigationDrawer = (NavigationDrawerFragment) getFragmentManager()
+                .findFragmentById(R.id.navigationDrawer);
         mNavigationDrawer.setup(mDrawerLayout, this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -104,7 +102,7 @@ public class GameListActivity extends BaseActivity implements
     @Override
     public void onNavigationClick(View v, int navigationOption) {
         Intent intent;
-        mUndoBar.clear();
+        SnackbarManager.dismiss();
         mFab.collapse();
         if (mActionMode != null) mActionMode.finish();
 
@@ -163,8 +161,8 @@ public class GameListActivity extends BaseActivity implements
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         actionMode.getMenuInflater().inflate(mScreen.MENU_LAYOUT, menu);
-        mUndoBar.clear();
-        mFab.show(false);
+        SnackbarManager.dismiss();
+        mFab.show(false, true);
         getWindow().setStatusBarColor(getResources().getColor(R.color.lightBlack));
         return true;
     }
@@ -179,10 +177,38 @@ public class GameListActivity extends BaseActivity implements
         final List<Game> selectedGames = mGameAdapter.getSelectedItems();
         String count = String.valueOf(selectedGames.size());
         String deleteMsg = selectedGames.size() == 1 ? "game" : count + " games";
-        Bundle bundle = new Bundle();
-        bundle.putInt(ACTION, menuItem.getItemId());
-        bundle.putParcelable(SCREEN, mScreen);
-        mUndoBar.token(bundle).noicon(true).listener(this);
+
+        Snackbar snackbar = Snackbar.with(this).actionLabel("Undo").actionListener(this)
+                .eventListener(new com.nispok.snackbar.listeners.EventListener() {
+
+                    @Override
+                    public void onShow(Snackbar snackbar) {
+                        mFab.move(-snackbar.getHeight());
+                    }
+
+                    @Override
+                    public void onShowByReplace(Snackbar snackbar) {
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+                    }
+
+                    @Override
+                    public void onDismiss(Snackbar snackbar) {
+                        mFab.move(snackbar.getHeight());
+                    }
+
+                    @Override
+                    public void onDismissByReplace(Snackbar snackbar) {
+                    }
+
+                    @Override
+                    public void onDismissed(Snackbar snackbar) {
+                    }
+                })
+                .attachToRecyclerView(mRecyclerView).swipeToDismiss(false);
+        snackbar.setTag(menuItem.getItemId());
 
         switch (menuItem.getItemId()) {
             case R.id.action_delete_forever:
@@ -194,7 +220,6 @@ public class GameListActivity extends BaseActivity implements
                                     case DialogInterface.BUTTON_POSITIVE:
                                         deleteGames(selectedGames);
                                         mGameAdapter.remove();
-                                        mFab.move(true);
                                         actionMode.finish();
                                         mFab.setup(GameListActivity.this,
                                                 getRecentGameList(RECENT_GAMES_NUM));
@@ -211,32 +236,32 @@ public class GameListActivity extends BaseActivity implements
                 return true;
             case R.id.action_archive:
                 changeState(selectedGames, Game.State.ARCHIVE);
-                mUndoBar.message(count + " archived");
+                snackbar.text(count + " archived");
                 break;
             case R.id.action_unarchive:
                 changeState(selectedGames, Game.State.NORMAL);
-                mUndoBar.message(count + " unarchived");
+                snackbar.text(count + " unarchived");
                 break;
             case R.id.action_delete:
                 changeState(selectedGames, Game.State.DELETE);
-                mUndoBar.message(count + " moved to Trash");
+                snackbar.text(count + " moved to Trash");
                 break;
             case R.id.action_restore:
                 changeState(selectedGames, Game.State.NORMAL);
-                mUndoBar.message(count + " restored");
+                snackbar.text(count + " restored");
                 break;
         }
 
         mGameAdapter.remove();
-        mUndoBar.show();
-        mFab.move(true);
+        mFab.show(true, false);
         actionMode.finish();
+        SnackbarManager.show(snackbar);
         return true;
     }
 
     @Override
     public void onDestroyActionMode(ActionMode actionMode) {
-        mFab.show(true);
+        mFab.show(true, true);
         mGameAdapter.clear();
         mActionMode = null;
         getWindow().setStatusBarColor(getResources().getColor(mScreen.COLOR_PRIMARY_DARK));
@@ -244,22 +269,9 @@ public class GameListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onHide(@Nullable Parcelable parcelable) {
-        mFab.move(false);
-    }
-
-    @Override
-    public void onClear(@NonNull Parcelable[] parcelables) {
-        mFab.move(false);
-    }
-
-    @Override
-    public void onUndo(@Nullable Parcelable parcelable) {
-        if (parcelable == null) return;
-        int actionId = ((Bundle) parcelable).getInt(ACTION);
-        ActivityUtils.Screen screen = ((Bundle) parcelable).getParcelable(SCREEN);
+    public void onActionClicked(Snackbar snackbar) {
         List<Game> mUndoGames = mGameAdapter.getUndoItems();
-        switch (actionId) {
+        switch ((int) snackbar.getTag()) {
             case R.id.action_archive:
                 changeState(mUndoGames, Game.State.NORMAL);
                 break;
@@ -274,8 +286,7 @@ public class GameListActivity extends BaseActivity implements
                 break;
         }
         mGameAdapter.add(mUndoGames);
-        updateEmptyView(screen);
-        mFab.move(false);
+        updateEmptyView(mScreen);
     }
 
     @Override
