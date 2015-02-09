@@ -39,9 +39,11 @@
     <string name="feedback_note">Your feedback, system information and email address will be sent to the developer.</string>
     <string name="mailto_email">mailto:tnt1232007@gmail.com</string>
     <string name="email_from">From:</string>
-    <string name="email_to">tnt1232007@gmail.com</string>
     <string name="email_subject">[Scoreboard Support] &lt;Subject&gt;</string>
     <string name="email_content">&lt;Description&gt;</string>
     <string name="screenshot_caption">Touch to preview</string>
     <string name="preview_caption">Touch to close</string>
+
+    <string name="developer">TNT</string>
+    <string name="developer_email">tnt1232007@gmail.com</string>
 </resources>

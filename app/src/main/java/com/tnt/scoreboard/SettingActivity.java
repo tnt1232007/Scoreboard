@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.MenuItem;
 
+import com.tnt.scoreboard.dataAccess.SQLiteHelper;
+
 public class SettingActivity extends BaseActivity {
 
     @Override
@@ -33,6 +35,15 @@ public class SettingActivity extends BaseActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.setting);
+
+            findPreference(getString(R.string.pref_key_developer))
+                    .setSummary(String.format("%s <%s>",
+                            getString(R.string.developer),
+                            getString(R.string.developer_email)));
+            findPreference(getString(R.string.pref_key_version))
+                    .setSummary(String.format("v%s.%s",
+                            BuildConfig.VERSION_NAME,
+                            SQLiteHelper.DATABASE_VERSION));
         }
     }
 }

@@ -58,7 +58,6 @@
     <PreferenceCategory android:title="@string/pref_header_about">
         <Preference
             android:key="@string/pref_key_developer"
-            android:summary="@string/pref_summary_developer"
             android:title="@string/pref_title_developer">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -73,7 +72,6 @@
         </Preference>
         <Preference
             android:key="@string/pref_key_version"
-            android:summary="@string/pref_summary_version"
             android:title="@string/pref_title_version"/>
     </PreferenceCategory>
 </PreferenceScreen>

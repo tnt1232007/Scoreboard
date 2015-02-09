@@ -77,7 +77,7 @@ public class HelpFeedbackActivity extends BaseActivity {
             case R.id.action_send:
                 Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE);
                 i.setType(EMAIL_TYPE);
-                i.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_to)});
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.developer_email)});
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
                 i.putExtra(Intent.EXTRA_TEXT, mEmailText.getText());
 

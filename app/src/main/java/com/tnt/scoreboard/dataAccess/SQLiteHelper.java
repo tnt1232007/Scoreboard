@@ -13,8 +13,8 @@ import com.tnt.scoreboard.utils.RandUtils;
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final int DATABASE_VERSION = 21;
     private static final String DATABASE_NAME = "scoreboard.sqlite";
-    private static final int DATABASE_VERSION = 21;
 
     private static final String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE_NAME + "("
             + Game.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
