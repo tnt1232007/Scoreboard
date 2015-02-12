@@ -30,7 +30,6 @@ import com.tnt.scoreboard.utils.FileUtils;
 
 import java.util.List;
 
-//TODO: Swipe to archive/delete
 public class GameListActivity extends BaseActivity implements
         NavigationViewHolder.IOnNavigationClickListener,
         GameAdapter.IOnGameSelectListener,

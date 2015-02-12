@@ -1,17 +1,22 @@
 package com.tnt.scoreboard;
 
 import android.animation.ValueAnimator;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tnt.scoreboard.models.Game;
@@ -24,11 +29,12 @@ import java.util.List;
 
 public class GameNewActivity extends BaseActivity {
 
-    public static final String PLAYER = "Player ";
-    public static final String MAXIMUM_ALLOW = "Maximum %s players allowed";
-    public static final String MINIMUM_ALLOW = "Must have minimum %s players";
+    private static final String PLAYER = "Player ";
+    private static final String MAXIMUM_ALLOW = "Maximum %s players allowed";
+    private static final String MINIMUM_ALLOW = "Must have minimum %s players";
     private static final String COLOR_INDEX = "colorIndex";
     private static final String CHAR_INDEX = "harIndex";
+    private static final String NEW_PLAYER_TOP_MARGIN = "newPlayerTopMargin";
 
     private static final int MAX_PLAYER_NUM = 8;
     private static final int MIN_PLAYER_NUM = 2;
@@ -38,7 +44,10 @@ public class GameNewActivity extends BaseActivity {
     private List<PlayerNewFragment> fragmentList = new ArrayList<>();
     private ScrollView mScrollView;
     private Button mNewPlayerButton;
+    private TextView mTitle, mStartScore, mEndScore;
     private int mColorIndex, mCharIndex;
+    private Switch mIsFirstToWin;
+    private Switch mIsInfinite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +62,28 @@ public class GameNewActivity extends BaseActivity {
             }
         });
 
+        mTitle = ((TextView) findViewById(R.id.title));
+        mStartScore = ((TextView) findViewById(R.id.start));
+        mEndScore = ((TextView) findViewById(R.id.end));
+        mIsFirstToWin = (Switch) findViewById(R.id.firstToWin);
+        mIsInfinite = (Switch) findViewById(R.id.infinite);
+        CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Switch aSwitch = (Switch) buttonView;
+                aSwitch.setText(isChecked ? aSwitch.getTextOn() : aSwitch.getTextOff());
+            }
+        };
+        mIsFirstToWin.setOnCheckedChangeListener(listener);
+        mIsInfinite.setOnCheckedChangeListener(listener);
+
         if (savedInstanceState != null) {
             mColorIndex = savedInstanceState.getInt(COLOR_INDEX);
             mCharIndex = savedInstanceState.getInt(CHAR_INDEX);
+            RelativeLayout.LayoutParams params =
+                    (RelativeLayout.LayoutParams) mNewPlayerButton.getLayoutParams();
+            params.topMargin = savedInstanceState.getInt(NEW_PLAYER_TOP_MARGIN);
+            mNewPlayerButton.setLayoutParams(params);
             return;
         }
 
@@ -67,6 +95,10 @@ public class GameNewActivity extends BaseActivity {
             for (Player p : game.getPlayers()) {
                 addNewPlayerFragment(p.getName(), (int) p.getColor(), true, false);
             }
+            mTitle.setText(game.getTitle());
+            mEndScore.setText(String.valueOf(game.getEndingScore()));
+            mIsInfinite.setChecked(game.isInfinite());
+            mIsFirstToWin.setChecked(game.isFirstToWin());
         }
     }
 
@@ -105,7 +137,8 @@ public class GameNewActivity extends BaseActivity {
 
         if (fragmentList.size() >= MAX_PLAYER_NUM) {
             mNewPlayerButton.setVisibility(View.GONE);
-            Toast.makeText(this, String.format(MAXIMUM_ALLOW, MAX_PLAYER_NUM), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.format(MAXIMUM_ALLOW, MAX_PLAYER_NUM),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -143,6 +176,8 @@ public class GameNewActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         outState.putInt(COLOR_INDEX, mColorIndex);
         outState.putInt(CHAR_INDEX, mCharIndex);
+        outState.putInt(NEW_PLAYER_TOP_MARGIN, ((RelativeLayout.LayoutParams)
+                mNewPlayerButton.getLayoutParams()).topMargin);
     }
 
     @Override
@@ -173,7 +208,20 @@ public class GameNewActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                new AlertDialog.Builder(this)
+                        .setMessage("Current configuration will be lost.\nAre you sure to quit?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onBackPressed();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
                 return true;
             case R.id.action_start:
                 if (fragmentList.size() < MIN_PLAYER_NUM) {
@@ -182,14 +230,19 @@ public class GameNewActivity extends BaseActivity {
                     return true;
                 }
 
+                String title = getValue(mTitle, String.class);
+                Long start = getValue(mStartScore, Long.class);
+                Long end = getValue(mEndScore, Long.class);
+                boolean isFirstToWin = mIsFirstToWin.isChecked();
+                boolean isInfinite = mIsInfinite.isChecked();
+
                 List<Player> playerList = new ArrayList<>();
                 for (PlayerNewFragment frag : fragmentList) {
-                    Player p = new Player(frag.getPlayerName(), frag.getColor(),
-                            PrefUtils.getStartingScore(this));
+                    Player p = new Player(frag.getPlayerName(), frag.getColor(), start);
                     playerList.add(p);
                 }
-                Game game = addGame(playerList);
 
+                Game game = addGame(title, playerList, end, isFirstToWin, isInfinite);
                 Intent intent = new Intent(this, GameScoreActivity.class);
                 intent.putExtra(Game.COLUMN_ID, game.getId());
                 startActivity(intent);
@@ -200,5 +253,17 @@ public class GameNewActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private <T> T getValue(TextView textView, Class<T> aClass) {
+        CharSequence text = textView.getText();
+        text = text.length() == 0 ? textView.getHint() : text;
+        if (aClass == String.class)
+            return aClass.cast(text);
+        if (aClass == Integer.class)
+            return aClass.cast(Integer.parseInt(String.valueOf(text)));
+        if (aClass == Long.class)
+            return aClass.cast(Long.parseLong(String.valueOf(text)));
+        return null;
     }
 }

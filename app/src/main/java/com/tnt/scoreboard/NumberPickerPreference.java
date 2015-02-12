@@ -44,13 +44,12 @@ public class NumberPickerPreference extends DialogPreference {
     protected void onBindDialogView(@NonNull View view) {
         super.onBindDialogView(view);
         mNumberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
-        mNumberPicker.setMinValue(mMinValue);
         if (mIncrement == INCREMENT) {
             mNumberPicker.setMaxValue(mMaxValue);
         } else {
             String[] values = calculateDisplayedValues(mMinValue, mMaxValue, mIncrement);
             mNumberPicker.setDisplayedValues(values);
-            mNumberPicker.setMaxValue(mMinValue + values.length - 1);
+            mNumberPicker.setMaxValue(values.length - 1);
         }
         mNumberPicker.setValue(mCurrentValue);
         mNumberPicker.setWrapSelectorWheel(mInfiniteScroll);
@@ -100,44 +99,10 @@ public class NumberPickerPreference extends DialogPreference {
     }
 
     private int calculateDisplayedValue(int value) {
-        return mMinValue + (value - mMinValue) * mIncrement;
+        return value * mIncrement + mMinValue;
     }
 
     private int calculateActualValue(int displayedValue) {
-        return (displayedValue - mMinValue) / mIncrement + mMinValue;
+        return (displayedValue - mMinValue) / mIncrement;
     }
-
-    //<editor-fold desc="Getter Setter">
-    public int getMinValue() {
-        return mMinValue;
-    }
-
-    public void setMinValue(int minValue) {
-        mMinValue = minValue;
-    }
-
-    public int getMaxValue() {
-        return mMaxValue;
-    }
-
-    public void setMaxValue(int maxValue) {
-        mMaxValue = maxValue;
-    }
-
-    public int getIncrement() {
-        return mIncrement;
-    }
-
-    public void setIncrement(int increment) {
-        mIncrement = increment;
-    }
-
-    public boolean isInfiniteScroll() {
-        return mInfiniteScroll;
-    }
-
-    public void setInfiniteScroll(boolean infiniteScroll) {
-        mInfiniteScroll = infiniteScroll;
-    }
-    //</editor-fold>
 }

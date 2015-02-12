@@ -13,15 +13,19 @@ import com.tnt.scoreboard.utils.RandUtils;
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final int DATABASE_VERSION = 21;
+    public static final int DATABASE_VERSION = 23;
     private static final String DATABASE_NAME = "scoreboard.sqlite";
 
     private static final String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE_NAME + "("
             + Game.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Game.COLUMN_CREATED_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+            + Game.COLUMN_TITLE + " VARCHAR NOT NULL, "
             + Game.COLUMN_NUMBER_OF_PLAYERS + " INTEGER NOT NULL, "
             + Game.COLUMN_CURRENT_ROUND_NUMBER + " INTEGER NOT NULL, "
-            + Game.COLUMN_STATE + " INTEGER NOT NULL"
+            + Game.COLUMN_ENDING_SCORE + " INTEGER NOT NULL, "
+            + Game.COLUMN_FIRST_TO_WIN + " INTEGER NOT NULL, "
+            + Game.COLUMN_INFINITE + " INTEGER NOT NULL, "
+            + Game.COLUMN_STATE + " INTEGER NOT NULL, "
+            + Game.COLUMN_CREATED_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP"
             + ");";
     private static final String CREATE_TABLE_PLAYER = "CREATE TABLE " + Player.TABLE_NAME + "("
             + Player.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -33,10 +37,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String POPULATE_TABLE_GAME = "INSERT INTO " + Game.TABLE_NAME + " ("
             + Game.COLUMN_ID + ","
+            + Game.COLUMN_TITLE + ","
             + Game.COLUMN_NUMBER_OF_PLAYERS + ","
             + Game.COLUMN_CURRENT_ROUND_NUMBER + ","
+            + Game.COLUMN_ENDING_SCORE + ","
+            + Game.COLUMN_FIRST_TO_WIN + ","
+            + Game.COLUMN_INFINITE + ","
             + Game.COLUMN_STATE
-            + ") VALUES(?,?,?,?)";
+            + ") VALUES(?,?,?,?,?,?,?,?)";
 
     private static final String POPULATE_TABLE_PLAYER = "INSERT INTO " + Player.TABLE_NAME + " ("
             + Player.COLUMN_ID + ","
@@ -103,8 +111,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         int numOfGames = RandUtils.nextInt(20, 40);
         for (int i = 0, k = 0; i < numOfGames; i++) {
             int numOfPlayers = RandUtils.nextInt(2, 8);
-            db.execSQL(POPULATE_TABLE_GAME, new Object[]{i + 1, numOfPlayers,
-                    RandUtils.nextInt(1, 100), RandUtils.nextInt(0, 2)});
+            db.execSQL(POPULATE_TABLE_GAME, new Object[]{i + 1, "Poker", numOfPlayers,
+                    RandUtils.nextInt(1, 100), 1000, RandUtils.nextInt(0, 1),
+                    RandUtils.nextInt(0, 1), RandUtils.nextInt(0, 2)});
 
             for (int j = 0; j < numOfPlayers; j++, k++) {
                 db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{k + 1, i + 1,

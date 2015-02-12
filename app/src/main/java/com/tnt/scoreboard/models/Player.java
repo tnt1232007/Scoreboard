@@ -1,6 +1,8 @@
 package com.tnt.scoreboard.models;
 
-public class Player extends Base {
+import android.support.annotation.NonNull;
+
+public class Player extends Base implements Comparable<Player> {
 
     public static final String TABLE_NAME = "player";
     public static final String COLUMN_GAME_ID = "gameId";
@@ -66,11 +68,18 @@ public class Player extends Base {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || !(o == null || getClass() != o.getClass()) && name.equals(((Player) o).name);
+        return this == o
+                || !(o == null || getClass() != o.getClass())
+                && name.equals(((Player) o).name);
     }
 
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    @Override
+    public int compareTo(@NonNull Player another) {
+        return (int) (another.getScore() - getScore());
     }
 }

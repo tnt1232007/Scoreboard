@@ -11,7 +11,7 @@
         <item name="closeButtonIcon">@drawable/ic_close_light</item>
         <item name="colorPrimary">@color/grayDark</item>
         <item name="colorPrimaryDark">@color/lightBlack</item>
-        <item name="colorAccent">@color/teal</item>
+        <item name="colorAccent">@color/blueAccent</item>
     </style>
 
     <style name="GameNewLightTheme" parent="BaseLightTheme">
@@ -32,7 +32,7 @@
         <item name="closeButtonIcon">@drawable/ic_close_dark</item>
         <item name="colorPrimary">@color/grayDark</item>
         <item name="colorPrimaryDark">@color/lightBlack</item>
-        <item name="colorAccent">@color/teal</item>
+        <item name="colorAccent">@color/blueAccent</item>
     </style>
 
     <style name="GameNewTheme" parent="BaseTheme">

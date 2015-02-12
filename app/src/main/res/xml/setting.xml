@@ -1,5 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:npp="http://schemas.android.com/apk/res-auto">
+    xmlns:npp="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/pref_header_general">
         <EditTextPreference
@@ -39,21 +39,13 @@
             android:title="@string/pref_title_orientation"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_configuration">
-        <com.tnt.scoreboard.NumberPickerPreference
-            android:defaultValue="@integer/pref_value_starting_score"
-            android:key="@string/pref_key_starting_score"
-            android:summary="@string/pref_summary_starting_score"
-            android:title="@string/pref_title_starting_score"
-            npp:increment="@integer/pref_increment_starting_score"
-            npp:maxValue="@integer/pref_max_starting_score"
-            npp:minValue="@integer/pref_min_starting_score"/>
-        <com.tnt.scoreboard.NumberPickerPreference
+        <com.tnt.scoreboard.NumberSeekerPreference
             android:defaultValue="@integer/pref_value_update_delay"
             android:key="@string/pref_key_update_delay"
             android:summary="@string/pref_summary_update_delay"
             android:title="@string/pref_title_update_delay"
-            npp:maxValue="@integer/pref_max_update_delay"
-            npp:minValue="@integer/pref_min_update_delay"/>
+            npp:dialogSummary="@string/pref_dialog_summary_update_delay"
+            npp:maxValue="@integer/pref_max_update_delay"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_about">
         <Preference

@@ -20,14 +20,15 @@ import java.util.List;
 public class GameViewHolder extends RecyclerView.ViewHolder {
 
     private final int mCheckColor;
+    private final TextDrawable.IBuilder mDrawableBuilder = TextDrawable.builder().round();
+    private final ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
+
     private ImageView mIcon;
     private ImageView mCheck;
     private TextView mPlayerName;
     private TextView mCurrentRound;
     private TextView mDateTime;
     private IOnGameClickListener mListener;
-    private TextDrawable.IBuilder mDrawableBuilder = TextDrawable.builder().round();
-    private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
     private boolean isCheckClick;
 
     public GameViewHolder(View itemView) {
@@ -85,8 +86,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
                     StringUtils.getInitial(context, players.get(0).getName()));
             String s2 = String.format("%s%s", players.size(),
                     StringUtils.getInitial(context, players.get(1).getName()));
-            mIcon.setImageDrawable(mDrawableBuilder.build(s1,
-                    mColorGenerator.getColor(s2)));
+            mIcon.setImageDrawable(mDrawableBuilder.build(s1, mColorGenerator.getColor(s2)));
             itemView.setSelected(false);
             mCheck.setVisibility(View.GONE);
         }

@@ -8,27 +8,46 @@ import java.util.List;
 public class Game extends Base implements Comparable<Game> {
 
     public static final String TABLE_NAME = "game";
+    public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_CREATED_DATE = "createdDate";
     public static final String COLUMN_NUMBER_OF_PLAYERS = "numberOfPlayers";
     public static final String COLUMN_CURRENT_ROUND_NUMBER = "currentRoundNumber";
+    public static final String COLUMN_FIRST_TO_WIN = "firstToWin";
+    public static final String COLUMN_INFINITE = "infinite";
+    public static final String COLUMN_ENDING_SCORE = "endingScore";
     public static final String COLUMN_STATE = "state";
     private int index;
+    private String title;
     private Date createDate;
     private long numberOfPlayers;
     private long currentRoundNumber;
+    private long endingScore;
+    private boolean firstToWin;
+    private boolean infinite;
     private State state;
     private List<Player> players;
 
-    public Game(long numberOfPlayers) {
+    public Game(String title, long numberOfPlayers, long endingScore,
+                boolean firstToWin, boolean infinite) {
+        this.title = title;
         this.numberOfPlayers = numberOfPlayers;
+        this.endingScore = endingScore;
+        this.firstToWin = firstToWin;
+        this.infinite = infinite;
         currentRoundNumber = 0;
         state = State.NORMAL;
     }
 
-    public Game(long id, long numberOfPlayers, long currentRoundNumber, Date createDate, State state) {
+    public Game(long id, String title, long numberOfPlayers, long currentRoundNumber,
+                long endingScore, boolean firstToWin, boolean infinite,
+                Date createDate, State state) {
         this.id = id;
+        this.title = title;
         this.numberOfPlayers = numberOfPlayers;
         this.currentRoundNumber = currentRoundNumber;
+        this.endingScore = endingScore;
+        this.firstToWin = firstToWin;
+        this.infinite = infinite;
         this.createDate = createDate;
         this.state = state;
     }
@@ -40,6 +59,14 @@ public class Game extends Base implements Comparable<Game> {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getCreateDate() {
@@ -62,8 +89,36 @@ public class Game extends Base implements Comparable<Game> {
         return currentRoundNumber;
     }
 
-    public void setCurrentRoundNumber(long currentRoundNumber) {
-        this.currentRoundNumber = currentRoundNumber;
+    public void incrementCurrentRoundNumber() {
+        this.currentRoundNumber++;
+    }
+
+    public void decrementCurrentRoundNumber() {
+        this.currentRoundNumber++;
+    }
+
+    public long getEndingScore() {
+        return endingScore;
+    }
+
+    public void setEndingScore(long endingScore) {
+        this.endingScore = endingScore;
+    }
+
+    public boolean isFirstToWin() {
+        return firstToWin;
+    }
+
+    public void setFirstToWin(boolean firstToWin) {
+        this.firstToWin = firstToWin;
+    }
+
+    public boolean isInfinite() {
+        return infinite;
+    }
+
+    public void setInfinite(boolean infinite) {
+        this.infinite = infinite;
     }
 
     public State getState() {

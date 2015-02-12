@@ -16,7 +16,7 @@ import com.tnt.scoreboard.dataAccess.GameDAO;
 import com.tnt.scoreboard.dataAccess.PlayerDAO;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
-import com.tnt.scoreboard.utils.BitmapUtils;
+import com.tnt.scoreboard.utils.DrawableUtils;
 import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
 
@@ -65,7 +65,7 @@ public abstract class BaseActivity extends ActionBarActivity
                 startActivity(intent);
                 return true;
             case R.id.action_help:
-                Bitmap bitmap = BitmapUtils.takeScreenShot(
+                Bitmap bitmap = DrawableUtils.takeScreenShot(
                         getWindow().getDecorView().getRootView());
                 FileUtils.saveBitmap(bitmap, HelpFeedbackActivity.SCREENSHOT);
                 intent = new Intent(this, HelpFeedbackActivity.class);
@@ -174,9 +174,11 @@ public abstract class BaseActivity extends ActionBarActivity
         return game;
     }
 
-    public Game addGame(List<Player> playerList) {
+    public Game addGame(String title, List<Player> playerList, long endingScore,
+                        boolean isFirstToWin, boolean isInfinite) {
         gameDAO.open();
-        Game game = gameDAO.create(new Game(playerList.size()));
+        Game game = gameDAO.create(new Game(title, playerList.size(), endingScore,
+                isFirstToWin, isInfinite));
         gameDAO.close();
         game.setPlayers(playerList);
 
@@ -211,6 +213,12 @@ public abstract class BaseActivity extends ActionBarActivity
             g.setState(state);
             gameDAO.update(g);
         }
+        gameDAO.close();
+    }
+
+    public void update(Game game) {
+        gameDAO.open();
+        gameDAO.update(game);
         gameDAO.close();
     }
     //</editor-fold>

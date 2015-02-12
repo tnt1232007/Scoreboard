@@ -26,20 +26,16 @@
 
     <string name="pref_header_configuration">Configuration</string>
 
-    <string name="pref_key_starting_score">starting_score</string>
-    <string name="pref_title_starting_score">Starting score</string>
-    <string name="pref_summary_starting_score">At %d point(s) for each player</string>
-    <integer name="pref_value_starting_score">0</integer>
-    <integer name="pref_min_starting_score">0</integer>
-    <integer name="pref_max_starting_score">100</integer>
-    <integer name="pref_increment_starting_score">5</integer>
-
     <string name="pref_key_update_delay">update_delay</string>
     <string name="pref_title_update_delay">Update delay</string>
     <string name="pref_summary_update_delay">For %d second(s) after modification</string>
+    <string name="pref_dialog_summary_update_delay">%d second(s)</string>
     <integer name="pref_value_update_delay">10</integer>
-    <integer name="pref_min_update_delay">1</integer>
     <integer name="pref_max_update_delay">30</integer>
+
+    <string name="pref_key_score_increment">score_increment</string>
+    <string name="pref_title_score_increment">Score increment</string>
+    <string name="pref_summary_score_increment">1 / 2 / 3</string>
 
     <string name="pref_header_about">About</string>
 

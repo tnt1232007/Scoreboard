@@ -34,13 +34,13 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case NavigationAdapter.TYPE_HEADER:
-                layout = inflater.inflate(R.layout.header_navigation, parent, false);
+                layout = inflater.inflate(R.layout.item_header, parent, false);
                 break;
             case NavigationAdapter.TYPE_ITEM:
                 layout = inflater.inflate(R.layout.item_navigation, parent, false);
                 break;
             case NavigationAdapter.TYPE_DIVIDER:
-                layout = inflater.inflate(R.layout.divider_navigation, parent, false);
+                layout = inflater.inflate(R.layout.divider_horizontal, parent, false);
                 break;
         }
         return new NavigationViewHolder(layout, viewType);
