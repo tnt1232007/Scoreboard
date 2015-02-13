@@ -91,6 +91,7 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, GameNewActivity.class);
                 mActivity.startActivityForResult(intent, NEW_GAME_REQUEST);
+                collapse();
             }
         });
 
@@ -145,6 +146,7 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
                 Intent intent = new Intent(mActivity, GameNewActivity.class);
                 intent.putExtra(Game.COLUMN_ID, game.getId());
                 mActivity.startActivityForResult(intent, NEW_GAME_REQUEST);
+                collapse();
             }
         });
         return button;

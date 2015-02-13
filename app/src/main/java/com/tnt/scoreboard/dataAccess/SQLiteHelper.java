@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.models.Score;
 import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.RandUtils;
 
@@ -20,13 +21,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Game.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Game.COLUMN_TITLE + " VARCHAR NOT NULL, "
             + Game.COLUMN_NUMBER_OF_PLAYERS + " INTEGER NOT NULL, "
-            + Game.COLUMN_CURRENT_ROUND_NUMBER + " INTEGER NOT NULL, "
+            + Game.COLUMN_NUMBER_OF_ROUNDS + " INTEGER NOT NULL, "
             + Game.COLUMN_ENDING_SCORE + " INTEGER NOT NULL, "
             + Game.COLUMN_FIRST_TO_WIN + " INTEGER NOT NULL, "
             + Game.COLUMN_INFINITE + " INTEGER NOT NULL, "
             + Game.COLUMN_STATE + " INTEGER NOT NULL, "
             + Game.COLUMN_CREATED_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP"
             + ");";
+
     private static final String CREATE_TABLE_PLAYER = "CREATE TABLE " + Player.TABLE_NAME + "("
             + Player.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Player.COLUMN_GAME_ID + " INTEGER NOT NULL, "
@@ -35,11 +37,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Player.COLUMN_COLOR + " INTEGER NOT NULL"
             + ");";
 
+    private static final String CREATE_TABLE_SCORE = "CREATE TABLE " + Score.TABLE_NAME + "("
+            + Score.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Score.COLUMN_PLAYER_ID + " INTEGER NOT NULL, "
+            + Score.COLUMN_SCORE + " INTEGER NOT NULL"
+            + ");";
+
     private static final String POPULATE_TABLE_GAME = "INSERT INTO " + Game.TABLE_NAME + " ("
             + Game.COLUMN_ID + ","
             + Game.COLUMN_TITLE + ","
             + Game.COLUMN_NUMBER_OF_PLAYERS + ","
-            + Game.COLUMN_CURRENT_ROUND_NUMBER + ","
+            + Game.COLUMN_NUMBER_OF_ROUNDS + ","
             + Game.COLUMN_ENDING_SCORE + ","
             + Game.COLUMN_FIRST_TO_WIN + ","
             + Game.COLUMN_INFINITE + ","
@@ -54,6 +62,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Player.COLUMN_COLOR
             + ") VALUES(?,?,?,?,?)";
 
+    private static final String POPULATE_TABLE_SCORE = "INSERT INTO " + Score.TABLE_NAME + " ("
+            + Score.COLUMN_ID + ","
+            + Score.COLUMN_PLAYER_ID + ","
+            + Score.COLUMN_SCORE
+            + ") VALUES(?,?,?)";
+
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -62,6 +76,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_GAME);
         db.execSQL(CREATE_TABLE_PLAYER);
+        db.execSQL(CREATE_TABLE_SCORE);
 
         generateRandomData(db);
     }
@@ -72,6 +87,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + Game.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Player.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Score.TABLE_NAME);
         onCreate(db);
     }
 
@@ -108,18 +124,29 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 -1499549, -12627531, -16728876, -7617718, -16121, -6381922, -10011977,
                 -16537100, -3285959, -43230, -10453621
         };
+        int gameId = 1, playerId = 1, scoreId = 1;
         int numOfGames = RandUtils.nextInt(20, 40);
-        for (int i = 0, k = 0; i < numOfGames; i++) {
+        for (int i = 0; i < numOfGames; i++, gameId++) {
             int numOfPlayers = RandUtils.nextInt(2, 8);
-            db.execSQL(POPULATE_TABLE_GAME, new Object[]{i + 1, "Poker", numOfPlayers,
-                    RandUtils.nextInt(1, 100), 1000, RandUtils.nextInt(0, 1),
+            int numOfRounds = RandUtils.nextInt(1, 100);
+            db.execSQL(POPULATE_TABLE_GAME, new Object[]{
+                    gameId, "Poker", numOfPlayers,
+                    numOfRounds, 1000, RandUtils.nextInt(0, 1),
                     RandUtils.nextInt(0, 1), RandUtils.nextInt(0, 2)});
 
-            for (int j = 0; j < numOfPlayers; j++, k++) {
-                db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{k + 1, i + 1,
+            for (int j = 0; j < numOfPlayers; j++, playerId++) {
+                db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{
+                        playerId, gameId,
                         RandUtils.nextItem(names),
-                        RandUtils.nextInt(-1000, 1000),
+                        RandUtils.nextInt(-100, 100),
                         RandUtils.nextItem(colors)});
+
+                for (int l = 0; l < numOfRounds; l++, scoreId++) {
+                    db.execSQL(POPULATE_TABLE_SCORE, new Object[]{
+                            scoreId, playerId,
+                            RandUtils.nextInt(-3, 3)
+                    });
+                }
             }
         }
     }

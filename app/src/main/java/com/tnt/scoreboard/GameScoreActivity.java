@@ -29,7 +29,7 @@ public class GameScoreActivity extends BaseActivity {
 
         mPlayerAdapterAdapter = new PlayerAdapter(mGame.getPlayers());
         mRecyclerView.setAdapter(mPlayerAdapterAdapter);
-        setTitle(ROUND + mGame.getCurrentRoundNumber());
+        setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
     }
 
     @Override
@@ -44,14 +44,14 @@ public class GameScoreActivity extends BaseActivity {
                 onBackPressed();
                 return true;
             case R.id.action_previous:
-                mGame.decrementCurrentRoundNumber();
-                update(mGame);
-                setTitle(ROUND + mGame.getCurrentRoundNumber());
+                mGame.decrementRounds();
+                updateGame(mGame);
+                setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
                 return true;
             case R.id.action_next:
-                mGame.incrementCurrentRoundNumber();
-                update(mGame);
-                setTitle(ROUND + mGame.getCurrentRoundNumber());
+                mGame.incrementCurrentRound();
+                updateGame(mGame);
+                setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

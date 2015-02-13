@@ -13,7 +13,7 @@ public class GameDAO extends BaseDAO<Game> {
                 Game.COLUMN_ID,
                 Game.COLUMN_TITLE,
                 Game.COLUMN_NUMBER_OF_PLAYERS,
-                Game.COLUMN_CURRENT_ROUND_NUMBER,
+                Game.COLUMN_NUMBER_OF_ROUNDS,
                 Game.COLUMN_ENDING_SCORE,
                 Game.COLUMN_FIRST_TO_WIN,
                 Game.COLUMN_INFINITE,
@@ -27,7 +27,7 @@ public class GameDAO extends BaseDAO<Game> {
         ContentValues values = new ContentValues();
         values.put(Game.COLUMN_TITLE, game.getTitle());
         values.put(Game.COLUMN_NUMBER_OF_PLAYERS, game.getNumberOfPlayers());
-        values.put(Game.COLUMN_CURRENT_ROUND_NUMBER, game.getCurrentRoundNumber());
+        values.put(Game.COLUMN_NUMBER_OF_ROUNDS, game.getNumberOfRounds());
         values.put(Game.COLUMN_ENDING_SCORE, game.getEndingScore());
         values.put(Game.COLUMN_FIRST_TO_WIN, game.isFirstToWin() ? 1 : 0);
         values.put(Game.COLUMN_INFINITE, game.isInfinite() ? 1 : 0);
@@ -41,7 +41,7 @@ public class GameDAO extends BaseDAO<Game> {
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Game.COLUMN_TITLE)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_NUMBER_OF_PLAYERS)),
-                cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_CURRENT_ROUND_NUMBER)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_NUMBER_OF_ROUNDS)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_ENDING_SCORE)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(Game.COLUMN_FIRST_TO_WIN)) != 0,
                 cursor.getInt(cursor.getColumnIndexOrThrow(Game.COLUMN_INFINITE)) != 0,

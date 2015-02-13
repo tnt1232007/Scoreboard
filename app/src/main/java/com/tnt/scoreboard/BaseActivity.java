@@ -14,8 +14,10 @@ import android.view.MenuItem;
 
 import com.tnt.scoreboard.dataAccess.GameDAO;
 import com.tnt.scoreboard.dataAccess.PlayerDAO;
+import com.tnt.scoreboard.dataAccess.ScoreDAO;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.models.Score;
 import com.tnt.scoreboard.utils.DrawableUtils;
 import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
@@ -32,8 +34,9 @@ public abstract class BaseActivity extends ActionBarActivity
     private static final String DESC = " DESC";
     private static final String EQUALS = " = ";
     protected Toolbar mToolbar;
-    private GameDAO gameDAO;
-    private PlayerDAO playerDAO;
+    private GameDAO mGameDAO;
+    private PlayerDAO mPlayerDAO;
+    private ScoreDAO mScoreDAO;
 
     protected void onCreate(Bundle savedInstanceState, int layoutId) {
         PreferenceManager.setDefaultValues(this, R.xml.setting, false);
@@ -47,8 +50,9 @@ public abstract class BaseActivity extends ActionBarActivity
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        gameDAO = new GameDAO(this);
-        playerDAO = new PlayerDAO(this);
+        mGameDAO = new GameDAO(this);
+        mPlayerDAO = new PlayerDAO(this);
+        mScoreDAO = new ScoreDAO(this);
     }
 
     public boolean onCreateOptionsMenu(Menu menu, int layoutId) {
@@ -120,17 +124,17 @@ public abstract class BaseActivity extends ActionBarActivity
 
     //<editor-fold desc="Data access wrapper">
     public List<Game> getRecentGameList(int limit) {
-        gameDAO.open();
-        List<Game> games = gameDAO.get(null, null, null, null,
+        mGameDAO.open();
+        List<Game> games = mGameDAO.get(null, null, null, null,
                 Game.COLUMN_CREATED_DATE + DESC, null);
-        gameDAO.close();
+        mGameDAO.close();
 
-        playerDAO.open();
+        mPlayerDAO.open();
         for (int i = 0; i < games.size(); i++) {
             Game game = games.get(i);
-            game.setPlayers(playerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
+            game.setPlayers(mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
         }
-        playerDAO.close();
+        mPlayerDAO.close();
 
         TreeSet<Game> treeSet = new TreeSet<>(new Comparator<Game>() {
             @Override
@@ -148,78 +152,76 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     public List<Game> getGameList(Game.State state) {
-        gameDAO.open();
-        List<Game> games = gameDAO.get(Game.COLUMN_STATE + EQUALS + state.ordinal());
-        gameDAO.close();
+        mGameDAO.open();
+        List<Game> games = mGameDAO.get(Game.COLUMN_STATE + EQUALS + state.ordinal());
+        mGameDAO.close();
 
-        playerDAO.open();
+        mPlayerDAO.open();
         for (int i = 0; i < games.size(); i++) {
             Game game = games.get(i);
-            game.setPlayers(playerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
+            game.setPlayers(mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
         }
-        playerDAO.close();
+        mPlayerDAO.close();
         return games;
     }
 
     public Game getGame(long gameId) {
-        gameDAO.open();
-        Game game = gameDAO.get(gameId);
-        gameDAO.close();
+        mGameDAO.open();
+        Game game = mGameDAO.get(gameId);
+        mGameDAO.close();
 
         if (game == null) return null;
 
-        playerDAO.open();
-        game.setPlayers(playerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
-        playerDAO.close();
+        mPlayerDAO.open();
+        game.setPlayers(mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
+        mPlayerDAO.close();
         return game;
     }
 
     public Game addGame(String title, List<Player> playerList, long endingScore,
                         boolean isFirstToWin, boolean isInfinite) {
-        gameDAO.open();
-        Game game = gameDAO.create(new Game(title, playerList.size(), endingScore,
+        mGameDAO.open();
+        Game game = mGameDAO.create(new Game(title, playerList.size(), endingScore,
                 isFirstToWin, isInfinite));
-        gameDAO.close();
+        mGameDAO.close();
         game.setPlayers(playerList);
 
-        playerDAO.open();
+        mPlayerDAO.open();
         for (Player p : playerList) {
             p.setGameId(game.getId());
-            p.setId(playerDAO.create(p).getId());
+            p.setId(mPlayerDAO.create(p).getId());
         }
-        playerDAO.close();
+        mPlayerDAO.close();
         return game;
     }
 
     public void deleteGames(List<Game> gameList) {
-        playerDAO.open();
+        mPlayerDAO.open();
         for (Game g : gameList) {
             for (Player p : g.getPlayers()) {
-                playerDAO.delete(p.getId());
+                mPlayerDAO.delete(p.getId());
             }
         }
-        playerDAO.close();
+        mPlayerDAO.close();
 
-        gameDAO.open();
+        mGameDAO.open();
         for (Game g : gameList) {
-            gameDAO.delete(g.getId());
+            mGameDAO.delete(g.getId());
         }
-        gameDAO.close();
+        mGameDAO.close();
     }
 
-    public void changeState(List<Game> gameList, Game.State state) {
-        gameDAO.open();
-        for (Game g : gameList) {
-            g.setState(state);
-            gameDAO.update(g);
-        }
-        gameDAO.close();
+    public void updateGame(Game game) {
+        mGameDAO.open();
+        mGameDAO.update(game);
+        mGameDAO.close();
     }
 
-    public void update(Game game) {
-        gameDAO.open();
-        gameDAO.update(game);
-        gameDAO.close();
+    public List<Score> getScoreList(Player player) {
+        mScoreDAO.open();
+        List<Score> scores = mScoreDAO.get(Score.COLUMN_PLAYER_ID + EQUALS + player.getId());
+        mScoreDAO.close();
+        return scores;
     }
     //</editor-fold>
 }

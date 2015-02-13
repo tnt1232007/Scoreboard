@@ -100,6 +100,7 @@ public class GameNewActivity extends BaseActivity {
             mIsInfinite.setChecked(game.isInfinite());
             mIsFirstToWin.setChecked(game.isFirstToWin());
         }
+        mToolbar.setNavigationIcon(R.drawable.ic_close_dark);
     }
 
     private void addNewPlayerFragment(String playerName, int color, boolean removable, boolean animate) {
@@ -209,7 +210,7 @@ public class GameNewActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 new AlertDialog.Builder(this)
-                        .setMessage("Current configuration will be lost.\nAre you sure to quit?")
+                        .setMessage("Dismiss and go home?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

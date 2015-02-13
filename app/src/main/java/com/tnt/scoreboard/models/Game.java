@@ -11,7 +11,7 @@ public class Game extends Base implements Comparable<Game> {
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_CREATED_DATE = "createdDate";
     public static final String COLUMN_NUMBER_OF_PLAYERS = "numberOfPlayers";
-    public static final String COLUMN_CURRENT_ROUND_NUMBER = "currentRoundNumber";
+    public static final String COLUMN_NUMBER_OF_ROUNDS = "numberOfRounds";
     public static final String COLUMN_FIRST_TO_WIN = "firstToWin";
     public static final String COLUMN_INFINITE = "infinite";
     public static final String COLUMN_ENDING_SCORE = "endingScore";
@@ -20,7 +20,7 @@ public class Game extends Base implements Comparable<Game> {
     private String title;
     private Date createDate;
     private long numberOfPlayers;
-    private long currentRoundNumber;
+    private long numberOfRounds;
     private long endingScore;
     private boolean firstToWin;
     private boolean infinite;
@@ -34,17 +34,17 @@ public class Game extends Base implements Comparable<Game> {
         this.endingScore = endingScore;
         this.firstToWin = firstToWin;
         this.infinite = infinite;
-        currentRoundNumber = 0;
+        numberOfRounds = 0;
         state = State.NORMAL;
     }
 
-    public Game(long id, String title, long numberOfPlayers, long currentRoundNumber,
+    public Game(long id, String title, long numberOfPlayers, long numberOfRounds,
                 long endingScore, boolean firstToWin, boolean infinite,
                 Date createDate, State state) {
         this.id = id;
         this.title = title;
         this.numberOfPlayers = numberOfPlayers;
-        this.currentRoundNumber = currentRoundNumber;
+        this.numberOfRounds = numberOfRounds;
         this.endingScore = endingScore;
         this.firstToWin = firstToWin;
         this.infinite = infinite;
@@ -85,16 +85,16 @@ public class Game extends Base implements Comparable<Game> {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public long getCurrentRoundNumber() {
-        return currentRoundNumber;
+    public long getNumberOfRounds() {
+        return numberOfRounds;
     }
 
-    public void incrementCurrentRoundNumber() {
-        this.currentRoundNumber++;
+    public void incrementCurrentRound() {
+        this.numberOfRounds++;
     }
 
-    public void decrementCurrentRoundNumber() {
-        this.currentRoundNumber++;
+    public void decrementRounds() {
+        this.numberOfRounds++;
     }
 
     public long getEndingScore() {

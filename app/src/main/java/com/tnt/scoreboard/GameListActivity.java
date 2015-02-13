@@ -36,8 +36,6 @@ public class GameListActivity extends BaseActivity implements
         ActionMode.Callback,
         com.nispok.snackbar.listeners.ActionClickListener {
 
-    public static final String ACTION = "action";
-    public static final String SCREEN = "screen";
     public static final int RECENT_GAMES_NUM = 3;
 
     private ActionMode mActionMode;
@@ -234,19 +232,19 @@ public class GameListActivity extends BaseActivity implements
                         .setNegativeButton("No", dialogListener).show();
                 return true;
             case R.id.action_archive:
-                changeState(selectedGames, Game.State.ARCHIVE);
+                updateGameState(selectedGames, Game.State.ARCHIVE);
                 snackbar.text(count + " archived");
                 break;
             case R.id.action_unarchive:
-                changeState(selectedGames, Game.State.NORMAL);
+                updateGameState(selectedGames, Game.State.NORMAL);
                 snackbar.text(count + " unarchived");
                 break;
             case R.id.action_delete:
-                changeState(selectedGames, Game.State.DELETE);
+                updateGameState(selectedGames, Game.State.DELETE);
                 snackbar.text(count + " moved to Trash");
                 break;
             case R.id.action_restore:
-                changeState(selectedGames, Game.State.NORMAL);
+                updateGameState(selectedGames, Game.State.NORMAL);
                 snackbar.text(count + " restored");
                 break;
         }
@@ -272,16 +270,16 @@ public class GameListActivity extends BaseActivity implements
         List<Game> mUndoGames = mGameAdapter.getUndoItems();
         switch ((int) snackbar.getTag()) {
             case R.id.action_archive:
-                changeState(mUndoGames, Game.State.NORMAL);
+                updateGameState(mUndoGames, Game.State.NORMAL);
                 break;
             case R.id.action_unarchive:
-                changeState(mUndoGames, Game.State.ARCHIVE);
+                updateGameState(mUndoGames, Game.State.ARCHIVE);
                 break;
             case R.id.action_delete:
-                changeState(mUndoGames, Game.State.NORMAL);
+                updateGameState(mUndoGames, Game.State.NORMAL);
                 break;
             case R.id.action_restore:
-                changeState(mUndoGames, Game.State.DELETE);
+                updateGameState(mUndoGames, Game.State.DELETE);
                 break;
         }
         mGameAdapter.add(mUndoGames);
@@ -304,6 +302,13 @@ public class GameListActivity extends BaseActivity implements
         ((ImageView) findViewById(R.id.emptyImage)).setImageResource(screen.EMPTY_BACKGROUND);
         ((TextView) findViewById(R.id.emptyHeader)).setText(screen.EMPTY_HEADER);
         ((TextView) findViewById(R.id.emptyText)).setText(screen.EMPTY_TEXT);
+    }
+
+    private void updateGameState(List<Game> gameList, Game.State state) {
+        for (Game g : gameList) {
+            g.setState(state);
+            updateGame(g);
+        }
     }
 
     //<editor-fold desc="TODO: Animate toolbar color change">

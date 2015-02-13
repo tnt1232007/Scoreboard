@@ -26,7 +26,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     private ImageView mIcon;
     private ImageView mCheck;
     private TextView mPlayerName;
-    private TextView mCurrentRound;
+    private TextView mNumberOfRounds;
     private TextView mDateTime;
     private IOnGameClickListener mListener;
     private boolean isCheckClick;
@@ -36,7 +36,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         mIcon = (ImageView) itemView.findViewById(R.id.icon);
         mCheck = (ImageView) itemView.findViewById(R.id.check);
         mPlayerName = (TextView) itemView.findViewById(R.id.playerName);
-        mCurrentRound = (TextView) itemView.findViewById(R.id.currentRound);
+        mNumberOfRounds = (TextView) itemView.findViewById(R.id.numberOfRounds);
         mDateTime = (TextView) itemView.findViewById(R.id.dateTime);
         mCheckColor = itemView.getContext().getResources().getColor(R.color.grayDark);
 
@@ -66,7 +66,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     public void updateData(Game game) {
         if (game == null) return;
         mPlayerName.setText(StringUtils.join(game.getPlayers(), ", "));
-        mCurrentRound.setText("Round " + game.getCurrentRoundNumber());
+        mNumberOfRounds.setText(game.getNumberOfRounds() + " Rounds");
         mDateTime.setText(DateUtils.formatDateTime(
                 mDateTime.getContext(), game.getCreateDate().getTime(),
                 DateUtils.FORMAT_ABBREV_ALL
