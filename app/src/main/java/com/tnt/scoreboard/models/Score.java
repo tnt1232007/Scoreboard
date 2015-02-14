@@ -40,8 +40,7 @@ public class Score extends Base {
     public boolean equals(Object o) {
         return this == o
                 || !(o == null || getClass() != o.getClass())
-                && id == ((Score) o).getId();
-
+                && id == ((Score) o).id;
     }
 
     @Override

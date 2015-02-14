@@ -23,21 +23,21 @@ import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
 import com.tnt.scoreboard.utils.PrefUtils;
 
-import java.util.List;
-
 public class PlayerViewHolder extends RecyclerView.ViewHolder {
 
-    private final ImageView mAvatar, mIncrementScore;
+    private final ImageView mAvatar, mRankImage, mIncrementScore;
     private final Button mButton0, mButton1, mButton2, mButton3;
     private final Context mContext;
-    private final CountDownTimer mCountdown;
-    private final TextView mCurrentRank, mPlayerName, mTotalScore;
+    private final TextView mRankText, mPlayerName, mTotalScore;
     private final ProgressBar mDelayProgress, mScoreProgress;
     private final TextDrawable.IBuilder mDrawableBuilder = TextDrawable.builder()
             .beginConfig().bold().endConfig().round();
     private final RecyclerView mRecyclerView;
     private final ToggleButton mToggle;
-    private int m0, m1, m2, m3, mGreen, mRed, mScore;
+    private final CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener;
+    private final int mGreen, mRed;
+    private CountDownTimer mCountdown;
+    private int m0, m1, m2, m3, mScore, mUpdateDelay = -1;
     private IOnScoreUpdateListener mListener;
     private long mPlayerId;
 
@@ -48,9 +48,10 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
         mRed = r.getColor(R.color.red);
         mContext = itemView.getContext();
         mPlayerName = (TextView) itemView.findViewById(R.id.playerName);
-        mCurrentRank = (TextView) itemView.findViewById(R.id.currentRank);
+        mRankText = (TextView) itemView.findViewById(R.id.currentRank);
         mTotalScore = (TextView) itemView.findViewById(R.id.totalScore);
         mAvatar = (ImageView) itemView.findViewById(R.id.avatar);
+        mRankImage = (ImageView) itemView.findViewById(R.id.rank);
         mScoreProgress = ((ProgressBar) itemView.findViewById(R.id.scoreProgress));
         mIncrementScore = ((ImageView) itemView.findViewById(R.id.incrementScore));
         mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView);
@@ -60,39 +61,19 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
         mButton1 = (Button) itemView.findViewById(R.id.btn1);
         mButton2 = (Button) itemView.findViewById(R.id.btn2);
         mButton3 = (Button) itemView.findViewById(R.id.btn3);
-        m0 = PrefUtils.getScore0(mContext);
-        m1 = PrefUtils.getScore1(mContext);
-        m2 = PrefUtils.getScore2(mContext);
-        m3 = PrefUtils.getScore3(mContext);
 
-        final int updateDelay = PrefUtils.getUpdateDelay(mContext) * 1000;
-        mDelayProgress.setMax(updateDelay);
-        mCountdown = new CountDownTimer(updateDelay, 10) {
+        mOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                mDelayProgress.setProgress((int) (updateDelay - millisUntilFinished));
-            }
-
-            @Override
-            public void onFinish() {
-                finishCountdown(updateDelay);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                itemView.findViewById(R.id.footerLayout).setSelected(isChecked);
+                String sign = isChecked ? "-" : "+";
+                mButton0.setText((m0 == 0 ? "" : sign) + m0);
+                mButton1.setText((m1 == 0 ? "" : sign) + m1);
+                mButton2.setText((m2 == 0 ? "" : sign) + m2);
+                mButton3.setText((m3 == 0 ? "" : sign) + m3);
             }
         };
-
-        CompoundButton.OnCheckedChangeListener onCheckedChangeListener =
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        itemView.findViewById(R.id.footerLayout).setSelected(isChecked);
-                        String sign = isChecked ? "-" : "+";
-                        mButton0.setText((m0 == 0 ? "" : sign) + m0);
-                        mButton1.setText((m1 == 0 ? "" : sign) + m1);
-                        mButton2.setText((m2 == 0 ? "" : sign) + m2);
-                        mButton3.setText((m3 == 0 ? "" : sign) + m3);
-                    }
-                };
-        mToggle.setOnCheckedChangeListener(onCheckedChangeListener);
-        onCheckedChangeListener.onCheckedChanged(null, false);
+        mToggle.setOnCheckedChangeListener(mOnCheckedChangeListener);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -115,11 +96,12 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
         mButton1.setOnLongClickListener(onLongClickListener);
         mButton2.setOnLongClickListener(onLongClickListener);
         mButton3.setOnLongClickListener(onLongClickListener);
+
         mIncrementScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCountdown.cancel();
-                finishCountdown(updateDelay);
+                finishCountdown();
             }
         });
         itemView.findViewById(R.id.btnClear).setOnClickListener(new View.OnClickListener() {
@@ -158,6 +140,35 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
     public void updateData(Player player, int rank, int percent) {
         if (player == null) return;
         mPlayerId = player.getId();
+        updateRank(rank);
+
+        m0 = PrefUtils.getScore0(mContext);
+        m1 = PrefUtils.getScore1(mContext);
+        m2 = PrefUtils.getScore2(mContext);
+        m3 = PrefUtils.getScore3(mContext);
+        mOnCheckedChangeListener.onCheckedChanged(null, mToggle.isChecked());
+
+        int newUpdateDelay = PrefUtils.getUpdateDelay(mContext) * 1000;
+        if (mUpdateDelay != newUpdateDelay) {
+            mUpdateDelay = newUpdateDelay;
+            if (mCountdown != null)
+                mCountdown.cancel();
+            mDelayProgress.setProgress(0);
+            mDelayProgress.setMax(mUpdateDelay);
+            mScore = 0;
+            show(false);
+            mCountdown = new CountDownTimer(mUpdateDelay, 10) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    mDelayProgress.setProgress((int) (mUpdateDelay - millisUntilFinished));
+                }
+
+                @Override
+                public void onFinish() {
+                    finishCountdown();
+                }
+            };
+        }
 
         String name = player.getName();
         String initial = String.valueOf(name.charAt(0));
@@ -167,7 +178,6 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
         mAvatar.setBackground(mDrawableBuilder.build(initial, color));
         mPlayerName.setText(rest);
         mPlayerName.setTextColor(color);
-        mCurrentRank.setText(getRankText(rank));
         mTotalScore.setText(String.valueOf(score));
         mTotalScore.setSelected(score < 0);
         mScoreProgress.setProgress(Math.abs(percent));
@@ -179,13 +189,10 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
             mScoreProgress.getProgressDrawable().setColorFilter(mRed, PorterDuff.Mode.SRC_IN);
         }
 
-        List<Score> scoreList = player.getScoreList();
-        int end = scoreList.size();
-        int start = end < 5 ? 0 : end - 5;
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(new ScoreAdapter(scoreList.subList(start, end)));
+        mRecyclerView.setAdapter(new ScoreAdapter(player.getScoreList()));
     }
 
     private void startCountdown(View button, boolean isLongClick) {
@@ -202,13 +209,18 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
 
         mIncrementScore.setBackground(mDrawableBuilder.build(
                 (mScore > 0 ? "+" : "") + mScore, mScore >= 0 ? mGreen : mRed));
-        mCountdown.cancel();
-        mCountdown.start();
         show(true);
+
+        if (mUpdateDelay != 0) {
+            mCountdown.cancel();
+            mCountdown.start();
+        } else {
+            finishCountdown();
+        }
     }
 
-    private void finishCountdown(int updateDelay) {
-        mDelayProgress.setProgress(updateDelay);
+    private void finishCountdown() {
+        mDelayProgress.setProgress(mUpdateDelay);
         if (mListener != null) {
             mListener.onAdded(new Score(mPlayerId, mScore));
             mScore = 0;
@@ -217,32 +229,48 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
         show(false);
     }
 
-    private void show(boolean visible) {
+    private void show(final boolean visible) {
         final float alpha = visible ? 1f : 0f;
         final int value = (visible ? -70 : 0);
         int firstDelay = visible ? 100 : 0;
         int secondDelay = visible ? 0 : 100;
-        mIncrementScore.animate().setStartDelay(firstDelay).alpha(alpha).start();
+        mIncrementScore.animate().setStartDelay(firstDelay).alpha(alpha)
+                .withStartAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (visible)
+                            mIncrementScore.setVisibility(View.VISIBLE);
+                    }
+                })
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!visible)
+                            mIncrementScore.setVisibility(View.INVISIBLE);
+                    }
+                }).start();
         mTotalScore.animate().setStartDelay(secondDelay).x(value).start();
     }
 
-    private String getRankText(int rank) {
-        String msg;
+    private void updateRank(int rank) {
+        String s;
+        mRankImage.setVisibility(View.INVISIBLE);
         switch (rank) {
             case 1:
-                msg = "st";
+                s = "st";
+                mRankImage.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                msg = "nd";
+                s = "nd";
                 break;
             case 3:
-                msg = "rd";
+                s = "rd";
                 break;
             default:
-                msg = "th";
+                s = "th";
                 break;
         }
-        return rank + msg + " place";
+        mRankText.setText(rank + s + " place");
     }
 
     public void setListener(IOnScoreUpdateListener listener) {

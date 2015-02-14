@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ScoreAdapter extends RecyclerView.Adapter<ScoreViewHolder> {
 
+    public static final int SIZE = 5;
     private List<Score> mScoreList;
 
     public ScoreAdapter(List<Score> scoreList) {
@@ -27,12 +28,13 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreViewHolder> {
 
     @Override
     public void onBindViewHolder(ScoreViewHolder holder, int position) {
-        Score score = mScoreList.get(position);
-        holder.updateData(score, position == mScoreList.size() - 1);
+        int index = mScoreList.size() - getItemCount() + position;
+        Score score = mScoreList.get(index);
+        holder.updateData(score, index, index == mScoreList.size() - 1);
     }
 
     @Override
     public int getItemCount() {
-        return mScoreList.size();
+        return mScoreList.size() < SIZE ? mScoreList.size() : SIZE;
     }
 }

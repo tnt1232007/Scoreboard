@@ -34,9 +34,25 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:contentDescription="@string/default_image"
                     tools:background="?android:attr/colorPrimary" />
+
+                <ImageView
+                    android:id="@+id/rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/avatar"
+                    android:layout_alignLeft="@+id/avatar"
+                    android:layout_alignRight="@+id/avatar"
+                    android:layout_alignTop="@+id/avatar"
+                    android:layout_marginBottom="-9dp"
+                    android:layout_marginLeft="-8dp"
+                    android:layout_marginRight="-8dp"
+                    android:layout_marginTop="-6dp"
+                    android:contentDescription="@string/default_image"
+                    android:src="@drawable/ic_oliver"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/playerName"
@@ -115,7 +131,7 @@
             android:id="@+id/delayProgress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp" />
+            android:layout_height="2dp" />
 
         <LinearLayout
             android:id="@+id/footerLayout"

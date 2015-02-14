@@ -81,12 +81,12 @@ public class Player extends Base implements Comparable<Player> {
     public boolean equals(Object o) {
         return this == o
                 || !(o == null || getClass() != o.getClass())
-                && name.equals(((Player) o).name);
+                && id == ((Player) o).id;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return String.valueOf(id).hashCode();
     }
 
     @Override

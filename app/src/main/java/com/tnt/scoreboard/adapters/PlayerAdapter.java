@@ -43,9 +43,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
         holder.setListener(new PlayerViewHolder.IOnScoreUpdateListener() {
             @Override
             public void onAdded(Score score) {
+                score = mListener.onAdded(player, score);
                 player.getScoreList().add(score);
                 player.setScore(player.getScore() + score.getScore());
-                mListener.onAdded(player, score);
                 mListener.onUpdated(notifyAndGetMaxRound());
             }
 
@@ -90,7 +90,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
             }
         }
         long result = (long) Math.pow(10, Math.ceil(Math.log10(max)));
-        if (result >= mEndingScore) {
+        if (max >= mEndingScore) {
             if (!mIsInfinite)
                 mListener.onEnded(championList);
             return result;
@@ -113,7 +113,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
     }
 
     public interface IOnScoreUpdateListener {
-        public void onAdded(Player player, Score score);
+        public Score onAdded(Player player, Score score);
 
         public Score onDeleted(Player player);
 

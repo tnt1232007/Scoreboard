@@ -1,6 +1,7 @@
 package com.tnt.scoreboard;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +20,6 @@ import java.util.List;
 public class GameScoreActivity extends BaseActivity {
 
     public static final String ROUND = "Round ";
-    private RecyclerView mRecyclerView;
     private PlayerAdapter mPlayerAdapter;
     private Game mGame;
 
@@ -28,16 +28,16 @@ public class GameScoreActivity extends BaseActivity {
         super.onCreate(savedInstanceState, R.layout.activity_game_score);
         mGame = getGame(getIntent().getLongExtra(Game.COLUMN_ID, -1));
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mPlayerAdapter = new PlayerAdapter(mGame);
         mPlayerAdapter.setListener(new PlayerAdapter.IOnScoreUpdateListener() {
             @Override
-            public void onAdded(Player player, Score score) {
-                addScore(player, score);
+            public Score onAdded(Player player, Score score) {
+                return addScore(player, score);
             }
 
             @Override
@@ -59,7 +59,7 @@ public class GameScoreActivity extends BaseActivity {
                         .setMessage("Winner is " + StringUtils.join(championList, ","));
             }
         });
-        mRecyclerView.setAdapter(mPlayerAdapter);
+        recyclerView.setAdapter(mPlayerAdapter);
         setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
     }
 
@@ -76,6 +76,18 @@ public class GameScoreActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        super.onSharedPreferenceChanged(sharedPreferences, key);
+        if (key.equals(getString(R.string.pref_key_update_delay))
+                || key.equals(getString(R.string.pref_key_score_0))
+                || key.equals(getString(R.string.pref_key_score_1))
+                || key.equals(getString(R.string.pref_key_score_2))
+                || key.equals(getString(R.string.pref_key_score_3))) {
+            mPlayerAdapter.notifyDataSetChanged();
         }
     }
 }
