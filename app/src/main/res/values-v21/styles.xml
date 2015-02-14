@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="closeButtonIcon" format="reference"/>
+    <attr name="closeButtonIcon" format="reference" />
 
     <style name="BaseLightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="actionModeBackground">@color/grayDark</item>

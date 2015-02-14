@@ -15,7 +15,7 @@
         android:layout_marginStart="4dp"
         android:contentDescription="@string/default_image"
         android:padding="12dp"
-        tools:src="@drawable/ic_navi_settings"/>
+        tools:src="@drawable/ic_navi_settings" />
 
     <TextView
         android:id="@+id/text"
@@ -26,5 +26,5 @@
         android:fontFamily="sans-serif-medium"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
-        tools:text="Settings"/>
+        tools:text="Settings" />
 </RelativeLayout>

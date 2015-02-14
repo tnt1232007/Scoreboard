@@ -14,7 +14,7 @@
         android:layout_marginStart="12dp"
         android:contentDescription="@string/default_image"
         android:padding="6dp"
-        tools:src="?android:colorPrimary"/>
+        tools:src="?android:colorPrimary" />
 
     <ImageView
         android:id="@+id/check"
@@ -25,7 +25,7 @@
         android:layout_marginStart="12dp"
         android:contentDescription="@string/default_image"
         android:padding="12dp"
-        android:src="@drawable/ic_check_dark"/>
+        android:src="@drawable/ic_check_dark" />
 
     <TextView
         android:id="@+id/playerName"
@@ -38,7 +38,7 @@
         android:layout_toEndOf="@+id/icon"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        tools:text="TNT, KL12, LG, Sony"/>
+        tools:text="TNT, KL12, LG, Sony" />
 
     <TextView
         android:id="@+id/numberOfRounds"
@@ -47,7 +47,7 @@
         android:layout_alignStart="@+id/playerName"
         android:layout_below="@+id/playerName"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        tools:text="69 Rounds"/>
+        tools:text="69 Rounds" />
 
     <TextView
         android:id="@+id/dateTime"
@@ -57,5 +57,5 @@
         android:layout_below="@+id/playerName"
         android:layout_marginEnd="12dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        tools:text="Jan 26, 23:59"/>
+        tools:text="Jan 26, 23:59" />
 </RelativeLayout>

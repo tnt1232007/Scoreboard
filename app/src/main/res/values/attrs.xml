@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="minValue" format="integer"/>
-    <attr name="maxValue" format="integer"/>
+    <attr name="minValue" format="integer" />
+    <attr name="maxValue" format="integer" />
 
     <declare-styleable name="NumberPickerPreference">
 
-        <attr name="minValue"/>
-        <attr name="maxValue"/>
-        <attr name="increment" format="integer"/>
-        <attr name="infiniteScroll" format="boolean"/>
+        <attr name="minValue" />
+        <attr name="maxValue" />
+        <attr name="increment" format="integer" />
+        <attr name="infiniteScroll" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="NumberSeekerPreference">
 
-        <attr name="dialogSummary" format="string"/>
-        <attr name="maxValue"/>
+        <attr name="dialogSummary" format="string" />
+        <attr name="maxValue" />
     </declare-styleable>
 
-    <attr name="colorControlSelected" format="reference"/>
+    <attr name="colorControlSelected" format="reference" />
 </resources>

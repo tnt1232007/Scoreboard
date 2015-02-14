@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -33,7 +33,7 @@
                     android:layout_marginStart="16dp"
                     android:text="@string/title_label"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
                 <EditText
                     android:id="@+id/title"
@@ -43,7 +43,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:hint="@string/game_title"
-                    android:textSize="40sp"/>
+                    android:textSize="40sp" />
 
                 <LinearLayout
                     android:id="@+id/titleLayout"
@@ -61,7 +61,7 @@
                         android:layout_weight="1"
                         android:text="@string/starting_label"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
 
                     <TextView
@@ -70,7 +70,7 @@
                         android:layout_weight="1"
                         android:text="@string/ending_label"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -90,7 +90,7 @@
                         android:ems="7"
                         android:hint="@string/start_score"
                         android:inputType="number"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/end"
@@ -100,7 +100,7 @@
                         android:ems="7"
                         android:hint="@string/end_score"
                         android:inputType="number"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <Switch
@@ -115,7 +115,7 @@
                     android:text="@string/win_on"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textOff="@string/win_off"
-                    android:textOn="@string/win_on"/>
+                    android:textOn="@string/win_on" />
 
                 <include
                     android:id="@+id/divider"
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_below="@id/firstToWin"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp" />
 
                 <Switch
                     android:id="@+id/infinite"
@@ -137,7 +137,7 @@
                     android:text="@string/infinite_on"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textOff="@string/infinite_off"
-                    android:textOn="@string/infinite_on"/>
+                    android:textOn="@string/infinite_on" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/participant_label"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -160,7 +160,7 @@
                 android:animateLayoutChanges="true"
                 android:divider="@drawable/divider"
                 android:orientation="vertical"
-                android:showDividers="middle"/>
+                android:showDividers="middle" />
 
             <Button
                 android:id="@+id/newPlayerButton"
@@ -171,7 +171,7 @@
                 android:gravity="center_vertical|start"
                 android:paddingLeft="48dp"
                 android:paddingRight="48dp"
-                android:text="@string/text_new_player"/>
+                android:text="@string/text_new_player" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

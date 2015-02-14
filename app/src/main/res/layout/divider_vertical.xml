@@ -6,5 +6,5 @@
     <View
         android:layout_width="1dp"
         android:layout_height="fill_parent"
-        android:background="?attr/colorControlSelected"/>
+        android:background="?attr/colorControlSelected" />
 </RelativeLayout>

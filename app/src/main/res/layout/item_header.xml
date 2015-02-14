@@ -12,5 +12,5 @@
         android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
-        tools:text="Sections"/>
+        tools:text="Sections" />
 </RelativeLayout>
