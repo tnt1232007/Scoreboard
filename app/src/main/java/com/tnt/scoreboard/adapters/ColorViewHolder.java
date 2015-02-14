@@ -11,12 +11,9 @@ import com.tnt.scoreboard.utils.ColorUtils;
 
 public class ColorViewHolder {
 
-    private final int mTextColor;
-    private final int mTextHighlightColor;
-    private ImageView cover;
-    private ImageView colorIcon;
+    private final int mTextColor, mTextHighlightColor;
+    private ImageView cover, colorIcon, check;
     private TextView colorText;
-    private ImageView check;
 
     private int mColor;
     private IOnColorPickListener listener;

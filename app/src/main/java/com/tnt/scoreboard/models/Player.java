@@ -2,6 +2,8 @@ package com.tnt.scoreboard.models;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 public class Player extends Base implements Comparable<Player> {
 
     public static final String TABLE_NAME = "player";
@@ -14,6 +16,7 @@ public class Player extends Base implements Comparable<Player> {
     private String name;
     private long score;
     private long color;
+    private List<Score> scoreList;
 
     public Player(String name, long color, long score) {
         this.name = name;
@@ -59,6 +62,14 @@ public class Player extends Base implements Comparable<Player> {
 
     public void setColor(long color) {
         this.color = color;
+    }
+
+    public List<Score> getScoreList() {
+        return scoreList;
+    }
+
+    public void setScoreList(List<Score> scoreList) {
+        this.scoreList = scoreList;
     }
 
     @Override

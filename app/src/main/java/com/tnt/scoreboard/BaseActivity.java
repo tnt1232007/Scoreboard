@@ -156,12 +156,22 @@ public abstract class BaseActivity extends ActionBarActivity
         List<Game> games = mGameDAO.get(Game.COLUMN_STATE + EQUALS + state.ordinal());
         mGameDAO.close();
 
-        mPlayerDAO.open();
         for (int i = 0; i < games.size(); i++) {
             Game game = games.get(i);
-            game.setPlayers(mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
+            mPlayerDAO.open();
+            List<Player> players = mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId());
+            mPlayerDAO.close();
+
+            mScoreDAO.open();
+            for (int j = 0; j < players.size(); j++) {
+                Player player = players.get(j);
+                player.setScoreList(mScoreDAO.get(
+                        Score.COLUMN_PLAYER_ID + EQUALS + player.getId()));
+            }
+            mScoreDAO.close();
+
+            game.setPlayers(players);
         }
-        mPlayerDAO.close();
         return games;
     }
 
@@ -173,8 +183,18 @@ public abstract class BaseActivity extends ActionBarActivity
         if (game == null) return null;
 
         mPlayerDAO.open();
-        game.setPlayers(mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
+        List<Player> players = mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId());
         mPlayerDAO.close();
+
+        mScoreDAO.open();
+        for (int j = 0; j < players.size(); j++) {
+            Player player = players.get(j);
+            player.setScoreList(mScoreDAO.get(
+                    Score.COLUMN_PLAYER_ID + EQUALS + player.getId()));
+        }
+        mScoreDAO.close();
+
+        game.setPlayers(players);
         return game;
     }
 
@@ -217,11 +237,23 @@ public abstract class BaseActivity extends ActionBarActivity
         mGameDAO.close();
     }
 
-    public List<Score> getScoreList(Player player) {
+    public void addScore(Player player, Score score) {
         mScoreDAO.open();
-        List<Score> scores = mScoreDAO.get(Score.COLUMN_PLAYER_ID + EQUALS + player.getId());
+        mScoreDAO.create(score);
         mScoreDAO.close();
-        return scores;
+
+        mPlayerDAO.open();
+        mPlayerDAO.update(player);
+        mPlayerDAO.close();
+    }
+
+    public Score deleteScore(Player player) {
+        mScoreDAO.open();
+        List<Score> scoreList = mScoreDAO.get(Score.COLUMN_PLAYER_ID + EQUALS + player.getId());
+        Score score = scoreList.get(scoreList.size() - 1);
+        mScoreDAO.delete(score.getId());
+        mScoreDAO.close();
+        return score;
     }
     //</editor-fold>
 }

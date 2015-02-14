@@ -260,7 +260,7 @@ public class GameNewActivity extends BaseActivity {
         CharSequence text = textView.getText();
         text = text.length() == 0 ? textView.getHint() : text;
         if (aClass == String.class)
-            return aClass.cast(text);
+            return aClass.cast(String.valueOf(text));
         if (aClass == Integer.class)
             return aClass.cast(Integer.parseInt(String.valueOf(text)));
         if (aClass == Long.class)

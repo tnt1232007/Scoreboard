@@ -34,7 +34,7 @@ public class NumberPickerPreference extends DialogPreference {
         mIncrement = a.getInt(R.styleable.NumberPickerPreference_increment, INCREMENT);
         mInfiniteScroll = a.getBoolean(
                 R.styleable.NumberPickerPreference_infiniteScroll, INFINITE_SCROLL);
-        mInitialSummary = getSummary().toString();
+        mInitialSummary = getSummary() == null ? "%d" : getSummary().toString();
         a.recycle();
 
         setDialogLayoutResource(R.layout.pref_number_picker);

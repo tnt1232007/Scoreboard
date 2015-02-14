@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tnt.scoreboard.R;
+import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.models.Score;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,15 +16,16 @@ import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
 
+    private final long mEndingScore;
+    private final boolean mIsFirstToWin, mIsInfinite;
     private List<Player> mPlayerList;
-    private List<Player> mSortedList;
-    private int mMaxScore;
+    private IOnScoreUpdateListener mListener;
 
-    public PlayerAdapter(List<Player> playerList) {
-        this.mPlayerList = playerList;
-        mSortedList = new ArrayList<>(mPlayerList);
-        Collections.sort(mSortedList);
-        mMaxScore = getMaxScore();
+    public PlayerAdapter(Game game) {
+        this.mPlayerList = game.getPlayers();
+        mEndingScore = game.getEndingScore();
+        mIsFirstToWin = game.isFirstToWin();
+        mIsInfinite = game.isInfinite();
     }
 
     @Override
@@ -33,9 +36,30 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PlayerViewHolder holder, int position) {
-        Player player = mPlayerList.get(position);
-        holder.updateData(player, getRank(player), (int) (player.getScore() * 100 / mMaxScore));
+    public void onBindViewHolder(final PlayerViewHolder holder, final int position) {
+        final Player player = mPlayerList.get(position);
+        holder.updateData(player, getRank(player),
+                (int) (player.getScore() * 100 / getMaxScoreAndCheck()));
+        holder.setListener(new PlayerViewHolder.IOnScoreUpdateListener() {
+            @Override
+            public void onAdded(Score score) {
+                player.getScoreList().add(score);
+                player.setScore(player.getScore() + score.getScore());
+                mListener.onAdded(player, score);
+                mListener.onUpdated(notifyAndGetMaxRound());
+            }
+
+            @Override
+            public void onDeleted() {
+                if (player.getScoreList().size() == 0)
+                    return;
+
+                Score score = mListener.onDeleted(player);
+                player.getScoreList().remove(score);
+                player.setScore(player.getScore() - score.getScore());
+                mListener.onUpdated(notifyAndGetMaxRound());
+            }
+        });
     }
 
     @Override
@@ -44,17 +68,57 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
     }
 
     private int getRank(Player player) {
-        return mSortedList.indexOf(player) + 1;
+        List<Player> sortedList = new ArrayList<>(mPlayerList);
+        Collections.sort(sortedList);
+        if (!mIsFirstToWin)
+            Collections.reverse(sortedList);
+        return sortedList.indexOf(player) + 1;
     }
 
-    private int getMaxScore() {
+    private long getMaxScoreAndCheck() {
+        List<Integer> championList = new ArrayList<>();
         long max = mPlayerList.get(0).getScore();
+        championList.add(0);
         for (int i = 1; i < mPlayerList.size(); i++) {
             long score = mPlayerList.get(i).getScore();
-            if (max < score)
+            if (max < score) {
                 max = score;
+                championList.clear();
+                championList.add(i);
+            } else if (max == score) {
+                championList.add(i);
+            }
         }
-        int result = (int) Math.pow(10, Math.ceil(Math.log10(max)));
-        return result == 0 ? 100 : result;
+        long result = (long) Math.pow(10, Math.ceil(Math.log10(max)));
+        if (result >= mEndingScore) {
+            if (!mIsInfinite)
+                mListener.onEnded(championList);
+            return result;
+        } else return mEndingScore;
+    }
+
+    private int notifyAndGetMaxRound() {
+        int max = mPlayerList.get(0).getScoreList().size();
+        for (int i = 0; i < mPlayerList.size(); i++) {
+            notifyItemChanged(i);
+            int round = mPlayerList.get(i).getScoreList().size();
+            if (max < round)
+                max = round;
+        }
+        return max;
+    }
+
+    public void setListener(IOnScoreUpdateListener listener) {
+        mListener = listener;
+    }
+
+    public interface IOnScoreUpdateListener {
+        public void onAdded(Player player, Score score);
+
+        public Score onDeleted(Player player);
+
+        public void onUpdated(int round);
+
+        public void onEnded(List<Integer> championList);
     }
 }

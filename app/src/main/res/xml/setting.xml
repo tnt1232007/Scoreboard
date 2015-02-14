@@ -1,5 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:npp="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/pref_header_general">
         <EditTextPreference
@@ -10,13 +10,13 @@
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/pref_title_name"/>
+            android:title="@string/pref_title_name" />
         <SwitchPreference
             android:defaultValue="@bool/pref_value_name_format"
             android:key="@string/pref_key_name_format"
             android:summaryOff="@string/pref_off_name_format"
             android:summaryOn="@string/pref_on_name_format"
-            android:title="@string/pref_title_name_format"/>
+            android:title="@string/pref_title_name_format" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_appearance">
         <ListPreference
@@ -27,7 +27,7 @@
             android:negativeButtonText="Cancel"
             android:positiveButtonText="@null"
             android:summary="%s"
-            android:title="@string/pref_title_theme"/>
+            android:title="@string/pref_title_theme" />
         <ListPreference
             android:defaultValue="@string/pref_value_orientation"
             android:entries="@array/pref_entries_orientation"
@@ -36,7 +36,7 @@
             android:negativeButtonText="Cancel"
             android:positiveButtonText="@null"
             android:summary="%s"
-            android:title="@string/pref_title_orientation"/>
+            android:title="@string/pref_title_orientation" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_configuration">
         <com.tnt.scoreboard.NumberSeekerPreference
@@ -44,8 +44,36 @@
             android:key="@string/pref_key_update_delay"
             android:summary="@string/pref_summary_update_delay"
             android:title="@string/pref_title_update_delay"
-            npp:dialogSummary="@string/pref_dialog_summary_update_delay"
-            npp:maxValue="@integer/pref_max_update_delay"/>
+            app:dialogSummary="@string/pref_dialog_summary_update_delay"
+            app:maxValue="@integer/pref_max_update_delay" />
+        <com.tnt.scoreboard.NumberPickerPreference
+            android:defaultValue="@integer/pref_value_score_0"
+            android:key="@string/pref_key_score_0"
+            android:summary="@string/pref_summary_score"
+            android:title="@string/pref_title_score_0"
+            app:maxValue="@integer/pref_max_score"
+            app:minValue="@integer/pref_min_score" />
+        <com.tnt.scoreboard.NumberPickerPreference
+            android:defaultValue="@integer/pref_value_score_1"
+            android:key="@string/pref_key_score_1"
+            android:summary="@string/pref_summary_score"
+            android:title="@string/pref_title_score_1"
+            app:maxValue="@integer/pref_max_score"
+            app:minValue="@integer/pref_min_score" />
+        <com.tnt.scoreboard.NumberPickerPreference
+            android:defaultValue="@integer/pref_value_score_2"
+            android:key="@string/pref_key_score_2"
+            android:summary="@string/pref_summary_score"
+            android:title="@string/pref_title_score_2"
+            app:maxValue="@integer/pref_max_score"
+            app:minValue="@integer/pref_min_score" />
+        <com.tnt.scoreboard.NumberPickerPreference
+            android:defaultValue="@integer/pref_value_score_3"
+            android:key="@string/pref_key_score_3"
+            android:summary="@string/pref_summary_score"
+            android:title="@string/pref_title_score_3"
+            app:maxValue="@integer/pref_max_score"
+            app:minValue="@integer/pref_min_score" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_about">
         <Preference
@@ -56,14 +84,14 @@
                 android:data="@string/mailto_email">
                 <extra
                     android:name="android.intent.extra.TEXT"
-                    android:value="@string/email_content"/>
+                    android:value="@string/email_content" />
                 <extra
                     android:name="android.intent.extra.SUBJECT"
-                    android:value="@string/email_subject"/>
+                    android:value="@string/email_subject" />
             </intent>
         </Preference>
         <Preference
             android:key="@string/pref_key_version"
-            android:title="@string/pref_title_version"/>
+            android:title="@string/pref_title_version" />
     </PreferenceCategory>
 </PreferenceScreen>

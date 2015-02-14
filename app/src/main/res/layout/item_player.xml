@@ -36,7 +36,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:contentDescription="@string/default_image"
-                    tools:background="?android:attr/colorPrimary"/>
+                    tools:background="?android:attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/playerName"
@@ -47,7 +47,7 @@
                     android:layout_toEndOf="@+id/avatar"
                     android:fontFamily="sans-serif-medium"
                     android:textSize="24sp"
-                    tools:text="Albert"/>
+                    tools:text="Albert" />
 
                 <TextView
                     android:id="@+id/currentRank"
@@ -57,19 +57,7 @@
                     android:layout_alignStart="@+id/playerName"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="12sp"
-                    tools:text="1st place"/>
-
-                <TextView
-                    android:id="@+id/totalScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/playerName"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/selector"
-                    android:textSize="24sp"
-                    tools:text="0"/>
+                    tools:text="1st place" />
 
                 <com.github.siyamed.shapeimageview.BubbleImageView
                     android:id="@+id/incrementScore"
@@ -84,68 +72,70 @@
                     app:siArrowPosition="left"
                     app:siBorderColor="@color/blue"
                     app:siBorderWidth="6dp"
-                    tools:background="?android:attr/colorPrimary"/>
+                    tools:background="?android:attr/colorPrimary" />
 
                 <ProgressBar
-                    android:id="@+id/progressScore"
+                    android:id="@+id/scoreProgress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/currentRank"
                     android:layout_alignEnd="@id/incrementScore"
                     android:max="100"
-                    android:rotation="180"/>
+                    android:rotation="180" />
+
+                <TextView
+                    android:id="@+id/totalScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/playerName"
+                    android:layout_alignEnd="@id/scoreProgress"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="right"
+                    android:textColor="@color/selector"
+                    android:textSize="24sp"
+                    tools:text="0" />
             </RelativeLayout>
 
             <include
                 layout="@layout/divider_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
-            <LinearLayout
-                android:id="@+id/rightBar"
+            <view
+                android:id="@+id/recyclerView"
+                class="android.support.v7.widget.RecyclerView"
                 android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    tools:text="+3"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    tools:text="+2"/>
-            </LinearLayout>
         </LinearLayout>
 
-        <include
-            layout="@layout/divider_horizontal"
+        <ProgressBar
+            android:id="@+id/delayProgress"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="4dp" />
 
         <LinearLayout
             android:id="@+id/footerLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnC"
+                android:id="@+id/btnClear"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:background="?android:attr/selectableItemBackground"
                 android:text="@string/button_clear"
-                android:textColor="@color/selector"/>
+                android:textColor="?android:attr/colorAccent" />
 
             <include
                 layout="@layout/divider_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <ToggleButton
                 android:id="@+id/toggle"
@@ -155,12 +145,12 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/selector"
                 android:textOff="+/-"
-                android:textOn="-/+"/>
+                android:textOn="-/+" />
 
             <include
                 layout="@layout/divider_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/btn0"
@@ -169,7 +159,7 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/selector"
-                tools:text="0"/>
+                tools:text="0" />
 
             <Button
                 android:id="@+id/btn1"
@@ -178,7 +168,7 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/selector"
-                tools:text="1"/>
+                tools:text="1" />
 
             <Button
                 android:id="@+id/btn2"
@@ -187,7 +177,7 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/selector"
-                tools:text="2"/>
+                tools:text="2" />
 
             <Button
                 android:id="@+id/btn3"
@@ -196,8 +186,22 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/selector"
-                tools:text="3"/>
+                tools:text="3" />
 
+            <include
+                layout="@layout/divider_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btnUndo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/button_undo"
+                android:textColor="?android:attr/colorAccent" />
         </LinearLayout>
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -33,9 +33,26 @@
     <integer name="pref_value_update_delay">10</integer>
     <integer name="pref_max_update_delay">30</integer>
 
-    <string name="pref_key_score_increment">score_increment</string>
-    <string name="pref_title_score_increment">Score increment</string>
-    <string name="pref_summary_score_increment">1 / 2 / 3</string>
+    <string name="pref_key_score_0">score_0</string>
+    <string name="pref_title_score_0">Score button #0</string>
+    <integer name="pref_value_score_0">0</integer>
+
+    <string name="pref_key_score_1">score_1</string>
+    <string name="pref_title_score_1">Score button #1</string>
+    <integer name="pref_value_score_1">1</integer>
+
+    <string name="pref_key_score_2">score_2</string>
+    <string name="pref_title_score_2">Score button #2</string>
+    <integer name="pref_value_score_2">2</integer>
+
+    <string name="pref_key_score_3">score_3</string>
+    <string name="pref_title_score_3">Score button #3</string>
+    <integer name="pref_value_score_3">3</integer>
+
+    <string name="pref_summary_score">+%d</string>
+    <integer name="pref_min_score">0</integer>
+    <integer name="pref_max_score">100</integer>
+
 
     <string name="pref_header_about">About</string>
 

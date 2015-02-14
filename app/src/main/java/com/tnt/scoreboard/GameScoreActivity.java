@@ -1,5 +1,6 @@
 package com.tnt.scoreboard;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,12 +10,17 @@ import android.view.MenuItem;
 
 import com.tnt.scoreboard.adapters.PlayerAdapter;
 import com.tnt.scoreboard.models.Game;
+import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.models.Score;
+import com.tnt.scoreboard.utils.StringUtils;
+
+import java.util.List;
 
 public class GameScoreActivity extends BaseActivity {
 
     public static final String ROUND = "Round ";
     private RecyclerView mRecyclerView;
-    private PlayerAdapter mPlayerAdapterAdapter;
+    private PlayerAdapter mPlayerAdapter;
     private Game mGame;
 
     @Override
@@ -27,8 +33,33 @@ public class GameScoreActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mPlayerAdapterAdapter = new PlayerAdapter(mGame.getPlayers());
-        mRecyclerView.setAdapter(mPlayerAdapterAdapter);
+        mPlayerAdapter = new PlayerAdapter(mGame);
+        mPlayerAdapter.setListener(new PlayerAdapter.IOnScoreUpdateListener() {
+            @Override
+            public void onAdded(Player player, Score score) {
+                addScore(player, score);
+            }
+
+            @Override
+            public Score onDeleted(Player player) {
+                return deleteScore(player);
+            }
+
+            @Override
+            public void onUpdated(int round) {
+                mGame.setNumberOfRounds(round);
+                updateGame(mGame);
+                setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
+            }
+
+            @Override
+            public void onEnded(List<Integer> championList) {
+                //TODO: Winner dialog
+                new AlertDialog.Builder(GameScoreActivity.this)
+                        .setMessage("Winner is " + StringUtils.join(championList, ","));
+            }
+        });
+        mRecyclerView.setAdapter(mPlayerAdapter);
         setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
     }
 
@@ -42,16 +73,6 @@ public class GameScoreActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                return true;
-            case R.id.action_previous:
-                mGame.decrementRounds();
-                updateGame(mGame);
-                setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
-                return true;
-            case R.id.action_next:
-                mGame.incrementCurrentRound();
-                updateGame(mGame);
-                setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -13,8 +13,7 @@ public class NavigationViewHolder extends RecyclerView.ViewHolder {
 
     private ImageView mIcon;
     private TextView mText;
-    private int mColor;
-    private int mDefaultColor;
+    private int mColor, mDefaultColor;
     private IOnNavigationClickListener mListener;
     private Context mContext;
 

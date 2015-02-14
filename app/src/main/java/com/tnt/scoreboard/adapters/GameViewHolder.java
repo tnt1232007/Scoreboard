@@ -22,12 +22,9 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     private final int mCheckColor;
     private final TextDrawable.IBuilder mDrawableBuilder = TextDrawable.builder().round();
     private final ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
+    private final ImageView mIcon, mCheck;
+    private final TextView mPlayerName, mNumberOfRounds, mDateTime;
 
-    private ImageView mIcon;
-    private ImageView mCheck;
-    private TextView mPlayerName;
-    private TextView mNumberOfRounds;
-    private TextView mDateTime;
     private IOnGameClickListener mListener;
     private boolean isCheckClick;
 
@@ -38,7 +35,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         mPlayerName = (TextView) itemView.findViewById(R.id.playerName);
         mNumberOfRounds = (TextView) itemView.findViewById(R.id.numberOfRounds);
         mDateTime = (TextView) itemView.findViewById(R.id.dateTime);
-        mCheckColor = itemView.getContext().getResources().getColor(R.color.grayDark);
+        mCheckColor = itemView.getResources().getColor(R.color.grayDark);
 
         mIcon.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -32,4 +32,24 @@ public final class PrefUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPrefs.getInt(context.getString(R.string.pref_key_update_delay), -1);
     }
+
+    public static int getScore0(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getInt(context.getString(R.string.pref_key_score_0), -1);
+    }
+
+    public static int getScore1(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getInt(context.getString(R.string.pref_key_score_1), -1);
+    }
+
+    public static int getScore2(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getInt(context.getString(R.string.pref_key_score_2), -1);
+    }
+
+    public static int getScore3(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getInt(context.getString(R.string.pref_key_score_3), -1);
+    }
 }

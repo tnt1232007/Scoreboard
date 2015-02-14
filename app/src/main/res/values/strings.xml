@@ -10,8 +10,6 @@
     <string name="action_restore">Restore</string>
     <string name="action_delete_forever">Delete forever</string>
     <string name="action_start">Start</string>
-    <string name="action_previous">Previous</string>
-    <string name="action_next">Next</string>
     <string name="action_blank">New blank</string>
     <string name="action_send">Send</string>
 
@@ -44,7 +42,8 @@
     <string name="email_content">&lt;Description&gt;</string>
     <string name="screenshot_caption">Touch to preview</string>
     <string name="preview_caption">Touch to close</string>
-    <string name="button_clear">C</string>
+    <string name="button_clear">Clear</string>
+    <string name="button_undo">Undo</string>
     <string name="title_label">Title</string>
     <string name="game_title">Poker</string>
     <string name="starting_label">Starting Score</string>

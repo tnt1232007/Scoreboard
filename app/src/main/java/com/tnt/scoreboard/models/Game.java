@@ -89,12 +89,8 @@ public class Game extends Base implements Comparable<Game> {
         return numberOfRounds;
     }
 
-    public void incrementCurrentRound() {
-        this.numberOfRounds++;
-    }
-
-    public void decrementRounds() {
-        this.numberOfRounds++;
+    public void setNumberOfRounds(long numberOfRounds) {
+        this.numberOfRounds = numberOfRounds;
     }
 
     public long getEndingScore() {

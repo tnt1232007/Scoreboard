@@ -19,12 +19,12 @@ import java.util.TreeSet;
 
 public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
-    private List<Game> mGameList;
-    private List<Game> mUndoGames;
+    private List<Game> mGameList, mUndoGames;
     private TreeSet<Game> mSelectedGames;
     private IOnGameSelectListener mListener;
 
     public GameAdapter(List<Game> gameList) {
+        //TODO: group games by date
         this.mGameList = gameList;
         mSelectedGames = new TreeSet<>();
     }

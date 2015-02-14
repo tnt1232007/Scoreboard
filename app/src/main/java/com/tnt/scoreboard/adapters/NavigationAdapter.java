@@ -16,9 +16,8 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_ITEM = 1;
     public static final int TYPE_DIVIDER = 2;
-    private final TypedArray mIcons;
+    private final TypedArray mIcons, mColors;
     private final String[] mText;
-    private final TypedArray mColors;
     private int mCurrentPosition;
     private NavigationViewHolder.IOnNavigationClickListener mListener;
 
