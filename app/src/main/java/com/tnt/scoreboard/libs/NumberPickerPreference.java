@@ -107,4 +107,44 @@ public class NumberPickerPreference extends DialogPreference {
     private int calculateActualValue(int displayedValue) {
         return (displayedValue - mMinValue) / mIncrement;
     }
+
+    public int getMinValue() {
+        return mMinValue;
+    }
+
+    public void setMinValue(int minValue) {
+        mMinValue = minValue;
+    }
+
+    public int getMaxValue() {
+        return mMaxValue;
+    }
+
+    public void setMaxValue(int maxValue) {
+        mMaxValue = maxValue;
+    }
+
+    public int getIncrement() {
+        return mIncrement;
+    }
+
+    public void setIncrement(int increment) {
+        mIncrement = increment;
+    }
+
+    public boolean isInfiniteScroll() {
+        return mInfiniteScroll;
+    }
+
+    public void setInfiniteScroll(boolean infiniteScroll) {
+        mInfiniteScroll = infiniteScroll;
+    }
+
+    public String getInitialSummary() {
+        return mInitialSummary;
+    }
+
+    public void setInitialSummary(String initialSummary) {
+        mInitialSummary = initialSummary;
+    }
 }

@@ -6,13 +6,12 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 
 import com.tnt.scoreboard.adapters.ColorAdapter;
-import com.tnt.scoreboard.adapters.ColorViewHolder;
 import com.tnt.scoreboard.utils.ColorUtils;
 
 public class ColorPickerDialog extends DialogFragment {
 
     private int currentColor;
-    private ColorViewHolder.IOnColorPickListener listener;
+    private ColorAdapter.IOnColorPickListener listener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -20,7 +19,7 @@ public class ColorPickerDialog extends DialogFragment {
 
         ColorAdapter colorAdapter = new ColorAdapter(
                 ColorUtils.ColorMap(getActivity()), currentColor);
-        colorAdapter.setListener(new ColorViewHolder.IOnColorPickListener() {
+        colorAdapter.setListener(new ColorAdapter.IOnColorPickListener() {
             @Override
             public void onColorPick(int chooseColor) {
                 dismiss();
@@ -31,13 +30,11 @@ public class ColorPickerDialog extends DialogFragment {
         return builder.create();
     }
 
-    //<editor-fold desc="Getter Setter">
     public void setCurrentColor(int currentColor) {
         this.currentColor = currentColor;
     }
 
-    public void setListener(ColorViewHolder.IOnColorPickListener listener) {
+    public void setListener(ColorAdapter.IOnColorPickListener listener) {
         this.listener = listener;
     }
-    //</editor-fold>
 }

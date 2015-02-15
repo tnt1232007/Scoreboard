@@ -6,10 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tnt.scoreboard.R;
+import com.tnt.scoreboard.utils.ColorUtils;
 
-public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder> {
+public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.NavigationViewHolder> {
 
     public static final String PREFIX = "#";
     public static final String DIVIDER = "DIVIDER";
@@ -19,7 +22,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
     private final TypedArray mIcons, mColors;
     private final String[] mText;
     private int mCurrentPosition;
-    private NavigationViewHolder.IOnNavigationClickListener mListener;
+    private IOnNavigationClickListener mListener;
 
     public NavigationAdapter(Context context) {
         mIcons = context.getResources().obtainTypedArray(R.array.navigation_icons);
@@ -56,7 +59,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
     public void onBindViewHolder(NavigationViewHolder holder, final int position) {
         holder.updateData(getItemViewType(position), mIcons.getResourceId(position, 0),
                 mText[position], mColors.getResourceId(position, 0), position == mCurrentPosition);
-        holder.setListener(new NavigationViewHolder.IOnNavigationClickListener() {
+        holder.setListener(new IOnNavigationClickListener() {
             @Override
             public void onNavigationClick(View v, int p) {
                 notifyDataSetChanged();
@@ -70,13 +73,72 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationViewHolder
         return mText.length;
     }
 
-    //<editor-fold desc="Getter Setter">
     public void setCurrentPosition(int currentPosition) {
         this.mCurrentPosition = currentPosition;
     }
 
-    public void setListener(NavigationViewHolder.IOnNavigationClickListener listener) {
+    public void setListener(IOnNavigationClickListener listener) {
         this.mListener = listener;
     }
-    //</editor-fold>
+
+    public interface IOnNavigationClickListener {
+
+        public void onNavigationClick(View v, int navigationOption);
+    }
+
+    static class NavigationViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView mIcon;
+        private TextView mText;
+        private int mColor, mDefaultColor;
+        private IOnNavigationClickListener mListener;
+        private Context mContext;
+
+        public NavigationViewHolder(View itemView, int viewType) {
+            super(itemView);
+            mContext = itemView.getContext();
+            mDefaultColor = ColorUtils.getAttrColor(mContext, android.R.attr.textColorPrimary);
+
+            switch (viewType) {
+                case TYPE_HEADER:
+                    mText = (TextView) itemView.findViewById(R.id.text);
+                    break;
+                case TYPE_ITEM:
+                    mIcon = (ImageView) itemView.findViewById(R.id.icon);
+                    mText = (TextView) itemView.findViewById(R.id.text);
+                    break;
+            }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onNavigationClick(v, -1);
+                    updateState(true);
+                }
+            });
+        }
+
+        public void updateData(int viewType, int icon, String text, int color, boolean isSelected) {
+            switch (viewType) {
+                case TYPE_HEADER:
+                    this.mText.setText(text.replace(PREFIX, ""));
+                    break;
+                case TYPE_ITEM:
+                    this.mIcon.setImageResource(icon);
+                    this.mText.setText(text);
+                    this.mColor = color;
+                    updateState(isSelected);
+                    break;
+            }
+        }
+
+        private void updateState(boolean isSelected) {
+            if (mColor == 0) return;
+            itemView.setSelected(isSelected);
+            mText.setTextColor(isSelected ? mContext.getResources().getColor(mColor) : mDefaultColor);
+        }
+
+        public void setListener(IOnNavigationClickListener listener) {
+            mListener = listener;
+        }
+    }
 }

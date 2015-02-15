@@ -32,6 +32,7 @@ public class Player extends Base implements Comparable<Player> {
         this.color = color;
     }
 
+    //<editor-fold desc="Getter Setter">
     public long getGameId() {
         return gameId;
     }
@@ -71,6 +72,7 @@ public class Player extends Base implements Comparable<Player> {
     public void setScoreList(List<Score> scoreList) {
         this.scoreList = scoreList;
     }
+    //</editor-fold>
 
     @Override
     public String toString() {

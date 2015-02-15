@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.tnt.scoreboard.adapters.GameAdapter;
-import com.tnt.scoreboard.adapters.NavigationViewHolder;
+import com.tnt.scoreboard.adapters.NavigationAdapter;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.ActivityUtils;
 import com.tnt.scoreboard.utils.Constants;
@@ -32,7 +32,7 @@ import com.tnt.scoreboard.utils.FileUtils;
 import java.util.List;
 
 public class GameListActivity extends BaseActivity implements
-        NavigationViewHolder.IOnNavigationClickListener,
+        NavigationAdapter.IOnNavigationClickListener,
         GameAdapter.IOnGameSelectListener,
         ActionMode.Callback,
         com.nispok.snackbar.listeners.ActionClickListener {

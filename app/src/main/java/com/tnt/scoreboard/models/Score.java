@@ -20,6 +20,7 @@ public class Score extends Base {
         this.score = score;
     }
 
+    //<editor-fold desc="Getter Setter">
     public long getPlayerId() {
         return playerId;
     }
@@ -35,6 +36,7 @@ public class Score extends Base {
     public void setScore(long score) {
         this.score = score;
     }
+    //</editor-fold>
 
     @Override
     public boolean equals(Object o) {

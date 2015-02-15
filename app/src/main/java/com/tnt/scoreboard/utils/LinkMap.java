@@ -3,7 +3,7 @@ package com.tnt.scoreboard.utils;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-public class LinkMap<K, V> extends LinkedHashMap<K, V> {
+public final class LinkMap<K, V> extends LinkedHashMap<K, V> {
 
     public K getKey(int i) {
         Entry<K, V> entry = getEntry(i);

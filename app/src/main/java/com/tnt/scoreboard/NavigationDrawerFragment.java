@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tnt.scoreboard.adapters.NavigationAdapter;
-import com.tnt.scoreboard.adapters.NavigationViewHolder;
 import com.tnt.scoreboard.utils.DrawableUtils;
 
 public class NavigationDrawerFragment extends Fragment {
@@ -68,7 +67,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     public void setup(final DrawerLayout drawerLayout,
-                      NavigationViewHolder.IOnNavigationClickListener listener) {
+                      NavigationAdapter.IOnNavigationClickListener listener) {
         mNavigationAdapter.setListener(listener);
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,
                 R.string.draw_open, R.string.draw_close) {
@@ -115,7 +114,6 @@ public class NavigationDrawerFragment extends Fragment {
         });
     }
 
-    //<editor-fold desc="Getter Setter">
     public void setCurrentPosition(int currentPosition) {
         mNavigationAdapter.setCurrentPosition(currentPosition);
     }
@@ -123,7 +121,6 @@ public class NavigationDrawerFragment extends Fragment {
     public boolean isDrawerToggleSelected(MenuItem item) {
         return mDrawerToggle.onOptionsItemSelected(item);
     }
-    //</editor-fold>
 
     public interface OnDrawerToggle {
         public void onDrawerOpened(Parcelable parcelable);

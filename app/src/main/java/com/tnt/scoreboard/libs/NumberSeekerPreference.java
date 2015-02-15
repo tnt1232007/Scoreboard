@@ -88,7 +88,6 @@ public class NumberSeekerPreference extends DialogPreference {
                 , mCurrentValue));
     }
 
-    //<editor-fold desc="Getter Setter">
     public int getMaxValue() {
         return mMaxValue;
     }
@@ -96,5 +95,20 @@ public class NumberSeekerPreference extends DialogPreference {
     public void setMaxValue(int maxValue) {
         mMaxValue = maxValue;
     }
-    //</editor-fold>
+
+    public String getInitialSummary() {
+        return mInitialSummary;
+    }
+
+    public void setInitialSummary(String initialSummary) {
+        mInitialSummary = initialSummary;
+    }
+
+    public String getInitialDialogSummary() {
+        return mInitialDialogSummary;
+    }
+
+    public void setInitialDialogSummary(String initialDialogSummary) {
+        mInitialDialogSummary = initialDialogSummary;
+    }
 }

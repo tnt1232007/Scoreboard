@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.tnt.scoreboard.adapters.ColorViewHolder;
+import com.tnt.scoreboard.adapters.ColorAdapter;
 
 public class PlayerNewFragment extends Fragment {
 
@@ -61,7 +61,7 @@ public class PlayerNewFragment extends Fragment {
             public void onClick(View v) {
                 ColorPickerDialog colorPicker = new ColorPickerDialog();
                 colorPicker.setCurrentColor(color);
-                colorPicker.setListener(new ColorViewHolder.IOnColorPickListener() {
+                colorPicker.setListener(new ColorAdapter.IOnColorPickListener() {
                     @Override
                     public void onColorPick(int color) {
                         PlayerNewFragment.this.color = color;
@@ -86,7 +86,6 @@ public class PlayerNewFragment extends Fragment {
         return v;
     }
 
-    //<editor-fold desc="Getter Setter">
     public String getPlayerName() {
         playerName = editText.getText().toString();
         return playerName.isEmpty() ? (String) editText.getHint() : playerName;
@@ -103,7 +102,6 @@ public class PlayerNewFragment extends Fragment {
     public void requestFocus() {
         editText.requestFocus();
     }
-    //</editor-fold>
 
     public interface IOnRemoveListener {
 
