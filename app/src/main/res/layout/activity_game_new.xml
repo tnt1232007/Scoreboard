@@ -169,8 +169,8 @@
                 android:layout_marginTop="290dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical|start"
-                android:paddingLeft="48dp"
-                android:paddingRight="48dp"
+                android:paddingEnd="48dp"
+                android:paddingStart="48dp"
                 android:text="@string/text_new_player" />
         </RelativeLayout>
     </ScrollView>

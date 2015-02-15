@@ -28,7 +28,7 @@
         android:layout_weight="1"
         android:background="#0000"
         android:inputType="textCapWords"
-        tools:text="TNT" />
+        tools:text="Albert" />
 
     <ImageButton
         android:id="@+id/removeButton"

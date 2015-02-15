@@ -1,6 +1,5 @@
 package com.tnt.scoreboard;
 
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,9 +12,6 @@ import com.tnt.scoreboard.adapters.PlayerAdapter;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
-import com.tnt.scoreboard.utils.StringUtils;
-
-import java.util.List;
 
 public class GameScoreActivity extends BaseActivity {
 
@@ -53,10 +49,8 @@ public class GameScoreActivity extends BaseActivity {
             }
 
             @Override
-            public void onEnded(List<Integer> championList) {
-                //TODO: Winner dialog
-                new AlertDialog.Builder(GameScoreActivity.this)
-                        .setMessage("Winner is " + StringUtils.join(championList, ","));
+            public void onEnded() {
+                //TODO: Show history activity
             }
         });
         recyclerView.setAdapter(mPlayerAdapter);

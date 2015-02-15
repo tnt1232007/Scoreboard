@@ -11,8 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="right"
-        android:paddingRight="2dp"
+        android:gravity="end"
+        android:paddingEnd="2dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="8sp"
         tools:text="1." />

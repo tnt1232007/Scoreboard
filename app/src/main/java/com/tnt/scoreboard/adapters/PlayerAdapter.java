@@ -76,23 +76,16 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
     }
 
     private long getMaxScoreAndCheck() {
-        List<Integer> championList = new ArrayList<>();
         long max = mPlayerList.get(0).getScore();
-        championList.add(0);
         for (int i = 1; i < mPlayerList.size(); i++) {
             long score = mPlayerList.get(i).getScore();
-            if (max < score) {
+            if (max < score)
                 max = score;
-                championList.clear();
-                championList.add(i);
-            } else if (max == score) {
-                championList.add(i);
-            }
         }
         long result = (long) Math.pow(10, Math.ceil(Math.log10(max)));
         if (max >= mEndingScore) {
             if (!mIsInfinite)
-                mListener.onEnded(championList);
+                mListener.onEnded();
             return result;
         } else return mEndingScore;
     }
@@ -119,6 +112,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
 
         public void onUpdated(int round);
 
-        public void onEnded(List<Integer> championList);
+        public void onEnded();
     }
 }
