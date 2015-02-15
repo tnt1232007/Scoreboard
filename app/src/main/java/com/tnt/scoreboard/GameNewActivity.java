@@ -12,10 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,13 +44,13 @@ public class GameNewActivity extends BaseActivity {
     private Button mNewPlayerButton;
     private TextView mTitle, mStartScore, mEndScore;
     private int mColorIndex, mCharIndex;
-    private Switch mIsFirstToWin;
-    private Switch mIsInfinite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_game_new);
-
+        mTitle = ((TextView) findViewById(R.id.title));
+        mStartScore = ((TextView) findViewById(R.id.start));
+        mEndScore = ((TextView) findViewById(R.id.end));
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
         mNewPlayerButton = (Button) findViewById(R.id.newPlayerButton);
         mNewPlayerButton.setOnClickListener(new View.OnClickListener() {
@@ -61,21 +59,6 @@ public class GameNewActivity extends BaseActivity {
                 addNewPlayerFragment(null, -1, true, true);
             }
         });
-
-        mTitle = ((TextView) findViewById(R.id.title));
-        mStartScore = ((TextView) findViewById(R.id.start));
-        mEndScore = ((TextView) findViewById(R.id.end));
-        mIsFirstToWin = (Switch) findViewById(R.id.firstToWin);
-        mIsInfinite = (Switch) findViewById(R.id.infinite);
-        CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Switch aSwitch = (Switch) buttonView;
-                aSwitch.setText(isChecked ? aSwitch.getTextOn() : aSwitch.getTextOff());
-            }
-        };
-        mIsFirstToWin.setOnCheckedChangeListener(listener);
-        mIsInfinite.setOnCheckedChangeListener(listener);
 
         if (savedInstanceState != null) {
             mColorIndex = savedInstanceState.getInt(COLOR_INDEX);
@@ -97,23 +80,16 @@ public class GameNewActivity extends BaseActivity {
             }
             mTitle.setText(game.getTitle());
             mEndScore.setText(String.valueOf(game.getEndingScore()));
-            mIsInfinite.setChecked(game.isInfinite());
-            mIsFirstToWin.setChecked(game.isFirstToWin());
         }
         mToolbar.setNavigationIcon(R.drawable.ic_close_dark);
     }
 
     private void addNewPlayerFragment(String playerName, int color, boolean removable, boolean animate) {
-        if (animate)
-            move(true);
-        else
-            moveWithoutAnimation(true);
+        if (animate) move(true);
+        else moveWithoutAnimation(true);
 
-        if (playerName == null)
-            playerName = PLAYER + Character.toChars(ASCII_A + mCharIndex)[0];
-
-        if (color == -1)
-            color = ColorUtils.ColorMap(this).getValue(mColorIndex);
+        if (playerName == null) playerName = PLAYER + Character.toChars(ASCII_A + mCharIndex)[0];
+        if (color == -1) color = ColorUtils.ColorMap(this).getValue(mColorIndex);
 
         final PlayerNewFragment frag = PlayerNewFragment.newInstance(playerName, color, removable);
         FragmentManager manager = getFragmentManager();
@@ -234,8 +210,6 @@ public class GameNewActivity extends BaseActivity {
                 String title = getValue(mTitle, String.class);
                 Long start = getValue(mStartScore, Long.class);
                 Long end = getValue(mEndScore, Long.class);
-                boolean isFirstToWin = mIsFirstToWin.isChecked();
-                boolean isInfinite = mIsInfinite.isChecked();
 
                 List<Player> playerList = new ArrayList<>();
                 for (PlayerNewFragment frag : fragmentList) {
@@ -243,7 +217,7 @@ public class GameNewActivity extends BaseActivity {
                     playerList.add(p);
                 }
 
-                Game game = addGame(title, playerList, end, isFirstToWin, isInfinite);
+                Game game = addGame(title, playerList, start, end);
                 Intent intent = new Intent(this, GameScoreActivity.class);
                 intent.putExtra(Game.COLUMN_ID, game.getId());
                 startActivity(intent);

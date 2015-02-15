@@ -203,11 +203,10 @@ public abstract class BaseActivity extends ActionBarActivity
         return game;
     }
 
-    public Game addGame(String title, List<Player> playerList, long endingScore,
-                        boolean isFirstToWin, boolean isInfinite) {
+    public Game addGame(String title, List<Player> playerList,
+                        long startingScore, long endingScore) {
         mGameDAO.open();
-        Game game = mGameDAO.create(new Game(title, playerList.size(), endingScore,
-                isFirstToWin, isInfinite));
+        Game game = mGameDAO.create(new Game(title, playerList.size(), startingScore, endingScore));
         mGameDAO.close();
         game.setPlayers(playerList);
 

@@ -32,16 +32,14 @@ import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
 
-    private final long mEndingScore;
-    private final boolean mIsFirstToWin, mIsInfinite;
+    private final long mStartingScore, mEndingScore;
     private List<Player> mPlayerList;
     private IOnScoreUpdateListener mListener;
 
     public PlayerAdapter(Game game) {
         this.mPlayerList = game.getPlayers();
+        mStartingScore = game.getStartingScore();
         mEndingScore = game.getEndingScore();
-        mIsFirstToWin = game.isFirstToWin();
-        mIsInfinite = game.isInfinite();
     }
 
     @Override
@@ -86,7 +84,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     private int getRank(Player player) {
         List<Player> sortedList = new ArrayList<>(mPlayerList);
         Collections.sort(sortedList);
-        if (!mIsFirstToWin)
+        if (mEndingScore < mStartingScore)
             Collections.reverse(sortedList);
         return sortedList.indexOf(player) + 1;
     }
@@ -99,11 +97,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
                 max = score;
         }
         long result = (long) Math.pow(10, Math.ceil(Math.log10(max)));
-        if (max >= mEndingScore) {
-            if (!mIsInfinite)
-                mListener.onEnded();
-            return result;
-        } else return mEndingScore;
+        return max >= mEndingScore ? result : mEndingScore;
     }
 
     private int notifyAndGetMaxRound() {
@@ -127,8 +121,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         public Score onDeleted(Player player);
 
         public void onUpdated(int round);
-
-        public void onEnded();
     }
 
     static class PlayerViewHolder extends RecyclerView.ViewHolder {

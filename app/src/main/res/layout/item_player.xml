@@ -162,11 +162,6 @@
                 android:textOff="+/-"
                 android:textOn="-/+" />
 
-            <include
-                layout="@layout/divider_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
             <Button
                 android:id="@+id/btn0"
                 android:layout_width="0dp"

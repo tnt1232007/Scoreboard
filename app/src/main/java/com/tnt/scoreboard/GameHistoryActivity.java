@@ -3,6 +3,7 @@ package com.tnt.scoreboard;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
+import com.tnt.scoreboard.adapters.HistoryPagerAdapter;
 import com.tnt.scoreboard.libs.SlidingTabLayout;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.ColorUtils;

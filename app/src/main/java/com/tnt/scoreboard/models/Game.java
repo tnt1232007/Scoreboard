@@ -9,47 +9,46 @@ public class Game extends Base implements Comparable<Game> {
 
     public static final String TABLE_NAME = "game";
     public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_CREATED_DATE = "createdDate";
     public static final String COLUMN_NUMBER_OF_PLAYERS = "numberOfPlayers";
     public static final String COLUMN_NUMBER_OF_ROUNDS = "numberOfRounds";
-    public static final String COLUMN_FIRST_TO_WIN = "firstToWin";
-    public static final String COLUMN_INFINITE = "infinite";
+    public static final String COLUMN_STARTING_SCORE = "startingScore";
     public static final String COLUMN_ENDING_SCORE = "endingScore";
     public static final String COLUMN_STATE = "state";
+    public static final String COLUMN_CREATED_DATE = "createdDate";
+    public static final String COLUMN_UPDATED_DATE = "updatedDate";
+
     private int index;
     private String title;
-    private Date createDate;
     private long numberOfPlayers;
     private long numberOfRounds;
+    private long startingScore;
     private long endingScore;
-    private boolean firstToWin;
-    private boolean infinite;
     private State state;
+    private Date createdDate;
+    private Date updatedDate;
     private List<Player> players;
 
-    public Game(String title, long numberOfPlayers, long endingScore,
-                boolean firstToWin, boolean infinite) {
+    public Game(String title, long numberOfPlayers, long startingScore, long endingScore) {
         this.title = title;
         this.numberOfPlayers = numberOfPlayers;
+        this.numberOfRounds = 0;
+        this.startingScore = startingScore;
         this.endingScore = endingScore;
-        this.firstToWin = firstToWin;
-        this.infinite = infinite;
-        numberOfRounds = 0;
-        state = State.NORMAL;
+        this.state = State.NORMAL;
     }
 
     public Game(long id, String title, long numberOfPlayers, long numberOfRounds,
-                long endingScore, boolean firstToWin, boolean infinite,
-                Date createDate, State state) {
+                long startingScore, long endingScore, State state,
+                Date createdDate, Date updatedDate) {
         this.id = id;
         this.title = title;
         this.numberOfPlayers = numberOfPlayers;
         this.numberOfRounds = numberOfRounds;
+        this.startingScore = startingScore;
         this.endingScore = endingScore;
-        this.firstToWin = firstToWin;
-        this.infinite = infinite;
-        this.createDate = createDate;
         this.state = state;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     //<editor-fold desc="Getter Setter">
@@ -69,14 +68,6 @@ public class Game extends Base implements Comparable<Game> {
         this.title = title;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
     public long getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -93,6 +84,14 @@ public class Game extends Base implements Comparable<Game> {
         this.numberOfRounds = numberOfRounds;
     }
 
+    public long getStartingScore() {
+        return startingScore;
+    }
+
+    public void setStartingScore(long startingScore) {
+        this.startingScore = startingScore;
+    }
+
     public long getEndingScore() {
         return endingScore;
     }
@@ -101,28 +100,28 @@ public class Game extends Base implements Comparable<Game> {
         this.endingScore = endingScore;
     }
 
-    public boolean isFirstToWin() {
-        return firstToWin;
-    }
-
-    public void setFirstToWin(boolean firstToWin) {
-        this.firstToWin = firstToWin;
-    }
-
-    public boolean isInfinite() {
-        return infinite;
-    }
-
-    public void setInfinite(boolean infinite) {
-        this.infinite = infinite;
-    }
-
     public State getState() {
         return state;
     }
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     public List<Player> getPlayers() {
@@ -136,12 +135,12 @@ public class Game extends Base implements Comparable<Game> {
 
     @Override
     public String toString() {
-        return id + "." + createDate;
+        return id + "." + createdDate;
     }
 
     @Override
     public int compareTo(@NonNull Game another) {
-        return getIndex() - another.getIndex();
+        return index - another.index;
     }
 
     public enum State {

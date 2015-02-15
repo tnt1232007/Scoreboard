@@ -218,11 +218,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
             if (game == null) return;
             mPlayerName.setText(StringUtils.join(game.getPlayers(), ", "));
             mNumberOfRounds.setText(game.getNumberOfRounds() + " Rounds");
-            mDateTime.setText(DateUtils.formatDateTime(
-                    mDateTime.getContext(), game.getCreateDate().getTime(),
-                    DateUtils.FORMAT_ABBREV_ALL
-                            | DateUtils.FORMAT_SHOW_DATE
-                            | DateUtils.FORMAT_SHOW_TIME));
+            mDateTime.setText(DateUtils.formatDateTime(mDateTime.getContext(),
+                    game.getUpdatedDate().getTime(), DateUtils.FORMAT_ABBREV_ALL
+                            | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME));
         }
 
         public void updateState(Game game, boolean selected) {

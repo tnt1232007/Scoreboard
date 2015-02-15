@@ -1,149 +1,347 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/first"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="96dp"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/ic_golden" />
-
-        <TextView
-            android:id="@+id/firstPlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="First Player" />
-
-        <TextView
-            android:id="@+id/firstScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="120" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/second"
-        android:layout_width="72dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="48dp"
-        android:layout_toStartOf="@+id/first"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/ic_silver" />
-
-        <TextView
-            android:id="@+id/secondPlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Second Player" />
-
-        <TextView
-            android:id="@+id/secondScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="96" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/third"
-        android:layout_width="64dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="48dp"
-        android:layout_toEndOf="@+id/first"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/ic_bronze" />
-
-        <TextView
-            android:id="@+id/thirdPlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Third Player" />
-
-        <TextView
-            android:id="@+id/thirdScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="84" />
-    </LinearLayout>
-
-    <include
-        android:id="@+id/divider"
-        layout="@layout/divider_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/third"
-        android:layout_margin="24dp" />
-
     <RelativeLayout
-        android:id="@+id/fourth"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/divider"
-        android:layout_margin="24dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <com.github.siyamed.shapeimageview.StarImageView
-            android:id="@+id/imageView"
-            android:layout_width="48dp"
+        <LinearLayout
+            android:id="@+id/first"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="96dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_1_cup" />
+
+            <TextView
+                android:id="@+id/firstPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="First" />
+
+            <TextView
+                android:id="@+id/firstScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="120" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
+            android:layout_alignEnd="@+id/first"
+            android:layout_alignStart="@+id/first"
+            android:layout_alignTop="@+id/first"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/default_image"
+            android:src="@drawable/ic_1" />
+
+        <LinearLayout
+            android:id="@+id/second"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/divider"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_toStartOf="@+id/first"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_2_cup" />
+
+            <TextView
+                android:id="@+id/secondPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Second" />
+
+            <TextView
+                android:id="@+id/secondScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="96" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignEnd="@+id/second"
+            android:layout_alignStart="@+id/second"
+            android:layout_alignTop="@+id/second"
+            android:layout_marginTop="6dp"
+            android:contentDescription="@string/default_image"
+            android:src="@drawable/ic_2" />
+
+        <LinearLayout
+            android:id="@+id/third"
+            android:layout_width="58dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/divider"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@+id/first"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="58dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_3_cup" />
+
+            <TextView
+                android:id="@+id/thirdPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Third" />
+
+            <TextView
+                android:id="@+id/thirdScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="84" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_alignEnd="@+id/third"
+            android:layout_alignStart="@+id/third"
+            android:layout_alignTop="@+id/third"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/default_image"
+            android:src="@drawable/ic_3" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/divider_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:src="@drawable/avatar" />
+            android:layout_marginTop="192dp" />
 
-        <TextView
-            android:id="@+id/fourthPlayer"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/fourth"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_toEndOf="@+id/imageView"
-            android:fontFamily="sans-serif-medium"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Fourth Player" />
+            android:layout_alignTop="@+id/divider"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp">
 
-        <TextView
-            android:id="@+id/fourthScore"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_4" />
+
+            <TextView
+                android:id="@+id/fourthPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp"
+                tools:text="Fourth Player" />
+
+            <TextView
+                android:id="@+id/fourthScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/fourthPlayer"
+                android:layout_below="@+id/fourthPlayer"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp"
+                tools:text="48" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fifth"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/fourthPlayer"
-            android:layout_below="@+id/fourthPlayer"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="48" />
+            android:layout_below="@+id/fourth"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_5" />
+
+            <TextView
+                android:id="@+id/fifthPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp"
+                tools:text="Fifth Player" />
+
+            <TextView
+                android:id="@+id/fifthScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/fifthPlayer"
+                android:layout_below="@+id/fifthPlayer"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp"
+                tools:text="48" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sixth"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fifth"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_6" />
+
+            <TextView
+                android:id="@+id/sixthPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp"
+                tools:text="Sixth Player" />
+
+            <TextView
+                android:id="@+id/sixthScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/sixthPlayer"
+                android:layout_below="@+id/sixthPlayer"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp"
+                tools:text="48" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/seventh"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sixth"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_7" />
+
+            <TextView
+                android:id="@+id/seventhPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp"
+                tools:text="Seventh Player" />
+
+            <TextView
+                android:id="@+id/seventhScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/seventhPlayer"
+                android:layout_below="@+id/seventhPlayer"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp"
+                tools:text="48" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/eighth"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seventh"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:contentDescription="@string/default_image"
+                android:src="@drawable/ic_8" />
+
+            <TextView
+                android:id="@+id/eighthPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp"
+                tools:text="Eighth Player" />
+
+            <TextView
+                android:id="@+id/eighthScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/eighthPlayer"
+                android:layout_below="@+id/eighthPlayer"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp"
+                tools:text="48" />
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</ScrollView>

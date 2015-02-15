@@ -49,13 +49,6 @@ public class GameScoreActivity extends BaseActivity {
                 setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
             }
 
-            @Override
-            public void onEnded() {
-                Intent intent = new Intent(GameScoreActivity.this, GameHistoryActivity.class);
-                intent.putExtra(Game.COLUMN_ID, mGame.getId());
-                startActivity(intent);
-                finish();
-            }
         });
         recyclerView.setAdapter(mPlayerAdapter);
         setTitle(ROUND + (mGame.getNumberOfRounds() + 1));

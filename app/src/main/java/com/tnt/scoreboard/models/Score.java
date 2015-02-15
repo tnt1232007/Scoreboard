@@ -37,16 +37,4 @@ public class Score extends Base {
         this.score = score;
     }
     //</editor-fold>
-
-    @Override
-    public boolean equals(Object o) {
-        return this == o
-                || !(o == null || getClass() != o.getClass())
-                && id == ((Score) o).id;
-    }
-
-    @Override
-    public int hashCode() {
-        return String.valueOf(id).hashCode();
-    }
 }

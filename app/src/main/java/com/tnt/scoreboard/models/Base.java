@@ -12,4 +12,16 @@ public abstract class Base {
     public void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o
+                || !(o == null || getClass() != o.getClass())
+                && id == ((Player) o).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return String.valueOf(id).hashCode();
+    }
 }

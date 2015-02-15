@@ -14,11 +14,11 @@ public class GameDAO extends BaseDAO<Game> {
                 Game.COLUMN_TITLE,
                 Game.COLUMN_NUMBER_OF_PLAYERS,
                 Game.COLUMN_NUMBER_OF_ROUNDS,
+                Game.COLUMN_STARTING_SCORE,
                 Game.COLUMN_ENDING_SCORE,
-                Game.COLUMN_FIRST_TO_WIN,
-                Game.COLUMN_INFINITE,
+                Game.COLUMN_STATE,
                 Game.COLUMN_CREATED_DATE,
-                Game.COLUMN_STATE
+                Game.COLUMN_UPDATED_DATE
         });
     }
 
@@ -28,9 +28,8 @@ public class GameDAO extends BaseDAO<Game> {
         values.put(Game.COLUMN_TITLE, game.getTitle());
         values.put(Game.COLUMN_NUMBER_OF_PLAYERS, game.getNumberOfPlayers());
         values.put(Game.COLUMN_NUMBER_OF_ROUNDS, game.getNumberOfRounds());
+        values.put(Game.COLUMN_STARTING_SCORE, game.getStartingScore());
         values.put(Game.COLUMN_ENDING_SCORE, game.getEndingScore());
-        values.put(Game.COLUMN_FIRST_TO_WIN, game.isFirstToWin() ? 1 : 0);
-        values.put(Game.COLUMN_INFINITE, game.isInfinite() ? 1 : 0);
         values.put(Game.COLUMN_STATE, game.getState().ordinal());
         return values;
     }
@@ -42,10 +41,11 @@ public class GameDAO extends BaseDAO<Game> {
                 cursor.getString(cursor.getColumnIndexOrThrow(Game.COLUMN_TITLE)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_NUMBER_OF_PLAYERS)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_NUMBER_OF_ROUNDS)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_STARTING_SCORE)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_ENDING_SCORE)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Game.COLUMN_FIRST_TO_WIN)) != 0,
-                cursor.getInt(cursor.getColumnIndexOrThrow(Game.COLUMN_INFINITE)) != 0,
+                Game.State.values()[cursor.getInt(cursor.getColumnIndex(Game.COLUMN_STATE))],
                 cursorGetDate(cursor, cursor.getColumnIndexOrThrow(Game.COLUMN_CREATED_DATE)),
-                Game.State.values()[cursor.getInt(cursor.getColumnIndex(Game.COLUMN_STATE))]);
+                cursorGetDate(cursor, cursor.getColumnIndexOrThrow(Game.COLUMN_UPDATED_DATE))
+        );
     }
 }

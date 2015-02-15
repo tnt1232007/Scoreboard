@@ -80,18 +80,6 @@ public class Player extends Base implements Comparable<Player> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return this == o
-                || !(o == null || getClass() != o.getClass())
-                && id == ((Player) o).id;
-    }
-
-    @Override
-    public int hashCode() {
-        return String.valueOf(id).hashCode();
-    }
-
-    @Override
     public int compareTo(@NonNull Player another) {
         return (int) (another.getScore() - getScore());
     }

@@ -1,9 +1,11 @@
-package com.tnt.scoreboard;
+package com.tnt.scoreboard.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.tnt.scoreboard.LeaderboardFragment;
+import com.tnt.scoreboard.SummaryFragment;
 import com.tnt.scoreboard.models.Game;
 
 import java.util.ArrayList;

@@ -63,7 +63,6 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textSize="12sp" />
 
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -103,46 +102,10 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <Switch
-                    android:id="@+id/firstToWin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textLayout"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:checked="true"
-                    android:text="@string/win_on"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textOff="@string/win_off"
-                    android:textOn="@string/win_on" />
-
-                <include
-                    android:id="@+id/divider"
-                    layout="@layout/divider_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/firstToWin"
-                    android:layout_marginTop="8dp" />
-
-                <Switch
-                    android:id="@+id/infinite"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/divider"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:checked="true"
-                    android:text="@string/infinite_on"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textOff="@string/infinite_off"
-                    android:textOn="@string/infinite_on" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/infinite"
+                    android:layout_below="@+id/textLayout"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
@@ -166,7 +129,7 @@
                 android:id="@+id/newPlayerButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="290dp"
+                android:layout_marginTop="210dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical|start"
                 android:paddingEnd="48dp"
