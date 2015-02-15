@@ -9,14 +9,17 @@
     <string name="action_unarchive">Unarchive</string>
     <string name="action_restore">Restore</string>
     <string name="action_delete_forever">Delete forever</string>
-    <string name="action_start">Start</string>
     <string name="action_blank">New blank</string>
+    <string name="action_start">Start</string>
     <string name="action_send">Send</string>
+    <string name="action_history">History</string>
+    <string name="action_undo">Undo</string>
 
     <string name="title_activity_archive">Archive</string>
     <string name="title_activity_games">Games</string>
     <string name="title_activity_game_new">New game</string>
     <string name="title_activity_score">Score</string>
+    <string name="title_activity_history">History</string>
     <string name="title_activity_setting">Settings</string>
     <string name="title_activity_help">Help &amp; feedback</string>
     <string name="title_activity_trash">Trash</string>

@@ -27,6 +27,9 @@
             android:name=".GameScoreActivity"
             android:label="@string/title_activity_score" />
         <activity
+            android:name=".GameHistoryActivity"
+            android:label="@string/title_activity_history" />
+        <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting" />
         <activity

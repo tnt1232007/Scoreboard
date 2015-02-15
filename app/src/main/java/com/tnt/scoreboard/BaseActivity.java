@@ -64,6 +64,9 @@ public abstract class BaseActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             case R.id.action_settings:
                 intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
@@ -113,10 +116,12 @@ public abstract class BaseActivity extends ActionBarActivity
 
     private void switchTheme(String theme) {
         boolean isLight = theme.equals(getString(R.string.pref_theme_light));
-        if (this instanceof GameScoreActivity) {
-            setTheme(isLight ? R.style.GameScoreLightTheme : R.style.GameScoreTheme);
-        } else if (this instanceof GameNewActivity) {
+        if (this instanceof GameNewActivity) {
             setTheme(isLight ? R.style.GameNewLightTheme : R.style.GameNewTheme);
+        } else if (this instanceof GameScoreActivity) {
+            setTheme(isLight ? R.style.GameScoreLightTheme : R.style.GameScoreTheme);
+        } else if (this instanceof GameHistoryActivity) {
+            setTheme(isLight ? R.style.GameHistoryLightTheme : R.style.GameHistoryTheme);
         } else {
             setTheme(isLight ? R.style.BaseLightTheme : R.style.BaseTheme);
         }

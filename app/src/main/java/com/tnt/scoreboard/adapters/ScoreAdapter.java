@@ -30,7 +30,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreViewHolder> {
     public void onBindViewHolder(ScoreViewHolder holder, int position) {
         int index = mScoreList.size() - getItemCount() + position;
         Score score = mScoreList.get(index);
-        holder.updateData(score, index, index == mScoreList.size() - 1);
+        holder.updateData(score, index);
     }
 
     @Override

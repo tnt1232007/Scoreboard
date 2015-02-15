@@ -1,15 +1,17 @@
 package com.tnt.scoreboard.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tnt.scoreboard.GameHistoryActivity;
 import com.tnt.scoreboard.GameScoreActivity;
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.models.Game;
+import com.tnt.scoreboard.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,13 +21,16 @@ import java.util.TreeSet;
 
 public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
-    private List<Game> mGameList, mUndoGames;
+    private final Activity mActivity;
+    private List<Game> mGameList;
+    private List<Game> mUndoGames;
     private TreeSet<Game> mSelectedGames;
     private IOnGameSelectListener mListener;
 
-    public GameAdapter(List<Game> gameList) {
+    public GameAdapter(Activity activity, List<Game> gameList) {
         //TODO: group games by date
-        this.mGameList = gameList;
+        mActivity = activity;
+        mGameList = gameList;
         mSelectedGames = new TreeSet<>();
     }
 
@@ -48,11 +53,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
                 if (isCheckClick || getSelectedCount() > 0) {
                     holder.updateState(game, select(game));
                     mListener.onGameSelect();
-                } else {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, GameScoreActivity.class);
+                } else if (game.getState() == Game.State.NORMAL) {
+                    Intent intent = new Intent(mActivity, GameScoreActivity.class);
                     intent.putExtra(Game.COLUMN_ID, game.getId());
-                    context.startActivity(intent);
+                    mActivity.startActivityForResult(intent, Constants.GAME_SCORE_REQUEST);
+                } else {
+                    Intent intent = new Intent(mActivity, GameHistoryActivity.class);
+                    intent.putExtra(Game.COLUMN_ID, game.getId());
+                    mActivity.startActivity(intent);
                 }
             }
         });
@@ -77,6 +85,24 @@ public class GameAdapter extends RecyclerView.Adapter<GameViewHolder> {
             notifyItemInserted(g.getIndex());
         }
         refreshIndex();
+    }
+
+    public Game remove(long gameId) {
+        Game game = null;
+        for (Game g : mGameList) {
+            if (g.getId() == gameId) {
+                game = g;
+                break;
+            }
+        }
+        if (game == null) return null;
+        mSelectedGames.clear();
+        mUndoGames = new ArrayList<>();
+        mUndoGames.add(game);
+        mGameList.remove(game);
+        notifyItemRemoved(game.getIndex());
+        refreshIndex();
+        return game;
     }
 
     public void remove() {

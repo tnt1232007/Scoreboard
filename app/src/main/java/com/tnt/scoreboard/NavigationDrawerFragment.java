@@ -1,10 +1,10 @@
 package com.tnt.scoreboard;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -28,9 +28,6 @@ public class NavigationDrawerFragment extends Fragment {
     private OnDrawerToggle mCallback;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationAdapter mNavigationAdapter;
-
-    public NavigationDrawerFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

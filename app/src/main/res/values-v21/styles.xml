@@ -24,6 +24,11 @@
         <item name="colorPrimaryDark">@color/greenDark</item>
     </style>
 
+    <style name="GameHistoryLightTheme" parent="BaseLightTheme">
+        <item name="colorPrimary">@color/deepPurple</item>
+        <item name="colorPrimaryDark">@color/deepPurpleDark</item>
+    </style>
+
 
     <style name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="actionModeBackground">@color/grayDark</item>
@@ -43,5 +48,10 @@
     <style name="GameScoreTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/greenDark</item>
+    </style>
+
+    <style name="GameHistoryTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/deepPurple</item>
+        <item name="colorPrimaryDark">@color/deepPurpleDark</item>
     </style>
 </resources>

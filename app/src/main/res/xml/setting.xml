@@ -39,35 +39,35 @@
             android:title="@string/pref_title_orientation" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_configuration">
-        <com.tnt.scoreboard.NumberSeekerPreference
+        <com.tnt.scoreboard.libs.NumberSeekerPreference
             android:defaultValue="@integer/pref_value_update_delay"
             android:key="@string/pref_key_update_delay"
             android:summary="@string/pref_summary_update_delay"
             android:title="@string/pref_title_update_delay"
             app:dialogSummary="@string/pref_dialog_summary_update_delay"
             app:maxValue="@integer/pref_max_update_delay" />
-        <com.tnt.scoreboard.NumberPickerPreference
+        <com.tnt.scoreboard.libs.NumberPickerPreference
             android:defaultValue="@integer/pref_value_score_0"
             android:key="@string/pref_key_score_0"
             android:summary="@string/pref_summary_score"
             android:title="@string/pref_title_score_0"
             app:maxValue="@integer/pref_max_score"
             app:minValue="@integer/pref_min_score" />
-        <com.tnt.scoreboard.NumberPickerPreference
+        <com.tnt.scoreboard.libs.NumberPickerPreference
             android:defaultValue="@integer/pref_value_score_1"
             android:key="@string/pref_key_score_1"
             android:summary="@string/pref_summary_score"
             android:title="@string/pref_title_score_1"
             app:maxValue="@integer/pref_max_score"
             app:minValue="@integer/pref_min_score" />
-        <com.tnt.scoreboard.NumberPickerPreference
+        <com.tnt.scoreboard.libs.NumberPickerPreference
             android:defaultValue="@integer/pref_value_score_2"
             android:key="@string/pref_key_score_2"
             android:summary="@string/pref_summary_score"
             android:title="@string/pref_title_score_2"
             app:maxValue="@integer/pref_max_score"
             app:minValue="@integer/pref_min_score" />
-        <com.tnt.scoreboard.NumberPickerPreference
+        <com.tnt.scoreboard.libs.NumberPickerPreference
             android:defaultValue="@integer/pref_value_score_3"
             android:key="@string/pref_key_score_3"
             android:summary="@string/pref_summary_score"

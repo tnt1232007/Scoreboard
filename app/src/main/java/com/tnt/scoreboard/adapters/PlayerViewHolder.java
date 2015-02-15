@@ -25,13 +25,14 @@ import com.tnt.scoreboard.utils.PrefUtils;
 
 public class PlayerViewHolder extends RecyclerView.ViewHolder {
 
+    private final TextDrawable.IBuilder mAvatarBuilder = TextDrawable.builder()
+            .beginConfig().bold().endConfig().round();
+    private final TextDrawable.IBuilder mScoreBuilder = TextDrawable.builder().round();
     private final ImageView mAvatar, mRankImage, mIncrementScore;
     private final Button mButton0, mButton1, mButton2, mButton3;
     private final Context mContext;
     private final TextView mRankText, mPlayerName, mTotalScore;
     private final ProgressBar mDelayProgress, mScoreProgress;
-    private final TextDrawable.IBuilder mDrawableBuilder = TextDrawable.builder()
-            .beginConfig().bold().endConfig().round();
     private final RecyclerView mRecyclerView;
     private final ToggleButton mToggle;
     private final CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener;
@@ -175,7 +176,7 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
         String rest = name.substring(1, name.length());
         int color = (int) player.getColor();
         long score = player.getScore();
-        mAvatar.setBackground(mDrawableBuilder.build(initial, color));
+        mAvatar.setBackground(mAvatarBuilder.build(initial, color));
         mPlayerName.setText(rest);
         mPlayerName.setTextColor(color);
         mTotalScore.setText(String.valueOf(score));
@@ -207,7 +208,7 @@ public class PlayerViewHolder extends RecyclerView.ViewHolder {
         else if (button == mButton3)
             mScore += m3 * negative;
 
-        mIncrementScore.setBackground(mDrawableBuilder.build(
+        mIncrementScore.setBackground(mScoreBuilder.build(
                 (mScore > 0 ? "+" : "") + mScore, mScore >= 0 ? mGreen : mRed));
         show(true);
 

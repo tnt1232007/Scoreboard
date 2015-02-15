@@ -17,6 +17,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
+import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ import java.util.List;
 
 public class FloatingNewGameMenu extends FloatingActionsMenu {
 
-    public static final int NEW_GAME_REQUEST = 1;
     public static final String RECENT_GAMES = "Recent games will show up here";
     private final TextDrawable.IBuilder mDrawableBuilder =
             TextDrawable.builder().beginConfig().fontSize(40).bold().endConfig().round();
@@ -90,7 +90,7 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, GameNewActivity.class);
-                mActivity.startActivityForResult(intent, NEW_GAME_REQUEST);
+                mActivity.startActivityForResult(intent, Constants.GAME_NEW_REQUEST);
                 collapse();
             }
         });
@@ -145,7 +145,7 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, GameNewActivity.class);
                 intent.putExtra(Game.COLUMN_ID, game.getId());
-                mActivity.startActivityForResult(intent, NEW_GAME_REQUEST);
+                mActivity.startActivityForResult(intent, Constants.GAME_NEW_REQUEST);
                 collapse();
             }
         });

@@ -1,5 +1,6 @@
 package com.tnt.scoreboard;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -50,7 +51,10 @@ public class GameScoreActivity extends BaseActivity {
 
             @Override
             public void onEnded() {
-                //TODO: Show history activity
+                Intent intent = new Intent(GameScoreActivity.this, GameHistoryActivity.class);
+                intent.putExtra(Game.COLUMN_ID, mGame.getId());
+                startActivity(intent);
+                finish();
             }
         });
         recyclerView.setAdapter(mPlayerAdapter);
@@ -64,9 +68,22 @@ public class GameScoreActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, GameHistoryActivity.class);
+        intent.putExtra(Game.COLUMN_ID, mGame.getId());
+        intent.putExtra(Game.COLUMN_STATE, item.getItemId());
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
+            case R.id.action_undo:
+                return true;
+            case R.id.action_history:
+                startActivity(intent);
+                return true;
+            case R.id.action_archive:
+                setResult(RESULT_OK, intent);
+                finish();
+                return true;
+            case R.id.action_delete:
+                setResult(RESULT_OK, intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

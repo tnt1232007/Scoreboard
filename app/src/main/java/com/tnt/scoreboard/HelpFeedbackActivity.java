@@ -71,9 +71,6 @@ public class HelpFeedbackActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
             case R.id.action_send:
                 Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE);
                 i.setType(EMAIL_TYPE);

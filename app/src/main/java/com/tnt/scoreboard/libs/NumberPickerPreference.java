@@ -1,4 +1,4 @@
-package com.tnt.scoreboard;
+package com.tnt.scoreboard.libs;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.NumberPicker;
+
+import com.tnt.scoreboard.R;
 
 public class NumberPickerPreference extends DialogPreference {
 

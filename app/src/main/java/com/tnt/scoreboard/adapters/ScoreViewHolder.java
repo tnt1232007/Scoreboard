@@ -2,7 +2,6 @@ package com.tnt.scoreboard.adapters;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,13 +18,12 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
         mScore = (TextView) itemView.findViewById(R.id.score);
     }
 
-    public void updateData(Score score, int index, boolean isLatest) {
+    public void updateData(Score score, int index) {
         Resources r = itemView.getResources();
         long s = score.getScore();
         int color = s >= 0 ? r.getColor(R.color.green) : r.getColor(R.color.red);
         mOrder.setText((index + 1) + ".");
         mScore.setText((s > 0 ? "+" : "") + s);
         mScore.setTextColor(color);
-        mScore.setTextSize(TypedValue.COMPLEX_UNIT_SP, isLatest ? 16 : 10);
     }
 }

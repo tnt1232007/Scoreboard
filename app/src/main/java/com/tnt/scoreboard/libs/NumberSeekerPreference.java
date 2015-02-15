@@ -1,4 +1,4 @@
-package com.tnt.scoreboard;
+package com.tnt.scoreboard.libs;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.tnt.scoreboard.R;
 
 public class NumberSeekerPreference extends DialogPreference {
 

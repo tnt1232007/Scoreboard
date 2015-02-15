@@ -63,9 +63,9 @@ public class PlayerNewFragment extends Fragment {
                 colorPicker.setCurrentColor(color);
                 colorPicker.setListener(new ColorViewHolder.IOnColorPickListener() {
                     @Override
-                    public void onColorPick(int chooseColor) {
-                        PlayerNewFragment.this.color = chooseColor;
-                        colorIcon.setImageDrawable(drawableBuilder.build(" ", chooseColor));
+                    public void onColorPick(int color) {
+                        PlayerNewFragment.this.color = color;
+                        colorIcon.setImageDrawable(drawableBuilder.build(" ", color));
                     }
                 });
                 colorPicker.show(getFragmentManager(), COLOR_PICKER);

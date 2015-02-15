@@ -26,6 +26,7 @@ import com.tnt.scoreboard.adapters.GameAdapter;
 import com.tnt.scoreboard.adapters.NavigationViewHolder;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.ActivityUtils;
+import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.FileUtils;
 
 import java.util.List;
@@ -36,8 +37,7 @@ public class GameListActivity extends BaseActivity implements
         ActionMode.Callback,
         com.nispok.snackbar.listeners.ActionClickListener {
 
-    public static final int RECENT_GAMES_NUM = 3;
-
+    private static final int RECENT_GAMES_NUM = 3;
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
     private FloatingNewGameMenu mFab;
@@ -54,7 +54,7 @@ public class GameListActivity extends BaseActivity implements
         mFab.setup(this, getRecentGameList(RECENT_GAMES_NUM));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mNavigationDrawer = (NavigationDrawerFragment) getFragmentManager()
+        mNavigationDrawer = (NavigationDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigationDrawer);
         mNavigationDrawer.setup(mDrawerLayout, this);
 
@@ -84,12 +84,31 @@ public class GameListActivity extends BaseActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Game game;
         if (resultCode != RESULT_OK) return;
         switch (requestCode) {
-            case FloatingNewGameMenu.NEW_GAME_REQUEST:
-                long gameId = data.getLongExtra(Game.COLUMN_ID, -1);
-                mGameAdapter.add(getGame(gameId));
+            case Constants.GAME_NEW_REQUEST:
+                game = getGame(data.getLongExtra(Game.COLUMN_ID, -1));
+                mGameAdapter.add(game);
                 mFab.setup(this, getRecentGameList(RECENT_GAMES_NUM));
+                break;
+            case Constants.GAME_SCORE_REQUEST:
+                game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
+                int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
+                Snackbar snackbar = createUndoBar();
+                snackbar.setTag(itemId);
+                switch (itemId) {
+                    case R.id.action_archive:
+                        snackbar.text("1 archived");
+                        game.setState(Game.State.ARCHIVE);
+                        break;
+                    case R.id.action_delete:
+                        snackbar.text("1 deleted");
+                        game.setState(Game.State.DELETE);
+                        break;
+                }
+                updateGame(game);
+                SnackbarManager.show(snackbar);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -117,7 +136,7 @@ public class GameListActivity extends BaseActivity implements
                 mToolbar.setTitle(r.getString(mScreen.TITLE));
                 mToolbar.setBackground(new ColorDrawable(r.getColor(mScreen.COLOR_PRIMARY)));
                 getWindow().setStatusBarColor(r.getColor(mScreen.COLOR_PRIMARY_DARK));
-                mGameAdapter = new GameAdapter(getGameList(mScreen.STATE));
+                mGameAdapter = new GameAdapter(this, getGameList(mScreen.STATE));
                 mGameAdapter.setListener(this);
                 mRecyclerView.setAdapter(mGameAdapter);
                 mNavigationDrawer.setCurrentPosition(navigationOption);
@@ -175,38 +194,8 @@ public class GameListActivity extends BaseActivity implements
         String count = String.valueOf(selectedGames.size());
         String deleteMsg = selectedGames.size() == 1 ? "game" : count + " games";
 
-        Snackbar snackbar = Snackbar.with(this).actionLabel("Undo").actionListener(this)
-                .eventListener(new com.nispok.snackbar.listeners.EventListener() {
-
-                    @Override
-                    public void onShow(Snackbar snackbar) {
-                        mFab.move(-snackbar.getHeight());
-                    }
-
-                    @Override
-                    public void onShowByReplace(Snackbar snackbar) {
-                    }
-
-                    @Override
-                    public void onShown(Snackbar snackbar) {
-                    }
-
-                    @Override
-                    public void onDismiss(Snackbar snackbar) {
-                        mFab.move(snackbar.getHeight());
-                    }
-
-                    @Override
-                    public void onDismissByReplace(Snackbar snackbar) {
-                    }
-
-                    @Override
-                    public void onDismissed(Snackbar snackbar) {
-                    }
-                })
-                .attachToRecyclerView(mRecyclerView).swipeToDismiss(false);
+        Snackbar snackbar = createUndoBar();
         snackbar.setTag(menuItem.getItemId());
-
         switch (menuItem.getItemId()) {
             case R.id.action_delete_forever:
                 DialogInterface.OnClickListener dialogListener =
@@ -292,6 +281,39 @@ public class GameListActivity extends BaseActivity implements
         if (parcelable instanceof Bitmap) {
             mBitmap = (Bitmap) parcelable;
         }
+    }
+
+    private Snackbar createUndoBar() {
+        return Snackbar.with(this).actionLabel("Undo").actionListener(this)
+                .eventListener(new com.nispok.snackbar.listeners.EventListener() {
+
+                    @Override
+                    public void onShow(Snackbar snackbar) {
+                        mFab.move(-snackbar.getHeight());
+                    }
+
+                    @Override
+                    public void onShowByReplace(Snackbar snackbar) {
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+                    }
+
+                    @Override
+                    public void onDismiss(Snackbar snackbar) {
+                        mFab.move(snackbar.getHeight());
+                    }
+
+                    @Override
+                    public void onDismissByReplace(Snackbar snackbar) {
+                    }
+
+                    @Override
+                    public void onDismissed(Snackbar snackbar) {
+                    }
+                })
+                .attachToRecyclerView(mRecyclerView).swipeToDismiss(false);
     }
 
     private void updateEmptyView(ActivityUtils.Screen screen) {
