@@ -9,11 +9,11 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/first"
+            android:id="@+id/layout1"
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="48dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -24,7 +24,7 @@
                 android:src="@drawable/ic_1_cup" />
 
             <TextView
-                android:id="@+id/firstPlayer"
+                android:id="@+id/player1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
@@ -33,43 +33,33 @@
                 tools:text="First" />
 
             <TextView
-                android:id="@+id/firstScore"
+                android:id="@+id/score1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:text="120" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignEnd="@+id/first"
-            android:layout_alignStart="@+id/first"
-            android:layout_alignTop="@+id/first"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/ic_1" />
-
         <LinearLayout
-            android:id="@+id/second"
-            android:layout_width="72dp"
+            android:id="@+id/layout2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/divider"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="12dp"
             android:layout_marginStart="12dp"
-            android:layout_toStartOf="@+id/first"
+            android:layout_toStartOf="@+id/layout1"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:contentDescription="@string/default_image"
                 android:src="@drawable/ic_2_cup" />
 
             <TextView
-                android:id="@+id/secondPlayer"
+                android:id="@+id/player2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
@@ -78,43 +68,33 @@
                 tools:text="Second" />
 
             <TextView
-                android:id="@+id/secondScore"
+                android:id="@+id/score2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:text="96" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_alignEnd="@+id/second"
-            android:layout_alignStart="@+id/second"
-            android:layout_alignTop="@+id/second"
-            android:layout_marginTop="6dp"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/ic_2" />
-
         <LinearLayout
-            android:id="@+id/third"
-            android:layout_width="58dp"
+            android:id="@+id/layout3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/divider"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="12dp"
             android:layout_marginStart="12dp"
-            android:layout_toEndOf="@+id/first"
+            android:layout_toEndOf="@+id/layout1"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="72dp"
                 android:layout_height="58dp"
                 android:contentDescription="@string/default_image"
                 android:src="@drawable/ic_3_cup" />
 
             <TextView
-                android:id="@+id/thirdPlayer"
+                android:id="@+id/player3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
@@ -123,22 +103,12 @@
                 tools:text="Third" />
 
             <TextView
-                android:id="@+id/thirdScore"
+                android:id="@+id/score3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:text="84" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="29dp"
-            android:layout_alignEnd="@+id/third"
-            android:layout_alignStart="@+id/third"
-            android:layout_alignTop="@+id/third"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/ic_3" />
 
         <include
             android:id="@+id/divider"
@@ -147,16 +117,21 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="192dp" />
+            android:layout_marginTop="220dp"
+            android:visibility="invisible"
+            tools:visibility="visible" />
 
         <RelativeLayout
-            android:id="@+id/fourth"
+            android:id="@+id/layout4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/divider"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:layout_width="48dp"
@@ -167,35 +142,37 @@
                 android:src="@drawable/ic_4" />
 
             <TextView
-                android:id="@+id/fourthPlayer"
+                android:id="@+id/player4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="96dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="16sp"
                 tools:text="Fourth Player" />
 
             <TextView
-                android:id="@+id/fourthScore"
+                android:id="@+id/score4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/fourthPlayer"
-                android:layout_below="@+id/fourthPlayer"
+                android:layout_alignStart="@+id/player4"
+                android:layout_below="@+id/player4"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp"
                 tools:text="48" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/fifth"
+            android:id="@+id/layout5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fourth"
+            android:layout_below="@+id/layout4"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:layout_width="48dp"
@@ -206,35 +183,37 @@
                 android:src="@drawable/ic_5" />
 
             <TextView
-                android:id="@+id/fifthPlayer"
+                android:id="@+id/player5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="96dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="16sp"
                 tools:text="Fifth Player" />
 
             <TextView
-                android:id="@+id/fifthScore"
+                android:id="@+id/score5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/fifthPlayer"
-                android:layout_below="@+id/fifthPlayer"
+                android:layout_alignStart="@+id/player5"
+                android:layout_below="@+id/player5"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp"
                 tools:text="48" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/sixth"
+            android:id="@+id/layout6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fifth"
+            android:layout_below="@+id/layout5"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:layout_width="48dp"
@@ -245,35 +224,37 @@
                 android:src="@drawable/ic_6" />
 
             <TextView
-                android:id="@+id/sixthPlayer"
+                android:id="@+id/player6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="96dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="16sp"
                 tools:text="Sixth Player" />
 
             <TextView
-                android:id="@+id/sixthScore"
+                android:id="@+id/score6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/sixthPlayer"
-                android:layout_below="@+id/sixthPlayer"
+                android:layout_alignStart="@+id/player6"
+                android:layout_below="@+id/player6"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp"
                 tools:text="48" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/seventh"
+            android:id="@+id/layout7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sixth"
+            android:layout_below="@+id/layout6"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:layout_width="48dp"
@@ -284,35 +265,37 @@
                 android:src="@drawable/ic_7" />
 
             <TextView
-                android:id="@+id/seventhPlayer"
+                android:id="@+id/player7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="96dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="16sp"
                 tools:text="Seventh Player" />
 
             <TextView
-                android:id="@+id/seventhScore"
+                android:id="@+id/score7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/seventhPlayer"
-                android:layout_below="@+id/seventhPlayer"
+                android:layout_alignStart="@+id/player7"
+                android:layout_below="@+id/player7"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp"
                 tools:text="48" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/eighth"
+            android:id="@+id/layout8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/seventh"
+            android:layout_below="@+id/layout7"
+            android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:layout_width="48dp"
@@ -323,25 +306,34 @@
                 android:src="@drawable/ic_8" />
 
             <TextView
-                android:id="@+id/eighthPlayer"
+                android:id="@+id/player8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="96dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="16sp"
                 tools:text="Eighth Player" />
 
             <TextView
-                android:id="@+id/eighthScore"
+                android:id="@+id/score8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/eighthPlayer"
-                android:layout_below="@+id/eighthPlayer"
+                android:layout_alignStart="@+id/player8"
+                android:layout_below="@+id/player8"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp"
                 tools:text="48" />
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/viewAll"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="220dp"
+            android:gravity="center"
+            android:text="@string/view_all" />
     </RelativeLayout>
 </ScrollView>

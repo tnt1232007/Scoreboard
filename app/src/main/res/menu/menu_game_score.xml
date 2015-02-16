@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.tnt.scoreboard.GameScoreActivity">
     <item
-        android:id="@+id/action_undo"
-        android:icon="@drawable/ic_action_undo"
+        android:id="@+id/action_stop_all"
+        android:icon="@drawable/ic_action_stop_all"
+        android:title="@string/action_stop"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_undo_all"
+        android:icon="@drawable/ic_action_undo_all"
         android:title="@string/action_undo"
         app:showAsAction="ifRoom" />
     <item

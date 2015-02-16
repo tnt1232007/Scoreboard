@@ -12,15 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.FileUtils;
 
 import java.util.ArrayList;
 
 public class HelpFeedbackActivity extends BaseActivity {
 
-    public static final String SCREENSHOT = "screenshot.png";
-    public static final String LOGCAT = "logcat.txt";
-    public static final String EMAIL_TYPE = "message/rfc822";
+    private static final String EMAIL_TYPE = "message/rfc822";
     private TextView mEmailText;
     private CheckBox mFeedbackCheck;
 
@@ -33,7 +32,7 @@ public class HelpFeedbackActivity extends BaseActivity {
         mEmailText = ((TextView) findViewById(R.id.emailText));
         mFeedbackCheck = ((CheckBox) findViewById(R.id.feedbackCheck));
 
-        Bitmap bitmap = FileUtils.loadBitmap(SCREENSHOT);
+        Bitmap bitmap = FileUtils.loadBitmap(Constants.SCREENSHOT);
         ImageView screenshot = (ImageView) findViewById(R.id.screenshot);
         ImageView preview = (ImageView) findViewById(R.id.preview);
         final View previewLayout = findViewById(R.id.previewLayout);
@@ -79,10 +78,10 @@ public class HelpFeedbackActivity extends BaseActivity {
                 i.putExtra(Intent.EXTRA_TEXT, mEmailText.getText());
 
                 if (mFeedbackCheck.isChecked()) {
-                    FileUtils.saveLog(LOGCAT);
+                    FileUtils.saveLog(Constants.LOGCAT);
                     ArrayList<Uri> uris = new ArrayList<>();
-                    uris.add(Uri.fromFile(FileUtils.getFile(SCREENSHOT)));
-                    uris.add(Uri.fromFile(FileUtils.getFile(LOGCAT)));
+                    uris.add(Uri.fromFile(FileUtils.getFile(Constants.SCREENSHOT)));
+                    uris.add(Uri.fromFile(FileUtils.getFile(Constants.LOGCAT)));
                     i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
                 }
 

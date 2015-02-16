@@ -139,12 +139,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnClear"
+                android:id="@+id/btnStop"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="@string/button_clear"
+                android:text="@string/button_stop"
                 android:textColor="?android:attr/colorAccent" />
 
             <include

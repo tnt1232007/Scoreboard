@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.utils.ColorUtils;
+import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.PrefUtils;
 
 import java.util.ArrayList;
@@ -28,14 +29,13 @@ import java.util.List;
 public class GameNewActivity extends BaseActivity {
 
     private static final String PLAYER = "Player ";
-    private static final String MAXIMUM_ALLOW = "Maximum %s players allowed";
-    private static final String MINIMUM_ALLOW = "Must have minimum %s players";
+    private static final String MAXIMUM_ALLOW = "Maximum %s participants allowed";
+    private static final String MINIMUM_ALLOW = "Must have at least %s participants";
+    private static final String START_END_CONFLICT = "Ending score must bigger than Starting score";
     private static final String COLOR_INDEX = "colorIndex";
     private static final String CHAR_INDEX = "harIndex";
     private static final String NEW_PLAYER_TOP_MARGIN = "newPlayerTopMargin";
 
-    private static final int MAX_PLAYER_NUM = 8;
-    private static final int MIN_PLAYER_NUM = 2;
     private static final int ASCII_A = 65;
     private static final int CHAR_SIZE = 26;
 
@@ -112,9 +112,9 @@ public class GameNewActivity extends BaseActivity {
         mColorIndex = mColorIndex >= ColorUtils.ColorMap(this).size() ? 0 : mColorIndex;
         mCharIndex = mCharIndex >= CHAR_SIZE ? 0 : mCharIndex;
 
-        if (fragmentList.size() >= MAX_PLAYER_NUM) {
+        if (fragmentList.size() >= Constants.MAX_PLAYERS) {
             mNewPlayerButton.setVisibility(View.GONE);
-            Toast.makeText(this, String.format(MAXIMUM_ALLOW, MAX_PLAYER_NUM),
+            Toast.makeText(this, String.format(MAXIMUM_ALLOW, Constants.MAX_PLAYERS),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -168,7 +168,7 @@ public class GameNewActivity extends BaseActivity {
                     getFragmentManager().beginTransaction().remove(f).commit();
                     move(false);
                     fragmentList.remove(f);
-                    if (fragmentList.size() < MAX_PLAYER_NUM) {
+                    if (fragmentList.size() < Constants.MAX_PLAYERS) {
                         mNewPlayerButton.setVisibility(View.VISIBLE);
                     }
                 }
@@ -201,15 +201,18 @@ public class GameNewActivity extends BaseActivity {
                         .show();
                 return true;
             case R.id.action_start:
-                if (fragmentList.size() < MIN_PLAYER_NUM) {
-                    Toast.makeText(this, String.format(MINIMUM_ALLOW, MIN_PLAYER_NUM),
-                            Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-
                 String title = getValue(mTitle, String.class);
                 Long start = getValue(mStartScore, Long.class);
                 Long end = getValue(mEndScore, Long.class);
+
+                if (fragmentList.size() < Constants.MIN_PLAYERS) {
+                    Toast.makeText(this, String.format(MINIMUM_ALLOW, Constants.MIN_PLAYERS),
+                            Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (start > end) {
+                    Toast.makeText(this, START_END_CONFLICT, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
 
                 List<Player> playerList = new ArrayList<>();
                 for (PlayerNewFragment frag : fragmentList) {

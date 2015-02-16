@@ -18,7 +18,7 @@ public class HistoryPagerAdapter extends FragmentPagerAdapter {
     public HistoryPagerAdapter(FragmentManager fm, Game game) {
         super(fm);
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(LeaderboardFragment.getInstance());
+        mFragmentList.add(LeaderboardFragment.getInstance(game));
         mFragmentList.add(SummaryFragment.getInstance());
     }
 

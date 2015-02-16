@@ -24,6 +24,7 @@ import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
+import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.PrefUtils;
 
 import java.util.ArrayList;
@@ -32,14 +33,15 @@ import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
 
-    private final long mStartingScore, mEndingScore;
-    private List<Player> mPlayerList;
+    private final Context mContext;
+    private final long mEndingScore;
+    private final List<Player> mPlayerList;
     private IOnScoreUpdateListener mListener;
 
-    public PlayerAdapter(Game game) {
+    public PlayerAdapter(Context context, Game game) {
+        this.mContext = context;
+        this.mEndingScore = game.getEndingScore();
         this.mPlayerList = game.getPlayers();
-        mStartingScore = game.getStartingScore();
-        mEndingScore = game.getEndingScore();
     }
 
     @Override
@@ -53,13 +55,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     public void onBindViewHolder(final PlayerViewHolder holder, final int position) {
         final Player player = mPlayerList.get(position);
         holder.updateData(player, getRank(player),
-                (int) (player.getScore() * 100 / getMaxScoreAndCheck()));
+                (int) (player.getScore() * Constants.PERCENT / getMaxScoreAndCheck()));
         holder.setListener(new PlayerViewHolder.IOnScoreUpdateListener() {
             @Override
             public void onAdded(Score score) {
-                score = mListener.onAdded(player, score);
-                player.getScoreList().add(score);
-                player.setScore(player.getScore() + score.getScore());
+                mListener.onAdded(player, score);
                 mListener.onUpdated(notifyAndGetMaxRound());
             }
 
@@ -68,12 +68,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
                 if (player.getScoreList().size() == 0)
                     return;
 
-                Score score = mListener.onDeleted(player);
-                player.getScoreList().remove(score);
-                player.setScore(player.getScore() - score.getScore());
+                mListener.onDeleted(player);
                 mListener.onUpdated(notifyAndGetMaxRound());
             }
         });
+        if (player.isOnHold())
+            holder.stopCountdown();
+        player.setOnHold(false);
     }
 
     @Override
@@ -81,11 +82,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         return mPlayerList.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        //Stop recycler adapter recycling view and mixing up the countdown progress
+        return position;
+    }
+
     private int getRank(Player player) {
         List<Player> sortedList = new ArrayList<>(mPlayerList);
         Collections.sort(sortedList);
-        if (mEndingScore < mStartingScore)
-            Collections.reverse(sortedList);
         return sortedList.indexOf(player) + 1;
     }
 
@@ -97,7 +102,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
                 max = score;
         }
         long result = (long) Math.pow(10, Math.ceil(Math.log10(max)));
-        return max >= mEndingScore ? result : mEndingScore;
+        result = result >= mEndingScore ? result : mEndingScore;
+        return result == 0 ? Constants.PERCENT : result;
     }
 
     private int notifyAndGetMaxRound() {
@@ -111,14 +117,43 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         return max;
     }
 
+    public void stopAll() {
+        for (Player p : mPlayerList) {
+            p.setOnHold(true);
+        }
+    }
+
+    public void undoAll() {
+        if (mListener != null) {
+            new AlertDialog.Builder(mContext)
+                    .setMessage("Undo the last score?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mListener.onDeleted(mPlayerList);
+                            mListener.onUpdated(notifyAndGetMaxRound());
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
     public void setListener(IOnScoreUpdateListener listener) {
         mListener = listener;
     }
 
     public interface IOnScoreUpdateListener {
-        public Score onAdded(Player player, Score score);
 
-        public Score onDeleted(Player player);
+        public void onAdded(Player player, Score score);
+
+        public void onDeleted(Player player);
+
+        public void onDeleted(List<Player> playerList);
 
         public void onUpdated(int round);
     }
@@ -128,7 +163,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         private final TextDrawable.IBuilder mAvatarBuilder = TextDrawable.builder()
                 .beginConfig().bold().endConfig().round();
         private final TextDrawable.IBuilder mScoreBuilder = TextDrawable.builder().round();
-        private final ImageView mAvatar, mRankImage, mIncrementScore;
+        private final ImageView mAvatar, mRankImage, mScoreImage;
         private final Button mButton0, mButton1, mButton2, mButton3;
         private final Context mContext;
         private final TextView mRankText, mPlayerName, mTotalScore;
@@ -137,10 +172,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         private final ToggleButton mToggle;
         private final CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener;
         private final int mGreen, mRed;
+
         private CountDownTimer mCountdown;
-        private int m0, m1, m2, m3, mScore, mUpdateDelay = -1;
         private IOnScoreUpdateListener mListener;
-        private long mPlayerId;
+        private Player mPlayer;
+        private int m0, m1, m2, m3, mIncrementScore, mUpdateDelay = -1;
 
         public PlayerViewHolder(final View itemView) {
             super(itemView);
@@ -153,10 +189,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             mTotalScore = (TextView) itemView.findViewById(R.id.totalScore);
             mAvatar = (ImageView) itemView.findViewById(R.id.avatar);
             mRankImage = (ImageView) itemView.findViewById(R.id.rank);
-            mScoreProgress = ((ProgressBar) itemView.findViewById(R.id.scoreProgress));
-            mIncrementScore = ((ImageView) itemView.findViewById(R.id.incrementScore));
-            mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView);
+            mScoreImage = (ImageView) itemView.findViewById(R.id.incrementScore);
+            mScoreProgress = (ProgressBar) itemView.findViewById(R.id.scoreProgress);
             mDelayProgress = (ProgressBar) itemView.findViewById(R.id.delayProgress);
+            mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView);
             mToggle = (ToggleButton) itemView.findViewById(R.id.toggle);
             mButton0 = (Button) itemView.findViewById(R.id.btn0);
             mButton1 = (Button) itemView.findViewById(R.id.btn1);
@@ -198,21 +234,17 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             mButton2.setOnLongClickListener(onLongClickListener);
             mButton3.setOnLongClickListener(onLongClickListener);
 
-            mIncrementScore.setOnClickListener(new View.OnClickListener() {
+            mScoreImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mCountdown.cancel();
                     finishCountdown();
                 }
             });
-            itemView.findViewById(R.id.btnClear).setOnClickListener(new View.OnClickListener() {
+            itemView.findViewById(R.id.btnStop).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mScore = 0;
-                    mToggle.setChecked(false);
-                    mCountdown.cancel();
-                    mDelayProgress.setProgress(0);
-                    show(false);
+                    stopCountdown();
                 }
             });
             itemView.findViewById(R.id.btnUndo).setOnClickListener(new View.OnClickListener() {
@@ -240,7 +272,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
         public void updateData(Player player, int rank, int percent) {
             if (player == null) return;
-            mPlayerId = player.getId();
+            mPlayer = player;
             updateRank(rank);
 
             m0 = PrefUtils.getScore0(mContext);
@@ -256,8 +288,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
                     mCountdown.cancel();
                 mDelayProgress.setProgress(0);
                 mDelayProgress.setMax(mUpdateDelay);
-                mScore = 0;
-                show(false);
+                mIncrementScore = 0;
+                showIncrementScore(false);
                 mCountdown = new CountDownTimer(mUpdateDelay, 10) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -300,17 +332,18 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             int negative = mToggle.isChecked() ? -1 : 1;
             negative *= isLongClick ? -1 : 1;
             if (button == mButton0)
-                mScore += m0 * negative;
+                mIncrementScore += m0 * negative;
             else if (button == mButton1)
-                mScore += m1 * negative;
+                mIncrementScore += m1 * negative;
             else if (button == mButton2)
-                mScore += m2 * negative;
+                mIncrementScore += m2 * negative;
             else if (button == mButton3)
-                mScore += m3 * negative;
+                mIncrementScore += m3 * negative;
 
-            mIncrementScore.setBackground(mScoreBuilder.build(
-                    (mScore > 0 ? "+" : "") + mScore, mScore >= 0 ? mGreen : mRed));
-            show(true);
+            mScoreImage.setBackground(mScoreBuilder.build(
+                    (mIncrementScore > 0 ? "+" : "") + mIncrementScore,
+                    mIncrementScore >= 0 ? mGreen : mRed));
+            showIncrementScore(true);
 
             if (mUpdateDelay != 0) {
                 mCountdown.cancel();
@@ -321,33 +354,45 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         }
 
         private void finishCountdown() {
+            if (mPlayer.isOnHold()) {
+                stopCountdown();
+                return;
+            }
+
             mDelayProgress.setProgress(mUpdateDelay);
             if (mListener != null) {
-                mListener.onAdded(new Score(mPlayerId, mScore));
-                mScore = 0;
+                mListener.onAdded(new Score(mPlayer.getId(), mIncrementScore));
+                mIncrementScore = 0;
             }
             mDelayProgress.setProgress(0);
-            show(false);
+            showIncrementScore(false);
         }
 
-        private void show(final boolean visible) {
+        public void stopCountdown() {
+            mCountdown.cancel();
+            mIncrementScore = 0;
+            mDelayProgress.setProgress(0);
+            showIncrementScore(false);
+        }
+
+        private void showIncrementScore(final boolean visible) {
             final float alpha = visible ? 1f : 0f;
             final int value = (visible ? -70 : 0);
-            int firstDelay = visible ? 100 : 0;
-            int secondDelay = visible ? 0 : 100;
-            mIncrementScore.animate().setStartDelay(firstDelay).alpha(alpha)
+            int firstDelay = visible ? Constants.PERCENT : 0;
+            int secondDelay = visible ? 0 : Constants.PERCENT;
+            mScoreImage.animate().setStartDelay(firstDelay).alpha(alpha)
                     .withStartAction(new Runnable() {
                         @Override
                         public void run() {
                             if (visible)
-                                mIncrementScore.setVisibility(View.VISIBLE);
+                                mScoreImage.setVisibility(View.VISIBLE);
                         }
                     })
                     .withEndAction(new Runnable() {
                         @Override
                         public void run() {
                             if (!visible)
-                                mIncrementScore.setVisibility(View.INVISIBLE);
+                                mScoreImage.setVisibility(View.INVISIBLE);
                         }
                     }).start();
             mTotalScore.animate().setStartDelay(secondDelay).x(value).start();
@@ -379,6 +424,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         }
 
         public interface IOnScoreUpdateListener {
+
             public void onAdded(Score score);
 
             public void onDeleted();

@@ -14,6 +14,8 @@ import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
 
+import java.util.List;
+
 public class GameScoreActivity extends BaseActivity {
 
     public static final String ROUND = "Round ";
@@ -30,16 +32,21 @@ public class GameScoreActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mPlayerAdapter = new PlayerAdapter(mGame);
+        mPlayerAdapter = new PlayerAdapter(this, mGame);
         mPlayerAdapter.setListener(new PlayerAdapter.IOnScoreUpdateListener() {
             @Override
-            public Score onAdded(Player player, Score score) {
-                return addScore(player, score);
+            public void onAdded(Player player, Score score) {
+                addScore(player, score);
             }
 
             @Override
-            public Score onDeleted(Player player) {
-                return deleteScore(player);
+            public void onDeleted(Player player) {
+                deleteLatestScore(player);
+            }
+
+            @Override
+            public void onDeleted(List<Player> playerList) {
+                deleteLatestRoundScore(playerList);
             }
 
             @Override
@@ -65,7 +72,12 @@ public class GameScoreActivity extends BaseActivity {
         intent.putExtra(Game.COLUMN_ID, mGame.getId());
         intent.putExtra(Game.COLUMN_STATE, item.getItemId());
         switch (item.getItemId()) {
-            case R.id.action_undo:
+            case R.id.action_stop_all:
+                mPlayerAdapter.stopAll();
+                mPlayerAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.action_undo_all:
+                mPlayerAdapter.undoAll();
                 return true;
             case R.id.action_history:
                 startActivity(intent);

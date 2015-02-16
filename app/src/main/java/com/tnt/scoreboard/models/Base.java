@@ -17,7 +17,7 @@ public abstract class Base {
     public boolean equals(Object o) {
         return this == o
                 || !(o == null || getClass() != o.getClass())
-                && id == ((Player) o).id;
+                && id == ((Base) o).id;
     }
 
     @Override

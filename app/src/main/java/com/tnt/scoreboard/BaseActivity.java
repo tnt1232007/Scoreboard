@@ -18,6 +18,7 @@ import com.tnt.scoreboard.dataAccess.ScoreDAO;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
+import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.DrawableUtils;
 import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
@@ -74,7 +75,7 @@ public abstract class BaseActivity extends ActionBarActivity
             case R.id.action_help:
                 Bitmap bitmap = DrawableUtils.takeScreenShot(
                         getWindow().getDecorView().getRootView());
-                FileUtils.saveBitmap(bitmap, HelpFeedbackActivity.SCREENSHOT);
+                FileUtils.saveBitmap(bitmap, Constants.SCREENSHOT);
                 intent = new Intent(this, HelpFeedbackActivity.class);
                 startActivity(intent);
                 return true;
@@ -241,24 +242,64 @@ public abstract class BaseActivity extends ActionBarActivity
         mGameDAO.close();
     }
 
-    public Score addScore(Player player, Score score) {
+    public void addScore(Player player, Score score) {
         mScoreDAO.open();
         score = mScoreDAO.create(score);
         mScoreDAO.close();
 
         mPlayerDAO.open();
+        player.setScore(player.getScore() + score.getScore());
+        player.getScoreList().add(score);
         mPlayerDAO.update(player);
         mPlayerDAO.close();
-        return score;
     }
 
-    public Score deleteScore(Player player) {
+    public void deleteLatestScore(Player player) {
         mScoreDAO.open();
-        List<Score> scoreList = mScoreDAO.get(Score.COLUMN_PLAYER_ID + EQUALS + player.getId());
+        List<Score> scoreList = player.getScoreList();
+        if (scoreList.size() == 0) {
+            mScoreDAO.close();
+            return;
+        }
+
         Score score = scoreList.get(scoreList.size() - 1);
         mScoreDAO.delete(score.getId());
         mScoreDAO.close();
-        return score;
+
+        mPlayerDAO.open();
+        player.setScore(player.getScore() - score.getScore());
+        player.getScoreList().remove(score);
+        mPlayerDAO.update(player);
+        mPlayerDAO.close();
+    }
+
+    public void deleteLatestRoundScore(List<Player> playerList) {
+        int maxRounds = 0;
+        for (Player p : playerList) {
+            int size = p.getScoreList().size();
+            if (maxRounds < size)
+                maxRounds = size;
+        }
+
+        if (maxRounds == 0)
+            return;
+
+        for (Player p : playerList) {
+            int size = p.getScoreList().size();
+            if (size != maxRounds)
+                continue;
+
+            mScoreDAO.open();
+            Score score = p.getScoreList().get(maxRounds - 1);
+            mScoreDAO.delete(score.getId());
+            mScoreDAO.close();
+
+            mPlayerDAO.open();
+            p.setScore(p.getScore() - score.getScore());
+            p.getScoreList().remove(score);
+            mPlayerDAO.update(p);
+            mPlayerDAO.close();
+        }
     }
     //</editor-fold>
 }

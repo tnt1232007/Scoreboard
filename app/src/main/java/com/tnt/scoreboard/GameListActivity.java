@@ -37,7 +37,6 @@ public class GameListActivity extends BaseActivity implements
         ActionMode.Callback,
         com.nispok.snackbar.listeners.ActionClickListener {
 
-    private static final int RECENT_GAMES_NUM = 3;
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
     private FloatingNewGameMenu mFab;
@@ -51,7 +50,7 @@ public class GameListActivity extends BaseActivity implements
         super.onCreate(savedInstanceState, R.layout.activity_game_list);
 
         mFab = (FloatingNewGameMenu) findViewById(R.id.fab);
-        mFab.setup(this, getRecentGameList(RECENT_GAMES_NUM));
+        mFab.setup(this, getRecentGameList(Constants.RECENT_GAMES_NUM));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationDrawer = (NavigationDrawerFragment) getSupportFragmentManager()
@@ -90,7 +89,7 @@ public class GameListActivity extends BaseActivity implements
             case Constants.GAME_NEW_REQUEST:
                 game = getGame(data.getLongExtra(Game.COLUMN_ID, -1));
                 mGameAdapter.add(game);
-                mFab.setup(this, getRecentGameList(RECENT_GAMES_NUM));
+                mFab.setup(this, getRecentGameList(Constants.RECENT_GAMES_NUM));
                 break;
             case Constants.GAME_SCORE_REQUEST:
                 game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
@@ -156,7 +155,7 @@ public class GameListActivity extends BaseActivity implements
             case ActivityUtils.HELP:
                 intent = new Intent(this, HelpFeedbackActivity.class);
                 startActivity(intent);
-                FileUtils.saveBitmap(mBitmap, HelpFeedbackActivity.SCREENSHOT);
+                FileUtils.saveBitmap(mBitmap, Constants.SCREENSHOT);
                 break;
         }
     }
@@ -208,7 +207,7 @@ public class GameListActivity extends BaseActivity implements
                                         mGameAdapter.remove();
                                         actionMode.finish();
                                         mFab.setup(GameListActivity.this,
-                                                getRecentGameList(RECENT_GAMES_NUM));
+                                                getRecentGameList(Constants.RECENT_GAMES_NUM));
                                         break;
                                     case DialogInterface.BUTTON_NEGATIVE:
                                         break;

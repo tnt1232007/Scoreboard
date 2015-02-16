@@ -17,6 +17,7 @@ public class Player extends Base implements Comparable<Player> {
     private long score;
     private long color;
     private List<Score> scoreList;
+    private boolean onHold;
 
     public Player(String name, long color, long score) {
         this.name = name;
@@ -71,6 +72,14 @@ public class Player extends Base implements Comparable<Player> {
 
     public void setScoreList(List<Score> scoreList) {
         this.scoreList = scoreList;
+    }
+
+    public boolean isOnHold() {
+        return onHold;
+    }
+
+    public void setOnHold(boolean onHold) {
+        this.onHold = onHold;
     }
     //</editor-fold>
 
