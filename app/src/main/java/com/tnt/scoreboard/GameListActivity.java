@@ -72,11 +72,6 @@ public class GameListActivity extends BaseActivity implements
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu, R.menu.menu_game_list);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mNavigationDrawer.isDrawerToggleSelected(item) || super.onOptionsItemSelected(item);
     }
@@ -94,7 +89,7 @@ public class GameListActivity extends BaseActivity implements
             case Constants.GAME_SCORE_REQUEST:
                 game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
                 int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
-                Snackbar snackbar = createUndoBar();
+                Snackbar snackbar = newUndoBar();
                 snackbar.setTag(itemId);
                 switch (itemId) {
                     case R.id.action_archive:
@@ -175,7 +170,7 @@ public class GameListActivity extends BaseActivity implements
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        actionMode.getMenuInflater().inflate(mScreen.MENU_LAYOUT, menu);
+        actionMode.getMenuInflater().inflate(mScreen.ACTION_LAYOUT, menu);
         SnackbarManager.dismiss();
         mFab.show(false, true);
         getWindow().setStatusBarColor(getResources().getColor(R.color.lightBlack));
@@ -193,7 +188,7 @@ public class GameListActivity extends BaseActivity implements
         String count = String.valueOf(selectedGames.size());
         String deleteMsg = selectedGames.size() == 1 ? "game" : count + " games";
 
-        Snackbar snackbar = createUndoBar();
+        Snackbar snackbar = newUndoBar();
         snackbar.setTag(menuItem.getItemId());
         switch (menuItem.getItemId()) {
             case R.id.action_delete_forever:
@@ -282,7 +277,7 @@ public class GameListActivity extends BaseActivity implements
         }
     }
 
-    private Snackbar createUndoBar() {
+    private Snackbar newUndoBar() {
         return Snackbar.with(this).actionLabel("Undo").actionListener(this)
                 .eventListener(new com.nispok.snackbar.listeners.EventListener() {
 

@@ -13,8 +13,8 @@
     <string name="action_start">Start</string>
     <string name="action_send">Send</string>
     <string name="action_history">History</string>
-    <string name="action_stop">Stop all</string>
-    <string name="action_undo">Undo all</string>
+    <string name="action_stop_all">Stop all</string>
+    <string name="action_undo_all">Undo all</string>
 
     <string name="title_activity_archive">Archive</string>
     <string name="title_activity_games">Games</string>

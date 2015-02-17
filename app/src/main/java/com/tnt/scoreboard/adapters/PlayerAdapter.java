@@ -126,7 +126,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     public void undoAll() {
         if (mListener != null) {
             new AlertDialog.Builder(mContext)
-                    .setMessage("Undo the last score?")
+                    .setMessage("Undo the last score of all players?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

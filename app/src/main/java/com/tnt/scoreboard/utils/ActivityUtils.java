@@ -47,7 +47,7 @@ public final class ActivityUtils {
         public Game.State STATE;
         public int TITLE;
         public int FAB_VISIBLE;
-        public int MENU_LAYOUT;
+        public int ACTION_LAYOUT;
         public int COLOR_PRIMARY;
         public int COLOR_PRIMARY_DARK;
         public int COLOR_ACCENT;
@@ -61,7 +61,7 @@ public final class ActivityUtils {
             this.STATE = state;
             this.TITLE = title;
             this.FAB_VISIBLE = fabVisible;
-            this.MENU_LAYOUT = menuLayout;
+            this.ACTION_LAYOUT = menuLayout;
             this.COLOR_PRIMARY = colorPrimary;
             this.COLOR_PRIMARY_DARK = colorPrimaryDark;
             this.COLOR_ACCENT = colorAccent;
@@ -74,7 +74,7 @@ public final class ActivityUtils {
             this.STATE = Game.State.values()[in.readInt()];
             this.TITLE = in.readInt();
             this.FAB_VISIBLE = in.readInt();
-            this.MENU_LAYOUT = in.readInt();
+            this.ACTION_LAYOUT = in.readInt();
             this.COLOR_PRIMARY = in.readInt();
             this.COLOR_PRIMARY_DARK = in.readInt();
             this.COLOR_ACCENT = in.readInt();
@@ -92,7 +92,7 @@ public final class ActivityUtils {
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeInt(STATE.ordinal());
             dest.writeInt(FAB_VISIBLE);
-            dest.writeInt(MENU_LAYOUT);
+            dest.writeInt(ACTION_LAYOUT);
             dest.writeInt(COLOR_PRIMARY);
             dest.writeInt(COLOR_PRIMARY_DARK);
             dest.writeInt(COLOR_ACCENT);
