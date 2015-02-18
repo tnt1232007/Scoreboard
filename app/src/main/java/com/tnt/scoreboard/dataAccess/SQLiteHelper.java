@@ -13,7 +13,6 @@ import com.tnt.scoreboard.utils.RandUtils;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    public static final String SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final int DATABASE_VERSION = 24;
     private static final String DATABASE_NAME = "scoreboard.sqlite";
 

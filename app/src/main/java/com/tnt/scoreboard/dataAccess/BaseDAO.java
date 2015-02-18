@@ -7,10 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.tnt.scoreboard.models.Base;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public abstract class BaseDAO<T extends Base> {
@@ -34,6 +31,7 @@ public abstract class BaseDAO<T extends Base> {
     public void close() {
         db.setTransactionSuccessful();
         db.endTransaction();
+        db = null;
         daoHelper.close();
     }
 
@@ -58,14 +56,12 @@ public abstract class BaseDAO<T extends Base> {
     }
 
     public List<T> get(String where) {
-        return get(where, null, null, null, null, null);
+        return get(where, null);
     }
 
-    public List<T> get(String selection, String[] selectionArgs, String groupBy,
-                       String having, String orderBy, String limit) {
+    public List<T> get(String selection, String orderBy) {
         List<T> bases = new ArrayList<>();
-        Cursor cursor = db.query(tableName, allColumns, selection,
-                selectionArgs, groupBy, having, orderBy, limit);
+        Cursor cursor = db.query(tableName, allColumns, selection, null, null, null, orderBy, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             bases.add(cursorToBase(cursor));
@@ -86,14 +82,4 @@ public abstract class BaseDAO<T extends Base> {
     protected abstract ContentValues baseToValues(T base);
 
     protected abstract T cursorToBase(Cursor cursor);
-
-    protected Date cursorGetDate(Cursor cursor, int columnIndex) {
-        String sqlDate = cursor.getString(columnIndex);
-        SimpleDateFormat dateFormat = new SimpleDateFormat(SQLiteHelper.SQLITE_DATE_FORMAT);
-        try {
-            return dateFormat.parse(sqlDate);
-        } catch (ParseException e) {
-            return new Date(0);
-        }
-    }
 }

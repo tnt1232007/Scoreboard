@@ -11,14 +11,12 @@ import android.widget.TextView;
 
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.utils.ColorUtils;
+import com.tnt.scoreboard.utils.Constants;
 
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.NavigationViewHolder> {
 
-    public static final String PREFIX = "#";
-    public static final String DIVIDER = "DIVIDER";
-    public static final int TYPE_HEADER = 0;
-    public static final int TYPE_ITEM = 1;
-    public static final int TYPE_DIVIDER = 2;
+    private static final String PREFIX = "#";
+    private static final String DIVIDER = "DIVIDER";
     private final TypedArray mIcons, mColors;
     private final String[] mText;
     private int mCurrentPosition;
@@ -35,13 +33,13 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
         View layout = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
-            case NavigationAdapter.TYPE_HEADER:
+            case Constants.TYPE_HEADER:
                 layout = inflater.inflate(R.layout.item_header, parent, false);
                 break;
-            case NavigationAdapter.TYPE_ITEM:
+            case Constants.TYPE_ITEM:
                 layout = inflater.inflate(R.layout.item_navigation, parent, false);
                 break;
-            case NavigationAdapter.TYPE_DIVIDER:
+            case Constants.TYPE_DIVIDER:
                 layout = inflater.inflate(R.layout.divider_horizontal, parent, false);
                 break;
         }
@@ -50,9 +48,9 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
 
     @Override
     public int getItemViewType(int position) {
-        String text = this.mText[position];
-        return text.equals(DIVIDER) ? TYPE_DIVIDER :
-                text.startsWith(PREFIX) ? TYPE_HEADER : TYPE_ITEM;
+        String text = mText[position];
+        return text.equals(DIVIDER) ? Constants.TYPE_DIVIDER :
+                text.startsWith(PREFIX) ? Constants.TYPE_HEADER : Constants.TYPE_ITEM;
     }
 
     @Override
@@ -100,10 +98,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
             mDefaultColor = ColorUtils.getAttrColor(mContext, android.R.attr.textColorPrimary);
 
             switch (viewType) {
-                case TYPE_HEADER:
+                case Constants.TYPE_HEADER:
                     mText = (TextView) itemView.findViewById(R.id.text);
                     break;
-                case TYPE_ITEM:
+                case Constants.TYPE_ITEM:
                     mIcon = (ImageView) itemView.findViewById(R.id.icon);
                     mText = (TextView) itemView.findViewById(R.id.text);
                     break;
@@ -119,10 +117,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
 
         public void updateData(int viewType, int icon, String text, int color, boolean isSelected) {
             switch (viewType) {
-                case TYPE_HEADER:
+                case Constants.TYPE_HEADER:
                     this.mText.setText(text.replace(PREFIX, ""));
                     break;
-                case TYPE_ITEM:
+                case Constants.TYPE_ITEM:
                     this.mIcon.setImageResource(icon);
                     this.mText.setText(text);
                     this.mColor = color;

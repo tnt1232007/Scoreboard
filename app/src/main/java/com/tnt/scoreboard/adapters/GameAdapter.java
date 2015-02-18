@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.utils.Constants;
+import com.tnt.scoreboard.utils.DateTimeUtils;
 import com.tnt.scoreboard.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -78,6 +78,18 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
     @Override
     public int getItemCount() {
         return mGameList.size();
+    }
+
+    public int getSelectedCount() {
+        return mSelectedGames.size();
+    }
+
+    public List<Game> getUndoItems() {
+        return mUndoGames;
+    }
+
+    public List<Game> getSelectedItems() {
+        return new ArrayList<>(mSelectedGames);
     }
 
     //<editor-fold desc="Adapter items handler">
@@ -150,16 +162,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
     }
     //</editor-fold>
 
-    public int getSelectedCount() {
-        return mSelectedGames.size();
-    }
-
-    public List<Game> getUndoItems() {
-        return mUndoGames;
-    }
-
-    public List<Game> getSelectedItems() {
-        return new ArrayList<>(mSelectedGames);
+    public void setGameList(List<Game> gameList) {
+        mGameList = gameList;
     }
 
     public void setListener(IOnGameSelectListener listener) {
@@ -218,9 +222,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
             if (game == null) return;
             mPlayerName.setText(StringUtils.join(game.getPlayers(), ", "));
             mNumberOfRounds.setText(game.getNumberOfRounds() + " Rounds");
-            mDateTime.setText(DateUtils.formatDateTime(mDateTime.getContext(),
-                    game.getUpdatedDate().getTime(), DateUtils.FORMAT_ABBREV_ALL
-                            | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME));
+            mDateTime.setText(DateTimeUtils.formatPretty(game.getUpdatedDate()));
         }
 
         public void updateState(Game game, boolean selected) {

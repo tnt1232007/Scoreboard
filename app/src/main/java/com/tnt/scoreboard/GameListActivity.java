@@ -79,30 +79,37 @@ public class GameListActivity extends BaseActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Game game;
-        if (resultCode != RESULT_OK) return;
         switch (requestCode) {
             case Constants.GAME_NEW_REQUEST:
+                if (resultCode != RESULT_OK) return;
                 game = getGame(data.getLongExtra(Game.COLUMN_ID, -1));
                 mGameAdapter.add(game);
                 mFab.setup(this, getRecentGameList(Constants.RECENT_GAMES_NUM));
                 break;
             case Constants.GAME_SCORE_REQUEST:
-                game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
-                int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
-                Snackbar snackbar = newUndoBar();
-                snackbar.setTag(itemId);
-                switch (itemId) {
-                    case R.id.action_archive:
-                        snackbar.text("1 archived");
-                        game.setState(Game.State.ARCHIVE);
-                        break;
-                    case R.id.action_delete:
-                        snackbar.text("1 deleted");
-                        game.setState(Game.State.DELETE);
-                        break;
+                if (resultCode == RESULT_OK) {
+                    game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
+                    int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
+                    Snackbar snackbar = newUndoBar();
+                    snackbar.setTag(itemId);
+                    switch (itemId) {
+                        case R.id.action_archive:
+                            snackbar.text("1 archived");
+                            game.setState(Game.State.ARCHIVE);
+                            break;
+                        case R.id.action_delete:
+                            snackbar.text("1 deleted");
+                            game.setState(Game.State.DELETE);
+                            break;
+                    }
+                    updateGame(game);
+                    SnackbarManager.show(snackbar);
+                } else if (resultCode == RESULT_CANCELED) {
+                    boolean updated = data.getBooleanExtra(Game.COLUMN_UPDATED_DATE, false);
+                    if (!updated) return;
+                    mGameAdapter.setGameList(getGameList(mScreen.STATE));
+                    mGameAdapter.notifyDataSetChanged();
                 }
-                updateGame(game);
-                SnackbarManager.show(snackbar);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);

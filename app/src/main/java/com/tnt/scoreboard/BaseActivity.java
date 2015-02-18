@@ -131,8 +131,7 @@ public abstract class BaseActivity extends ActionBarActivity
     //<editor-fold desc="Data access wrapper">
     public List<Game> getRecentGameList(int limit) {
         mGameDAO.open();
-        List<Game> games = mGameDAO.get(null, null, null, null,
-                Game.COLUMN_CREATED_DATE + DESC, null);
+        List<Game> games = mGameDAO.get(null, Game.COLUMN_CREATED_DATE + DESC);
         mGameDAO.close();
 
         mPlayerDAO.open();
@@ -159,7 +158,8 @@ public abstract class BaseActivity extends ActionBarActivity
 
     public List<Game> getGameList(Game.State state) {
         mGameDAO.open();
-        List<Game> games = mGameDAO.get(Game.COLUMN_STATE + EQUALS + state.ordinal());
+        List<Game> games = mGameDAO.get(Game.COLUMN_STATE + EQUALS + state.ordinal(),
+                Game.COLUMN_UPDATED_DATE + DESC);
         mGameDAO.close();
 
         for (int i = 0; i < games.size(); i++) {

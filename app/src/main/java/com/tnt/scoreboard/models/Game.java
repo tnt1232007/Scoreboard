@@ -2,7 +2,8 @@ package com.tnt.scoreboard.models;
 
 import android.support.annotation.NonNull;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 public class Game extends Base implements Comparable<Game> {
@@ -24,8 +25,8 @@ public class Game extends Base implements Comparable<Game> {
     private long startingScore;
     private long endingScore;
     private State state;
-    private Date createdDate;
-    private Date updatedDate;
+    private DateTime createdDate;
+    private DateTime updatedDate;
     private List<Player> players;
 
     public Game(String title, long numberOfPlayers, long startingScore, long endingScore) {
@@ -39,7 +40,7 @@ public class Game extends Base implements Comparable<Game> {
 
     public Game(long id, String title, long numberOfPlayers, long numberOfRounds,
                 long startingScore, long endingScore, State state,
-                Date createdDate, Date updatedDate) {
+                DateTime createdDate, DateTime updatedDate) {
         this.id = id;
         this.title = title;
         this.numberOfPlayers = numberOfPlayers;
@@ -108,19 +109,19 @@ public class Game extends Base implements Comparable<Game> {
         this.state = state;
     }
 
-    public Date getCreatedDate() {
+    public DateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(DateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdatedDate() {
+    public DateTime getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Date updatedDate) {
+    public void setUpdatedDate(DateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
 

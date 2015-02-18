@@ -13,6 +13,7 @@ import com.tnt.scoreboard.adapters.PlayerAdapter;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
+import com.tnt.scoreboard.utils.DateTimeUtils;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class GameScoreActivity extends BaseActivity {
     public static final String ROUND = "Round ";
     private PlayerAdapter mPlayerAdapter;
     private Game mGame;
+    private boolean updated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,9 @@ public class GameScoreActivity extends BaseActivity {
             @Override
             public void onUpdated(int round) {
                 mGame.setNumberOfRounds(round);
+                mGame.setUpdatedDate(DateTimeUtils.now());
                 updateGame(mGame);
+                updated = true;
                 setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
             }
 
@@ -105,5 +109,13 @@ public class GameScoreActivity extends BaseActivity {
                 || key.equals(getString(R.string.pref_key_score_3))) {
             mPlayerAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(Game.COLUMN_UPDATED_DATE, updated);
+        setResult(RESULT_CANCELED, intent);
+        super.onBackPressed();
     }
 }

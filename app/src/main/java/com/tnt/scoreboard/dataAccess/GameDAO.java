@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.tnt.scoreboard.models.Game;
+import com.tnt.scoreboard.utils.DateTimeUtils;
+
+import org.joda.time.DateTime;
 
 public class GameDAO extends BaseDAO<Game> {
 
@@ -31,6 +34,9 @@ public class GameDAO extends BaseDAO<Game> {
         values.put(Game.COLUMN_STARTING_SCORE, game.getStartingScore());
         values.put(Game.COLUMN_ENDING_SCORE, game.getEndingScore());
         values.put(Game.COLUMN_STATE, game.getState().ordinal());
+        DateTime updatedDate = game.getUpdatedDate();
+        if (updatedDate != null)
+            values.put(Game.COLUMN_UPDATED_DATE, DateTimeUtils.formatUtc(updatedDate));
         return values;
     }
 
@@ -44,8 +50,10 @@ public class GameDAO extends BaseDAO<Game> {
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_STARTING_SCORE)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Game.COLUMN_ENDING_SCORE)),
                 Game.State.values()[cursor.getInt(cursor.getColumnIndex(Game.COLUMN_STATE))],
-                cursorGetDate(cursor, cursor.getColumnIndexOrThrow(Game.COLUMN_CREATED_DATE)),
-                cursorGetDate(cursor, cursor.getColumnIndexOrThrow(Game.COLUMN_UPDATED_DATE))
+                DateTimeUtils.parseLocalDate(
+                        cursor.getString(cursor.getColumnIndexOrThrow(Game.COLUMN_CREATED_DATE))),
+                DateTimeUtils.parseLocalDate(
+                        cursor.getString(cursor.getColumnIndexOrThrow(Game.COLUMN_UPDATED_DATE)))
         );
     }
 }
