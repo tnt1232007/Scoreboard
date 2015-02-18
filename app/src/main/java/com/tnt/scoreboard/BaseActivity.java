@@ -22,6 +22,7 @@ import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.DrawableUtils;
 import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.PrefUtils;
+import com.tnt.scoreboard.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -144,9 +145,8 @@ public abstract class BaseActivity extends ActionBarActivity
         TreeSet<Game> treeSet = new TreeSet<>(new Comparator<Game>() {
             @Override
             public int compare(Game lhs, Game rhs) {
-                if (lhs.getPlayers().containsAll(rhs.getPlayers()))
-                    return 0;
-                return 1;
+                return StringUtils.join(lhs.getPlayers(), ",")
+                        .equals(StringUtils.join(rhs.getPlayers(), ",")) ? 0 : 1;
             }
         });
         treeSet.addAll(games);
