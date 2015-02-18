@@ -33,6 +33,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="16dp"
                     android:contentDescription="@string/default_image"
                     tools:background="?android:attr/colorPrimary" />
@@ -84,9 +85,6 @@
                     android:layout_marginStart="4dp"
                     android:alpha="0"
                     android:contentDescription="@string/default_image"
-                    app:siArrowPosition="left"
-                    app:siBorderColor="@color/blue"
-                    app:siBorderWidth="6dp"
                     tools:background="?android:attr/colorPrimary" />
 
                 <ProgressBar
@@ -118,9 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
 
-            <view
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                class="android.support.v7.widget.RecyclerView"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content" />
 

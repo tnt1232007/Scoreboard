@@ -44,7 +44,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
     }
 
     @Override
-    public GameViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+    public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layout = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_game, parent, false);
         return new GameViewHolder(layout);
