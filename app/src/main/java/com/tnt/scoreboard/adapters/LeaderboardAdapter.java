@@ -17,7 +17,7 @@ import java.util.List;
 public class LeaderboardAdapter
         extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder> {
 
-    private final List<Player> mPlayerList;
+    private List<Player> mPlayerList;
 
     public LeaderboardAdapter(List<Player> playerList) {
         this.mPlayerList = playerList;
@@ -45,7 +45,7 @@ public class LeaderboardAdapter
     static class LeaderboardViewHolder extends RecyclerView.ViewHolder {
 
         private final TextDrawable.IBuilder mAvatarBuilder = TextDrawable.builder()
-                .beginConfig().bold().endConfig().round();
+                .beginConfig().bold().fontSize(56).endConfig().round();
         private final ImageView mRank;
         private final TextView mPlayer, mScore;
 

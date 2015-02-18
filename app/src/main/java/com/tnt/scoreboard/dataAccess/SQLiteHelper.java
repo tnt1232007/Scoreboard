@@ -8,6 +8,7 @@ import android.util.Log;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
+import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.RandUtils;
 
@@ -127,13 +128,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         int gameId = 1, playerId = 1, scoreId = 1;
         int numOfGames = RandUtils.nextInt(20, 40);
         for (int i = 0; i < numOfGames; i++, gameId++) {
-            int numOfPlayers = RandUtils.nextInt(2, 8);
+            int numOfPlayers = RandUtils.nextInt(2, 24);
             int numOfRounds = RandUtils.nextInt(1, 100);
-            String date = String.valueOf(android.text.format.DateFormat.format(
-                    "yyyy-MM-dd hh:mm:ss", RandUtils.nextDate()));
+            String date = RandUtils.nextDateTime(5).toString(Constants.SQLITE_DATE_FORMAT);
             db.execSQL(POPULATE_TABLE_GAME, new Object[]{
-                    gameId, "Poker", numOfPlayers,
-                    numOfRounds, 0, RandUtils.nextItem(new Integer[]{-100, 100}),
+                    gameId, "Poker" + gameId, numOfPlayers,
+                    numOfRounds, 0, 100,
                     RandUtils.nextInt(0, 2), date, date});
 
             for (int j = 0; j < numOfPlayers; j++, playerId++) {

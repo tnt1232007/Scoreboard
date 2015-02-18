@@ -59,8 +59,8 @@
     <string name="infinite_off">Game ends at ending score</string>
     <string name="win_on">Player reaches ending score win</string>
     <string name="win_off">Player reaches ending score lose</string>
+    <string name="swipe_refresh">Swipe down to show all participants</string>
 
     <string name="developer">TNT</string>
     <string name="developer_email">tnt1232007@gmail.com</string>
-    <string name="view_all">View All</string>
 </resources>

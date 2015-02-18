@@ -1,7 +1,9 @@
 package com.tnt.scoreboard;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,10 +35,31 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        final SwipeRefreshLayout swipeLayout =
+                (SwipeRefreshLayout) view.findViewById(R.id.swipeLayout);
+        final View swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        View divider = view.findViewById(R.id.divider);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeLayout.setRefreshing(false);
+                        swipeLayout.setEnabled(false);
+                        TransitionManager.beginDelayedTransition((ViewGroup) view, new Slide());
+                        swipeRefresh.setVisibility(View.GONE);
+                        recyclerView.setAdapter(new LeaderboardAdapter(mPlayerList));
+                    }
+                }, 1000);
+            }
+        });
 
         Player player;
         int size = mPlayerList.size();
@@ -60,19 +83,9 @@ public class LeaderboardFragment extends Fragment {
             ((TextView) view.findViewById(R.id.score3)).setText(String.valueOf(player.getScore()));
         }
         if (size >= 4) {
-            recyclerView.setAdapter(new LeaderboardAdapter(mPlayerList));
-
-            View viewAll = view.findViewById(R.id.viewAll);
-            viewAll.setVisibility(View.VISIBLE);
-            viewAll.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TransitionManager.beginDelayedTransition((ViewGroup) view, new Slide());
-                    v.setVisibility(View.GONE);
-                    view.findViewById(R.id.recyclerView).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.divider).setVisibility(View.VISIBLE);
-                }
-            });
+            swipeLayout.setVisibility(View.VISIBLE);
+            swipeRefresh.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
         }
         return view;
     }

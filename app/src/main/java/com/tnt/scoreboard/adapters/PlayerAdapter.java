@@ -399,12 +399,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         }
 
         private void updateRank(int rank) {
+            mRankImage.setVisibility(rank == 1 ? View.VISIBLE : View.INVISIBLE);
+
             String s;
-            mRankImage.setVisibility(View.INVISIBLE);
-            switch (rank) {
+            switch (rank % 10) {
                 case 1:
                     s = "st";
-                    mRankImage.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     s = "nd";
