@@ -284,6 +284,15 @@ public class GameListActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mFab.isExpanded()) {
+            mFab.collapse();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     private Snackbar newUndoBar() {
         return Snackbar.with(this).actionLabel("Undo").actionListener(this)
                 .eventListener(new com.nispok.snackbar.listeners.EventListener() {
