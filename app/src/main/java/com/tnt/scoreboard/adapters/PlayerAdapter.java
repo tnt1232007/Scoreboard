@@ -41,7 +41,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     public PlayerAdapter(Context context, Game game) {
         this.mContext = context;
         this.mEndingScore = game.getEndingScore();
-        this.mPlayerList = game.getPlayers();
+        this.mPlayerList = game.getPlayerList();
     }
 
     @Override
@@ -361,7 +361,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
             mDelayProgress.setProgress(mUpdateDelay);
             if (mListener != null) {
-                mListener.onAdded(new Score(mPlayer.getId(), mIncrementScore));
+                mListener.onAdded(new Score(mPlayer.getId(), mPlayer.getScoreList().size() + 1,
+                        mPlayer.getScore(), mIncrementScore));
                 mIncrementScore = 0;
             }
             mDelayProgress.setProgress(0);

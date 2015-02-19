@@ -138,15 +138,15 @@ public abstract class BaseActivity extends ActionBarActivity
         mPlayerDAO.open();
         for (int i = 0; i < games.size(); i++) {
             Game game = games.get(i);
-            game.setPlayers(mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
+            game.setPlayerList(mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId()));
         }
         mPlayerDAO.close();
 
         TreeSet<Game> treeSet = new TreeSet<>(new Comparator<Game>() {
             @Override
             public int compare(Game lhs, Game rhs) {
-                return StringUtils.join(lhs.getPlayers(), ",")
-                        .equals(StringUtils.join(rhs.getPlayers(), ",")) ? 0 : 1;
+                return StringUtils.join(lhs.getPlayerList(), ",")
+                        .equals(StringUtils.join(rhs.getPlayerList(), ",")) ? 0 : 1;
             }
         });
         treeSet.addAll(games);
@@ -176,7 +176,7 @@ public abstract class BaseActivity extends ActionBarActivity
             }
             mScoreDAO.close();
 
-            game.setPlayers(players);
+            game.setPlayerList(players);
         }
         return games;
     }
@@ -200,7 +200,7 @@ public abstract class BaseActivity extends ActionBarActivity
         }
         mScoreDAO.close();
 
-        game.setPlayers(players);
+        game.setPlayerList(players);
         return game;
     }
 
@@ -209,7 +209,7 @@ public abstract class BaseActivity extends ActionBarActivity
         mGameDAO.open();
         Game game = mGameDAO.create(new Game(title, playerList.size(), startingScore, endingScore));
         mGameDAO.close();
-        game.setPlayers(playerList);
+        game.setPlayerList(playerList);
 
         mPlayerDAO.open();
         for (Player p : playerList) {
@@ -223,7 +223,7 @@ public abstract class BaseActivity extends ActionBarActivity
     public void deleteGames(List<Game> gameList) {
         mPlayerDAO.open();
         for (Game g : gameList) {
-            for (Player p : g.getPlayers()) {
+            for (Player p : g.getPlayerList()) {
                 mPlayerDAO.delete(p.getId());
             }
         }

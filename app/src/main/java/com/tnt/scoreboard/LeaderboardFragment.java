@@ -18,6 +18,7 @@ import com.tnt.scoreboard.adapters.LeaderboardAdapter;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class LeaderboardFragment extends Fragment {
     private static List<Player> mPlayerList;
 
     public static LeaderboardFragment getInstance(Game game) {
-        mPlayerList = game.getPlayers();
+        mPlayerList = game.getPlayerList();
         Collections.sort(mPlayerList);
         return new LeaderboardFragment();
     }
@@ -40,6 +41,7 @@ public class LeaderboardFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(new LeaderboardAdapter(new ArrayList<Player>()));
 
         final SwipeRefreshLayout swipeLayout =
                 (SwipeRefreshLayout) view.findViewById(R.id.swipeLayout);

@@ -126,7 +126,7 @@ public class FloatingNewGameMenu extends FloatingActionsMenu {
     }
 
     private FloatingActionButton createRecentGameButton(final Game game) {
-        List<Player> players = game.getPlayers();
+        List<Player> players = game.getPlayerList();
         Context context = this.getContext();
         String s1 = String.format("%s%s", players.size(),
                 StringUtils.getInitial(context, players.get(0).getName()));

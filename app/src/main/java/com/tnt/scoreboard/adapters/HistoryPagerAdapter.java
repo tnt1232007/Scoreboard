@@ -19,7 +19,7 @@ public class HistoryPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(LeaderboardFragment.getInstance(game));
-        mFragmentList.add(SummaryFragment.getInstance());
+        mFragmentList.add(SummaryFragment.getInstance(game));
     }
 
     @Override

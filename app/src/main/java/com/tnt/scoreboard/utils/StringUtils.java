@@ -28,6 +28,14 @@ public final class StringUtils {
         return sb.toString();
     }
 
+    public static String padLeft(Object s, char padChar, int n) {
+        return String.format("%1$" + n + "s", s).replace(' ', padChar);
+    }
+
+    public static String padRight(String s, char padChar, int n) {
+        return String.format("%1$-" + n + "s", s).replace(' ', padChar);
+    }
+
     public static String getInitial(Context context, String name) {
         String[] names = name.split(" ");
         return String.valueOf(names[PrefUtils.isFirstNameLast(context)

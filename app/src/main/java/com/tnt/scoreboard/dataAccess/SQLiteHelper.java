@@ -14,7 +14,7 @@ import com.tnt.scoreboard.utils.RandUtils;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 24;
+    public static final int DATABASE_VERSION = 25;
     private static final String DATABASE_NAME = "scoreboard.sqlite";
 
     private static final String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE_NAME + "("
@@ -40,6 +40,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_SCORE = "CREATE TABLE " + Score.TABLE_NAME + "("
             + Score.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Score.COLUMN_PLAYER_ID + " INTEGER NOT NULL, "
+            + Score.COLUMN_ROUND_NUMBER + " INTEGER NOT NULL, "
+            + Score.COLUMN_CURRENT_SCORE + " INTEGER NOT NULL, "
             + Score.COLUMN_SCORE + " INTEGER NOT NULL"
             + ");";
 
@@ -66,8 +68,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String POPULATE_TABLE_SCORE = "INSERT INTO " + Score.TABLE_NAME + " ("
             + Score.COLUMN_ID + ","
             + Score.COLUMN_PLAYER_ID + ","
+            + Score.COLUMN_ROUND_NUMBER + ","
+            + Score.COLUMN_CURRENT_SCORE + ","
             + Score.COLUMN_SCORE
-            + ") VALUES(?,?,?)";
+            + ") VALUES(?,?,?,?,?)";
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -130,25 +134,29 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         for (int i = 0; i < numOfGames; i++, gameId++) {
             int numOfPlayers = RandUtils.nextInt(2, 24);
             int numOfRounds = RandUtils.nextInt(1, 100);
+            int startingScore = RandUtils.nextInt(0, 40);
+            int endingScore = RandUtils.nextInt(60, 100);
             String date = RandUtils.nextDateTime(5).toString(Constants.SQLITE_DATE_FORMAT);
             db.execSQL(POPULATE_TABLE_GAME, new Object[]{
                     gameId, "Poker" + gameId, numOfPlayers,
-                    numOfRounds, 0, 100,
+                    numOfRounds, startingScore, endingScore,
                     RandUtils.nextInt(0, 2), date, date});
 
             for (int j = 0; j < numOfPlayers; j++, playerId++) {
+                int currentScore = startingScore;
+                for (int l = 0; l < numOfRounds; l++, scoreId++) {
+                    int score = RandUtils.nextInt(-3, 3);
+                    db.execSQL(POPULATE_TABLE_SCORE, new Object[]{
+                            scoreId, playerId, l + 1, currentScore, score
+                    });
+                    currentScore += score;
+                }
+
                 db.execSQL(POPULATE_TABLE_PLAYER, new Object[]{
                         playerId, gameId,
                         RandUtils.nextItem(names),
-                        RandUtils.nextInt(-100, 100),
+                        currentScore,
                         RandUtils.nextItem(colors)});
-
-                for (int l = 0; l < numOfRounds; l++, scoreId++) {
-                    db.execSQL(POPULATE_TABLE_SCORE, new Object[]{
-                            scoreId, playerId,
-                            RandUtils.nextInt(-3, 3)
-                    });
-                }
             }
         }
     }

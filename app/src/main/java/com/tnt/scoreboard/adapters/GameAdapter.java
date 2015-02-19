@@ -220,7 +220,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
         public void updateData(Game game) {
             if (game == null) return;
-            mPlayerName.setText(StringUtils.join(game.getPlayers(), ", "));
+            mPlayerName.setText(StringUtils.join(game.getPlayerList(), ", "));
             mNumberOfRounds.setText(game.getNumberOfRounds() + " Rounds");
             mDateTime.setText(DateTimeUtils.formatPretty(game.getUpdatedDate()));
         }
@@ -231,7 +231,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
                 itemView.setSelected(true);
                 mCheck.setVisibility(View.VISIBLE);
             } else {
-                List<Player> players = game.getPlayers();
+                List<Player> players = game.getPlayerList();
                 Context context = itemView.getContext();
                 String s1 = String.format("%s%s", players.size(),
                         StringUtils.getInitial(context, players.get(0).getName()));

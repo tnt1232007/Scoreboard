@@ -34,7 +34,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case Constants.TYPE_HEADER:
-                layout = inflater.inflate(R.layout.item_header, parent, false);
+                layout = inflater.inflate(R.layout.item_navigation_header, parent, false);
                 break;
             case Constants.TYPE_ITEM:
                 layout = inflater.inflate(R.layout.item_navigation, parent, false);
@@ -88,6 +88,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
 
         private ImageView mIcon;
         private TextView mText;
+
         private int mColor, mDefaultColor;
         private IOnNavigationClickListener mListener;
         private Context mContext;

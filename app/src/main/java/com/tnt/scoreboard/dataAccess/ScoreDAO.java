@@ -12,6 +12,8 @@ public class ScoreDAO extends BaseDAO<Score> {
         super(context, Score.TABLE_NAME, new String[]{
                 Score.COLUMN_ID,
                 Score.COLUMN_PLAYER_ID,
+                Score.COLUMN_ROUND_NUMBER,
+                Score.COLUMN_CURRENT_SCORE,
                 Score.COLUMN_SCORE
         });
     }
@@ -20,6 +22,8 @@ public class ScoreDAO extends BaseDAO<Score> {
     protected ContentValues baseToValues(Score score) {
         ContentValues values = new ContentValues();
         values.put(Score.COLUMN_PLAYER_ID, score.getPlayerId());
+        values.put(Score.COLUMN_ROUND_NUMBER, score.getRoundNumber());
+        values.put(Score.COLUMN_CURRENT_SCORE, score.getCurrentScore());
         values.put(Score.COLUMN_SCORE, score.getScore());
         return values;
     }
@@ -29,6 +33,8 @@ public class ScoreDAO extends BaseDAO<Score> {
         return new Score(
                 cursor.getLong(cursor.getColumnIndexOrThrow(Score.COLUMN_ID)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Score.COLUMN_PLAYER_ID)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Score.COLUMN_ROUND_NUMBER)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Score.COLUMN_CURRENT_SCORE)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Score.COLUMN_SCORE))
         );
     }

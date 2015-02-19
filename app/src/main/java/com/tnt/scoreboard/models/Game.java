@@ -27,7 +27,7 @@ public class Game extends Base implements Comparable<Game> {
     private State state;
     private DateTime createdDate;
     private DateTime updatedDate;
-    private List<Player> players;
+    private List<Player> mPlayerList;
 
     public Game(String title, long numberOfPlayers, long startingScore, long endingScore) {
         this.title = title;
@@ -125,12 +125,12 @@ public class Game extends Base implements Comparable<Game> {
         this.updatedDate = updatedDate;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<Player> getPlayerList() {
+        return mPlayerList;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setPlayerList(List<Player> playerList) {
+        this.mPlayerList = playerList;
     }
     //</editor-fold>
 

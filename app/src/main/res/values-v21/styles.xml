@@ -9,8 +9,8 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="colorControlSelected">@color/dimWhite</item>
         <item name="closeButtonIcon">@drawable/ic_close_light</item>
-        <item name="colorPrimary">@color/grayDark</item>
-        <item name="colorPrimaryDark">@color/lightBlack</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blueDark</item>
         <item name="colorAccent">@color/blueAccent</item>
     </style>
 
@@ -35,8 +35,8 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="colorControlSelected">@color/lightBlack</item>
         <item name="closeButtonIcon">@drawable/ic_close_dark</item>
-        <item name="colorPrimary">@color/grayDark</item>
-        <item name="colorPrimaryDark">@color/lightBlack</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blueDark</item>
         <item name="colorAccent">@color/blueAccent</item>
     </style>
 
