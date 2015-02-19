@@ -129,7 +129,7 @@
                 android:id="@+id/newPlayerButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="210dp"
+                android:layout_marginTop="206dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical|start"
                 android:paddingEnd="48dp"

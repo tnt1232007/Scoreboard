@@ -16,5 +16,4 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/white"
         tools:text="Header" />
-
 </RelativeLayout>

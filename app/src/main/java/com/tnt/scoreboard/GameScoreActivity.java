@@ -72,9 +72,7 @@ public class GameScoreActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, GameHistoryActivity.class);
-        intent.putExtra(Game.COLUMN_ID, mGame.getId());
-        intent.putExtra(Game.COLUMN_STATE, item.getItemId());
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_stop_all:
                 mPlayerAdapter.stopAll();
@@ -83,14 +81,21 @@ public class GameScoreActivity extends BaseActivity {
             case R.id.action_undo_all:
                 mPlayerAdapter.undoAll();
                 return true;
+            case R.id.action_rematch:
+                intent = new Intent(this, GameNewActivity.class);
+                intent.putExtra(Game.COLUMN_ID, mGame.getId());
+                startActivity(intent);
+                return true;
             case R.id.action_history:
+                intent = new Intent(this, GameHistoryActivity.class);
+                intent.putExtra(Game.COLUMN_ID, mGame.getId());
                 startActivity(intent);
                 return true;
             case R.id.action_archive:
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
             case R.id.action_delete:
+                intent = new Intent();
+                intent.putExtra(Game.COLUMN_ID, mGame.getId());
+                intent.putExtra(Game.COLUMN_STATE, item.getItemId());
                 setResult(RESULT_OK, intent);
                 finish();
                 return true;

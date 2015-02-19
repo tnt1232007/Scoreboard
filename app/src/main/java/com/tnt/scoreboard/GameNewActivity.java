@@ -79,6 +79,7 @@ public class GameNewActivity extends BaseActivity {
                 addNewPlayerFragment(p.getName(), (int) p.getColor(), true, false);
             }
             mTitle.setText(game.getTitle());
+            mStartScore.setText(String.valueOf(game.getStartingScore()));
             mEndScore.setText(String.valueOf(game.getEndingScore()));
         }
         mToolbar.setNavigationIcon(R.drawable.ic_close_dark);
@@ -121,7 +122,7 @@ public class GameNewActivity extends BaseActivity {
 
     private void moveWithoutAnimation(boolean isDown) {
         int density = (int) getResources().getDisplayMetrics().density;
-        int delta = isDown ? 60 * density : -60 * density;
+        int delta = isDown ? 61 * density : -61 * density;
 
         final RelativeLayout.LayoutParams params =
                 (RelativeLayout.LayoutParams) mNewPlayerButton.getLayoutParams();
@@ -131,7 +132,7 @@ public class GameNewActivity extends BaseActivity {
 
     private void move(boolean isDown) {
         int density = (int) getResources().getDisplayMetrics().density;
-        int delta = isDown ? 60 * density : -60 * density;
+        int delta = isDown ? 61 * density : -61 * density;
 
         final RelativeLayout.LayoutParams params =
                 (RelativeLayout.LayoutParams) mNewPlayerButton.getLayoutParams();

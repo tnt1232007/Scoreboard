@@ -17,6 +17,9 @@
         android:id="@+id/action_history"
         android:title="@string/action_history" />
     <item
+        android:id="@+id/action_rematch"
+        android:title="@string/action_rematch" />
+    <item
         android:id="@+id/action_archive"
         android:title="@string/action_archive" />
     <item

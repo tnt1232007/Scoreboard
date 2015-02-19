@@ -12,6 +12,7 @@
     <string name="action_blank">New blank</string>
     <string name="action_start">Start</string>
     <string name="action_send">Send</string>
+    <string name="action_rematch">Rematch</string>
     <string name="action_history">History</string>
     <string name="action_stop_all">Stop all</string>
     <string name="action_undo_all">Undo all</string>

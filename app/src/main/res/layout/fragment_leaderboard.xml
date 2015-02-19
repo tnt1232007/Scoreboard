@@ -8,8 +8,8 @@
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginTop="36dp"
         android:baselineAligned="false"
         android:gravity="bottom"
         android:orientation="horizontal">

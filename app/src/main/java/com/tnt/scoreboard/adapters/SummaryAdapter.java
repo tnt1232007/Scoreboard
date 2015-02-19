@@ -36,6 +36,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
             case Constants.TYPE_HEADER:
                 layout = inflater.inflate(R.layout.item_summary_header, parent, false);
                 break;
+            case Constants.TYPE_FOOTER:
+                layout = inflater.inflate(R.layout.item_summary_footer, parent, false);
+                break;
             case Constants.TYPE_ITEM:
                 layout = inflater.inflate(R.layout.item_summary, parent, false);
                 break;
@@ -109,6 +112,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
         int col = position / mRows;
         return (col == 0 || row == 0) && col + row != 0
                 ? Constants.TYPE_HEADER
+                : row == mRows - 1 || col == mCols - 1
+                ? Constants.TYPE_FOOTER
                 : Constants.TYPE_ITEM;
     }
 
