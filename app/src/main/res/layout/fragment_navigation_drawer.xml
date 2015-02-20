@@ -60,6 +60,14 @@
                 android:textSize="14sp"
                 tools:text="albert.einstein@gmail.com" />
         </LinearLayout>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/signIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp" />
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

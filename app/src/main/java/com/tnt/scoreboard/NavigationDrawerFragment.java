@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.plus.model.people.Person;
 import com.tnt.scoreboard.adapters.NavigationAdapter;
 import com.tnt.scoreboard.utils.DrawableUtils;
@@ -25,11 +26,13 @@ import com.tnt.scoreboard.utils.InternetUtils;
 
 public class NavigationDrawerFragment extends Fragment {
 
-    private OnDrawerToggle mCallback;
+    private IOnDrawerToggle mCallback;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationAdapter mNavigationAdapter;
     private ImageView mAvatar, mCover;
     private TextView mName, mEmail;
+    private SignInButton mSignIn;
+    private IOnGoogleApiListener mGoogleApiListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class NavigationDrawerFragment extends Fragment {
         mCover = (ImageView) view.findViewById(R.id.cover);
         mName = (TextView) view.findViewById(R.id.name);
         mEmail = (TextView) view.findViewById(R.id.email);
+        mSignIn = (SignInButton) view.findViewById(R.id.signIn);
 
         mNavigationAdapter = new NavigationAdapter(view.getContext());
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -45,7 +49,6 @@ public class NavigationDrawerFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         return view;
     }
 
@@ -53,7 +56,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mCallback = (OnDrawerToggle) activity;
+            mCallback = (IOnDrawerToggle) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnDrawerToggleListener");
@@ -61,8 +64,10 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     public void setup(final DrawerLayout drawerLayout,
-                      NavigationAdapter.IOnNavigationClickListener listener) {
-        mNavigationAdapter.setListener(listener);
+                      NavigationAdapter.IOnNavigationClickListener navigationClickListener,
+                      final IOnGoogleApiListener googleApiListener) {
+        mGoogleApiListener = googleApiListener;
+        mNavigationAdapter.setListener(navigationClickListener);
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,
                 R.string.draw_open, R.string.draw_close) {
             @Override
@@ -97,6 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getActivity().invalidateOptionsMenu();
+
             }
         };
         drawerLayout.setDrawerListener(mDrawerToggle);
@@ -106,6 +112,7 @@ public class NavigationDrawerFragment extends Fragment {
                 mDrawerToggle.syncState();
             }
         });
+        switchSignInButton(false);
     }
 
     public void setupAdditionalInfo(Person person, String email) {
@@ -116,7 +123,40 @@ public class NavigationDrawerFragment extends Fragment {
                     person.getImage().getUrl().replace("sz=50", "sz=250"));
             new InternetUtils.DownloadImage(mCover, false).execute(
                     person.getCover().getCoverPhoto().getUrl());
+            switchSignInButton(true);
+        } else {
+            mName.setText("");
+            mEmail.setText("");
+            mAvatar.setImageResource(R.drawable.ic_avatar);
+            mCover.setImageResource(R.drawable.ic_cover);
+            switchSignInButton(false);
         }
+    }
+
+    private void switchSignInButton(final boolean isSignIn) {
+        String text = isSignIn ? "Sign out" : "Sign in ";
+        mSignIn.setColorScheme(SignInButton.COLOR_LIGHT);
+        for (int i = 0; i < mSignIn.getChildCount(); i++) {
+            View v = mSignIn.getChildAt(i);
+            if (v instanceof TextView) {
+                TextView textView = (TextView) v;
+                textView.setText(text);
+                textView.setAllCaps(false);
+                break;
+            }
+        }
+        mSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mGoogleApiListener == null) return;
+                if (isSignIn) {
+                    mGoogleApiListener.onSignOutClicked();
+                    setupAdditionalInfo(null, null);
+                } else {
+                    mGoogleApiListener.onSignInClicked();
+                }
+            }
+        });
     }
 
     public void setCurrentPosition(int currentPosition) {
@@ -127,7 +167,13 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerToggle.onOptionsItemSelected(item);
     }
 
-    public interface OnDrawerToggle {
+    public interface IOnDrawerToggle {
         public void onDrawerOpened(Parcelable parcelable);
+    }
+
+    public interface IOnGoogleApiListener {
+        public void onSignInClicked();
+
+        public void onSignOutClicked();
     }
 }

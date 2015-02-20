@@ -32,10 +32,11 @@ import com.tnt.scoreboard.utils.FileUtils;
 import java.util.List;
 
 public class GameListActivity extends BaseActivity implements
+        com.nispok.snackbar.listeners.ActionClickListener,
         NavigationAdapter.IOnNavigationClickListener,
+        NavigationDrawerFragment.IOnDrawerToggle,
         GameAdapter.IOnGameSelectListener,
-        ActionMode.Callback,
-        com.nispok.snackbar.listeners.ActionClickListener {
+        ActionMode.Callback {
 
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
@@ -56,7 +57,7 @@ public class GameListActivity extends BaseActivity implements
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationDrawer = (NavigationDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigationDrawer);
-        mNavigationDrawer.setup(mDrawerLayout, this);
+        mNavigationDrawer.setup(mDrawerLayout, this, this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -279,7 +280,6 @@ public class GameListActivity extends BaseActivity implements
 
     @Override
     public void onDrawerOpened(Parcelable parcelable) {
-        super.onDrawerOpened(parcelable);
         if (parcelable instanceof Bitmap) {
             mBitmap = (Bitmap) parcelable;
         }
@@ -296,6 +296,7 @@ public class GameListActivity extends BaseActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
+        super.onConnected(bundle);
         mNavigationDrawer.setupAdditionalInfo(getPerson(), getEmail());
     }
 

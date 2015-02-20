@@ -6,12 +6,12 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -36,7 +36,7 @@ import java.util.TreeSet;
 
 public abstract class BaseActivity extends ActionBarActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener,
-        NavigationDrawerFragment.OnDrawerToggle,
+        NavigationDrawerFragment.IOnGoogleApiListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -47,7 +47,8 @@ public abstract class BaseActivity extends ActionBarActivity
     private GameDAO mGameDAO;
     private PlayerDAO mPlayerDAO;
     private ScoreDAO mScoreDAO;
-    private boolean mIntentInProgress;
+    private boolean mIntentInProgress, mSignInClicked, mFirstTimeSignIn;
+    private ConnectionResult mConnectionResult;
 
     protected void onCreate(Bundle savedInstanceState, int layoutId) {
         PreferenceManager.setDefaultValues(this, R.xml.setting, false);
@@ -97,8 +98,13 @@ public abstract class BaseActivity extends ActionBarActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.SIGN_IN_REQUEST) {
+            if (resultCode != RESULT_OK) {
+                mSignInClicked = false;
+            }
             mIntentInProgress = false;
-            if (!mGoogleApiClient.isConnecting()) mGoogleApiClient.connect();
+            if (!mGoogleApiClient.isConnecting()) {
+                mGoogleApiClient.connect();
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -135,11 +141,29 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     @Override
-    public void onDrawerOpened(Parcelable parcelable) {
+    public void onSignInClicked() {
+        if (!mGoogleApiClient.isConnecting()) {
+            mFirstTimeSignIn = true;
+            mSignInClicked = true;
+            resolveSignInError();
+        }
+    }
+
+    @Override
+    public void onSignOutClicked() {
+        if (mGoogleApiClient.isConnected()) {
+            mFirstTimeSignIn = false;
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override
     public void onConnected(Bundle bundle) {
+        mSignInClicked = false;
+        if (mFirstTimeSignIn)
+            Toast.makeText(this, "Connected to " + getEmail(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -149,14 +173,10 @@ public abstract class BaseActivity extends ActionBarActivity
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        if (!mIntentInProgress && result.hasResolution()) {
-            try {
-                mIntentInProgress = true;
-                startIntentSenderForResult(result.getResolution().getIntentSender(),
-                        Constants.SIGN_IN_REQUEST, null, 0, 0, 0);
-            } catch (IntentSender.SendIntentException e) {
-                mIntentInProgress = false;
-                mGoogleApiClient.connect();
+        if (!mIntentInProgress) {
+            mConnectionResult = result;
+            if (mSignInClicked) {
+                resolveSignInError();
             }
         }
     }
@@ -191,6 +211,19 @@ public abstract class BaseActivity extends ActionBarActivity
                 .addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_PROFILE)
                 .build();
+    }
+
+    private void resolveSignInError() {
+        if (mConnectionResult.hasResolution()) {
+            try {
+                mIntentInProgress = true;
+                startIntentSenderForResult(mConnectionResult.getResolution().getIntentSender(),
+                        Constants.SIGN_IN_REQUEST, null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) {
+                mIntentInProgress = false;
+                mGoogleApiClient.connect();
+            }
+        }
     }
 
     public Person getPerson() {
