@@ -17,6 +17,7 @@ import com.tnt.scoreboard.utils.DateTimeUtils;
 
 import java.util.List;
 
+//TODO: Right drawer show current game info
 public class GameScoreActivity extends BaseActivity {
 
     public static final String ROUND = "Round ";

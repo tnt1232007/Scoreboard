@@ -37,7 +37,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
     private IOnGameSelectListener mListener;
 
     public GameAdapter(Activity activity, List<Game> gameList) {
-        //TODO: group games by date
         mActivity = activity;
         mGameList = gameList;
         mSelectedGames = new TreeSet<>();

@@ -342,28 +342,4 @@ public class GameListActivity extends BaseActivity implements
             updateGame(g);
         }
     }
-
-    //<editor-fold desc="TODO: Animate toolbar color change">
-//    private void revealImageCircular(final int primary, final int primaryDark) {
-//        final View view = mToolbar;
-//        view.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                int x = view.getWidth() / 2;
-//                int y = view.getHeight();
-//                Animator anim = ViewAnimationUtils.createCircularReveal(view, x, y, 0, x);
-//                anim.setDuration(400);
-//                anim.addListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationStart(Animator animation) {
-//                        super.onAnimationStart(animation);
-//                        mToolbar.setBackground(new ColorDrawable(primary));
-//                        getWindow().setStatusBarColor(primaryDark);
-//                    }
-//                });
-//                anim.start();
-//            }
-//        }, 100);
-//    }
-    //</editor-fold>
 }

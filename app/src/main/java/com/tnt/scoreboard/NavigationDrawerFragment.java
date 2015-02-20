@@ -39,7 +39,7 @@ public class NavigationDrawerFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //<editor-fold desc="TODO: Uses Google API to get personal info">
+        //TODO: Uses Google API to get personal info
         ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
         avatar.setImageResource(R.drawable.avatar);
 
@@ -51,7 +51,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         RelativeLayout header = (RelativeLayout) view.findViewById(R.id.header);
         header.setBackgroundResource(R.drawable.cover);
-        //</editor-fold>
         return view;
     }
 

@@ -19,7 +19,7 @@
         android:padding="12dp"
         tools:src="?android:colorPrimary" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/playerName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,6 +27,7 @@
         android:layout_marginStart="12dp"
         android:layout_weight="1"
         android:background="#0000"
+        android:dropDownWidth="match_parent"
         android:inputType="textCapWords"
         tools:text="Albert" />
 

@@ -62,11 +62,7 @@ public abstract class BaseDAO<T extends Base> {
     public List<T> get(String selection, String orderBy) {
         List<T> bases = new ArrayList<>();
         Cursor cursor = db.query(tableName, allColumns, selection, null, null, null, orderBy, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            bases.add(cursorToBase(cursor));
-            cursor.moveToNext();
-        }
+        while (cursor.moveToNext()) bases.add(cursorToBase(cursor));
         cursor.close();
         return bases;
     }
