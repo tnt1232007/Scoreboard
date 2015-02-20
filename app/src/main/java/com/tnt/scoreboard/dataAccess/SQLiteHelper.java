@@ -9,7 +9,6 @@ import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
 import com.tnt.scoreboard.utils.Constants;
-import com.tnt.scoreboard.utils.FileUtils;
 import com.tnt.scoreboard.utils.RandUtils;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -88,7 +87,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(FileUtils.APP_NAME, "Upgrading database from version " + oldVersion + " to "
+        Log.w(Constants.APP_NAME, "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + Game.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Player.TABLE_NAME);

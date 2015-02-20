@@ -48,6 +48,7 @@ public class GameListActivity extends BaseActivity implements
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_game_list);
+        initGoogleApi();
 
         mFab = (FloatingNewGameMenu) findViewById(R.id.fab);
         mFab.setup(this, getRecentGameList(Constants.RECENT_GAMES_NUM));
@@ -291,6 +292,11 @@ public class GameListActivity extends BaseActivity implements
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mNavigationDrawer.setupAdditionalInfo(getPerson(), getEmail());
     }
 
     private Snackbar newUndoBar() {

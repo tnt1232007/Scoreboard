@@ -1,6 +1,7 @@
 package com.tnt.scoreboard;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -12,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.tnt.scoreboard.dataAccess.GameDAO;
 import com.tnt.scoreboard.dataAccess.PlayerDAO;
 import com.tnt.scoreboard.dataAccess.ScoreDAO;
@@ -31,14 +36,18 @@ import java.util.TreeSet;
 
 public abstract class BaseActivity extends ActionBarActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener,
-        NavigationDrawerFragment.OnDrawerToggle {
+        NavigationDrawerFragment.OnDrawerToggle,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String DESC = " DESC";
     private static final String EQUALS = " = ";
     protected Toolbar mToolbar;
+    protected GoogleApiClient mGoogleApiClient;
     private GameDAO mGameDAO;
     private PlayerDAO mPlayerDAO;
     private ScoreDAO mScoreDAO;
+    private boolean mIntentInProgress;
 
     protected void onCreate(Bundle savedInstanceState, int layoutId) {
         PreferenceManager.setDefaultValues(this, R.xml.setting, false);
@@ -86,6 +95,29 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.SIGN_IN_REQUEST) {
+            mIntentInProgress = false;
+            if (!mGoogleApiClient.isConnecting()) mGoogleApiClient.connect();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
+            mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -104,6 +136,29 @@ public abstract class BaseActivity extends ActionBarActivity
 
     @Override
     public void onDrawerOpened(Parcelable parcelable) {
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (!mIntentInProgress && result.hasResolution()) {
+            try {
+                mIntentInProgress = true;
+                startIntentSenderForResult(result.getResolution().getIntentSender(),
+                        Constants.SIGN_IN_REQUEST, null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) {
+                mIntentInProgress = false;
+                mGoogleApiClient.connect();
+            }
+        }
     }
 
     private void switchOrientation(String orientation) {
@@ -127,6 +182,23 @@ public abstract class BaseActivity extends ActionBarActivity
         } else {
             setTheme(isLight ? R.style.BaseLightTheme : R.style.BaseTheme);
         }
+    }
+
+    public void initGoogleApi() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_PROFILE)
+                .build();
+    }
+
+    public Person getPerson() {
+        return Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+    }
+
+    public String getEmail() {
+        return Plus.AccountApi.getAccountName(mGoogleApiClient);
     }
 
     //<editor-fold desc="Data access wrapper">

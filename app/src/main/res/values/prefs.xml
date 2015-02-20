@@ -4,7 +4,7 @@
 
     <string name="pref_key_name">name</string>
     <string name="pref_title_name">First-player name</string>
-    <string name="pref_value_name">TNT</string>
+    <string name="pref_value_name">Player A</string>
 
     <string name="pref_key_name_format">name_format</string>
     <string name="pref_title_name_format">Naming convention</string>

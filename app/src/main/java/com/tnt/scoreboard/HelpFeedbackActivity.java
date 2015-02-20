@@ -26,8 +26,7 @@ public class HelpFeedbackActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_help_feedback);
-        String mEmailFrom = "albert.einstein@gmail.com";
-        ((TextView) findViewById(R.id.emailFrom)).setText(mEmailFrom);
+        initGoogleApi();
 
         mEmailText = ((TextView) findViewById(R.id.emailText));
         mFeedbackCheck = ((CheckBox) findViewById(R.id.feedbackCheck));
@@ -95,5 +94,10 @@ public class HelpFeedbackActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        ((TextView) findViewById(R.id.emailFrom)).setText(getEmail());
     }
 }

@@ -14,7 +14,6 @@ import java.io.OutputStreamWriter;
 
 public final class FileUtils {
 
-    public static final String APP_NAME = "Scoreboard";
     public static final String DIVIDER = "/";
 
     public static File saveBitmap(Bitmap bitmap, String filename) {
@@ -26,7 +25,7 @@ public final class FileUtils {
             out.flush();
             out.close();
         } catch (Exception e) {
-            Log.e(APP_NAME, e.getMessage(), e);
+            Log.e(Constants.APP_NAME, e.getMessage(), e);
         }
         return file;
     }
@@ -41,7 +40,7 @@ public final class FileUtils {
     public static File getFile(String filename) {
         if (filename == null) return null;
         File root = Environment.getExternalStorageDirectory();
-        File dir = new File(root, DIVIDER + APP_NAME);
+        File dir = new File(root, DIVIDER + Constants.APP_NAME);
         //noinspection ResultOfMethodCallIgnored
         dir.mkdirs();
         return new File(dir, filename);
@@ -56,14 +55,14 @@ public final class FileUtils {
             osw.flush();
             osw.close();
         } catch (IOException e) {
-            Log.e(APP_NAME, e.getMessage(), e);
+            Log.e(Constants.APP_NAME, e.getMessage(), e);
         }
     }
 
     private static String readLog() {
         try {
             Process process = Runtime.getRuntime().exec(
-                    new String[]{"logcat", "-d", "-t", APP_NAME + ":V", "*:S"});
+                    new String[]{"logcat", "-d", "-t", Constants.APP_NAME + ":V", "*:S"});
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
 
@@ -77,7 +76,7 @@ public final class FileUtils {
             Runtime.getRuntime().exec(new String[]{"logcat", "-c"});
             return log.toString();
         } catch (IOException e) {
-            Log.e(APP_NAME, e.getMessage(), e);
+            Log.e(Constants.APP_NAME, e.getMessage(), e);
             return null;
         }
     }

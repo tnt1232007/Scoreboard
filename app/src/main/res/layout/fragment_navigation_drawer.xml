@@ -12,8 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="148dp"
         android:clickable="true"
-        android:elevation="2dp"
-        tools:background="@drawable/cover">
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/default_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_cover" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -21,19 +28,19 @@
             android:contentDescription="@string/default_image"
             android:src="@drawable/gradient" />
 
-        <com.github.siyamed.shapeimageview.CircularImageView
+        <ImageView
             android:id="@+id/avatar"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            tools:src="@drawable/avatar" />
+            android:layout_margin="16dp"
+            android:contentDescription="@string/default_image"
+            android:src="@drawable/ic_avatar" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
+            android:layout_margin="16dp"
             android:orientation="vertical">
 
             <TextView

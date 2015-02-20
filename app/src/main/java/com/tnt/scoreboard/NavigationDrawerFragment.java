@@ -16,41 +16,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.plus.model.people.Person;
 import com.tnt.scoreboard.adapters.NavigationAdapter;
 import com.tnt.scoreboard.utils.DrawableUtils;
+import com.tnt.scoreboard.utils.InternetUtils;
 
 public class NavigationDrawerFragment extends Fragment {
 
     private OnDrawerToggle mCallback;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationAdapter mNavigationAdapter;
+    private ImageView mAvatar, mCover;
+    private TextView mName, mEmail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        mNavigationAdapter = new NavigationAdapter(view.getContext());
+        mAvatar = (ImageView) view.findViewById(R.id.avatar);
+        mCover = (ImageView) view.findViewById(R.id.cover);
+        mName = (TextView) view.findViewById(R.id.name);
+        mEmail = (TextView) view.findViewById(R.id.email);
 
+        mNavigationAdapter = new NavigationAdapter(view.getContext());
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(mNavigationAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //TODO: Uses Google API to get personal info
-        ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
-        avatar.setImageResource(R.drawable.avatar);
-
-        TextView name = (TextView) view.findViewById(R.id.name);
-        name.setText("TNT");
-
-        TextView email = (TextView) view.findViewById(R.id.email);
-        email.setText("tnt1232007@gmail.com");
-
-        RelativeLayout header = (RelativeLayout) view.findViewById(R.id.header);
-        header.setBackgroundResource(R.drawable.cover);
         return view;
     }
 
@@ -111,6 +106,17 @@ public class NavigationDrawerFragment extends Fragment {
                 mDrawerToggle.syncState();
             }
         });
+    }
+
+    public void setupAdditionalInfo(Person person, String email) {
+        if (person != null && email != null) {
+            mName.setText(person.getDisplayName());
+            mEmail.setText(email);
+            new InternetUtils.DownloadImage(mAvatar, true).execute(
+                    person.getImage().getUrl().replace("sz=50", "sz=250"));
+            new InternetUtils.DownloadImage(mCover, false).execute(
+                    person.getCover().getCoverPhoto().getUrl());
+        }
     }
 
     public void setCurrentPosition(int currentPosition) {
