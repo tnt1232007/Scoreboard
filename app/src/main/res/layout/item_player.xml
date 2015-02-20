@@ -75,7 +75,7 @@
                     android:textSize="12sp"
                     tools:text="1st place" />
 
-                <com.github.siyamed.shapeimageview.BubbleImageView
+                <ImageView
                     android:id="@+id/incrementScore"
                     android:layout_width="20dp"
                     android:layout_height="20dp"

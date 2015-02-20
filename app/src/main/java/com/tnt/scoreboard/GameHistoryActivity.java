@@ -2,6 +2,7 @@ package com.tnt.scoreboard;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
 
 import com.tnt.scoreboard.adapters.HistoryPagerAdapter;
 import com.tnt.scoreboard.libs.SlidingTabLayout;
@@ -29,5 +30,10 @@ public class GameHistoryActivity extends BaseActivity {
             }
         });
         tabs.setViewPager(pager);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return onCreateOptionsMenu(menu, R.menu.menu_game_history);
     }
 }

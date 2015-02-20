@@ -13,7 +13,7 @@ import com.tnt.scoreboard.utils.RandUtils;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 26;
+    public static final int DATABASE_VERSION = 27;
     private static final String DATABASE_NAME = "scoreboard.sqlite";
 
     private static final String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE_NAME + "("
@@ -129,7 +129,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 -16537100, -3285959, -43230, -10453621
         };
         int gameId = 1, playerId = 1, scoreId = 1;
-        int numOfGames = RandUtils.nextInt(20, 40);
+        int numOfGames = 100;
         for (int i = 0; i < numOfGames; i++, gameId++) {
             int numOfPlayers = RandUtils.nextInt(Constants.MIN_PLAYERS, Constants.MAX_PLAYERS);
             int numOfRounds = RandUtils.nextInt(1, 100);

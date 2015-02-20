@@ -239,15 +239,6 @@ public abstract class BaseActivity extends ActionBarActivity
             mPlayerDAO.open();
             List<Player> players = mPlayerDAO.get(Player.COLUMN_GAME_ID + EQUALS + game.getId());
             mPlayerDAO.close();
-
-            mScoreDAO.open();
-            for (int j = 0; j < players.size(); j++) {
-                Player player = players.get(j);
-                player.setScoreList(mScoreDAO.get(
-                        Score.COLUMN_PLAYER_ID + EQUALS + player.getId()));
-            }
-            mScoreDAO.close();
-
             game.setPlayerList(players);
         }
         return games;

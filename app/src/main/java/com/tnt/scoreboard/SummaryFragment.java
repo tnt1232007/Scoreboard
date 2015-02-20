@@ -26,10 +26,19 @@ public class SummaryFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        int count = (int) mGame.getNumberOfPlayers() + 2;
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(),
-                (int) mGame.getNumberOfPlayers() + 2, GridLayoutManager.HORIZONTAL, false));
+                count, GridLayoutManager.HORIZONTAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new SummaryAdapter(mGame));
+        if (count < 10) {
+            recyclerView.setPadding(
+                    recyclerView.getPaddingLeft(),
+                    recyclerView.getPaddingTop(),
+                    recyclerView.getPaddingRight(),
+                    (10 - count) * 128
+            );
+        }
         return view;
     }
 

@@ -17,7 +17,6 @@ import java.util.List;
 
 public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryViewHolder> {
 
-    private static final int ROW_DELTA = 2;
     private final Game mGame;
     private final int mCols;
     private final int mRows;
@@ -25,7 +24,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
     public SummaryAdapter(Game game) {
         mGame = game;
         mCols = (int) (mGame.getNumberOfRounds() + 2);
-        mRows = (int) (mGame.getNumberOfPlayers() + ROW_DELTA);
+        mRows = (int) (mGame.getNumberOfPlayers() + 2);
     }
 
     @Override
