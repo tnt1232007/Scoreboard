@@ -81,36 +81,53 @@ public class GameListActivity extends BaseActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Game game;
+        boolean updated;
         switch (requestCode) {
             case Constants.GAME_NEW_REQUEST:
                 if (resultCode != RESULT_OK) return;
                 game = getGame(data.getLongExtra(Game.COLUMN_ID, -1));
                 mGameAdapter.add(game);
+                mRecyclerView.getLayoutManager().scrollToPosition(0);
                 mFab.setup(this, getRecentGameList(Constants.RECENT_GAMES_NUM));
                 break;
             case Constants.GAME_SCORE_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
-                    int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
-                    Snackbar snackbar = newUndoBar();
-                    snackbar.setTag(itemId);
-                    switch (itemId) {
-                        case R.id.action_archive:
-                            snackbar.text("1 archived");
-                            game.setState(Game.State.ARCHIVE);
-                            break;
-                        case R.id.action_delete:
-                            snackbar.text("1 deleted");
-                            game.setState(Game.State.DELETE);
-                            break;
-                    }
-                    updateGame(game);
-                    SnackbarManager.show(snackbar);
-                } else if (resultCode == RESULT_CANCELED) {
-                    boolean updated = data.getBooleanExtra(Game.COLUMN_UPDATED_DATE, false);
-                    if (!updated) return;
-                    mGameAdapter.setGameList(getGameList(mScreen.STATE));
-                    mGameAdapter.notifyDataSetChanged();
+                switch (resultCode) {
+                    case RESULT_OK: //Archive or delete
+                        game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
+                        int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
+                        Snackbar snackbar = newUndoBar();
+                        snackbar.setTag(itemId);
+                        switch (itemId) {
+                            case R.id.action_archive:
+                                snackbar.text("1 archived");
+                                game.setState(Game.State.ARCHIVE);
+                                break;
+                            case R.id.action_delete:
+                                snackbar.text("1 deleted");
+                                game.setState(Game.State.DELETE);
+                                break;
+                        }
+                        updateGame(game, Game.COLUMN_STATE);
+                        SnackbarManager.show(snackbar);
+                        break;
+                    case RESULT_FIRST_USER: //Rematch
+                        updated = data.getBooleanExtra(Game.COLUMN_UPDATED_DATE, false);
+                        if (updated) {
+                            mGameAdapter.setGameList(getGameList(mScreen.STATE));
+                            mGameAdapter.notifyDataSetChanged();
+                        }
+
+                        Intent intent = new Intent(this, GameNewActivity.class);
+                        intent.putExtra(Game.COLUMN_ID, data.getLongExtra(Game.COLUMN_ID, -1));
+                        startActivityForResult(intent, Constants.GAME_NEW_REQUEST);
+                        break;
+                    case RESULT_CANCELED: //Updated date
+                        updated = data.getBooleanExtra(Game.COLUMN_UPDATED_DATE, false);
+                        if (updated) {
+                            mGameAdapter.setGameList(getGameList(mScreen.STATE));
+                            mGameAdapter.notifyDataSetChanged();
+                        }
+                        break;
                 }
                 break;
             default:
@@ -346,7 +363,7 @@ public class GameListActivity extends BaseActivity implements
     private void updateGameState(List<Game> gameList, Game.State state) {
         for (Game g : gameList) {
             g.setState(state);
-            updateGame(g);
+            updateGame(g, Game.COLUMN_STATE);
         }
     }
 }

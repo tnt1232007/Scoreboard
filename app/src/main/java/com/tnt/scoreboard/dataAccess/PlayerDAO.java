@@ -27,6 +27,28 @@ public class PlayerDAO extends BaseDAO<Player> {
         return values;
     }
 
+    @Override
+    protected ContentValues baseToValues(Player player, String... selections) {
+        ContentValues values = new ContentValues();
+        for (String s : selections) {
+            switch (s) {
+                case Player.COLUMN_GAME_ID:
+                    values.put(Player.COLUMN_GAME_ID, player.getGameId());
+                    break;
+                case Player.COLUMN_NAME:
+                    values.put(Player.COLUMN_NAME, player.getName());
+                    break;
+                case Player.COLUMN_SCORE:
+                    values.put(Player.COLUMN_SCORE, player.getScore());
+                    break;
+                case Player.COLUMN_COLOR:
+                    values.put(Player.COLUMN_COLOR, player.getColor());
+                    break;
+            }
+        }
+        return values;
+    }
+
     protected Player cursorToBase(Cursor cursor) {
         return new Player(
                 cursor.getLong(cursor.getColumnIndexOrThrow(Player.COLUMN_ID)),

@@ -93,9 +93,10 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
     //<editor-fold desc="Adapter items handler">
     public void add(Game game) {
-        mGameList.add(game);
-        game.setIndex(mGameList.size() - 1);
+        game.setIndex(0);
+        mGameList.add(game.getIndex(), game);
         notifyItemInserted(game.getIndex());
+        refreshIndex();
     }
 
     public void add(List<Game> gameList) {

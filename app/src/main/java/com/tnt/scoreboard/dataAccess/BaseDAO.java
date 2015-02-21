@@ -71,11 +71,18 @@ public abstract class BaseDAO<T extends Base> {
         db.update(tableName, baseToValues(base), Base.COLUMN_ID + " = " + base.getId(), null);
     }
 
+    public void update(T base, String... selections) {
+        db.update(tableName, baseToValues(base, selections),
+                Base.COLUMN_ID + " = " + base.getId(), null);
+    }
+
     public void delete(long deleteId) {
         db.delete(tableName, Base.COLUMN_ID + " = " + deleteId, null);
     }
 
     protected abstract ContentValues baseToValues(T base);
+
+    protected abstract ContentValues baseToValues(T base, String... selections);
 
     protected abstract T cursorToBase(Cursor cursor);
 }

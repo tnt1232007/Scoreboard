@@ -56,7 +56,7 @@ public class GameScoreActivity extends BaseActivity {
             public void onUpdated(int round) {
                 mGame.setNumberOfRounds(round);
                 mGame.setUpdatedDate(DateTimeUtils.now());
-                updateGame(mGame);
+                updateGame(mGame, Game.COLUMN_NUMBER_OF_ROUNDS, Game.COLUMN_UPDATED_DATE);
                 updated = true;
                 setTitle(ROUND + (mGame.getNumberOfRounds() + 1));
             }
@@ -82,11 +82,6 @@ public class GameScoreActivity extends BaseActivity {
             case R.id.action_undo_all:
                 mPlayerAdapter.undoAll();
                 return true;
-            case R.id.action_rematch:
-                intent = new Intent(this, GameNewActivity.class);
-                intent.putExtra(Game.COLUMN_ID, mGame.getId());
-                startActivity(intent);
-                return true;
             case R.id.action_history:
                 intent = new Intent(this, GameHistoryActivity.class);
                 intent.putExtra(Game.COLUMN_ID, mGame.getId());
@@ -98,6 +93,13 @@ public class GameScoreActivity extends BaseActivity {
                 intent.putExtra(Game.COLUMN_ID, mGame.getId());
                 intent.putExtra(Game.COLUMN_STATE, item.getItemId());
                 setResult(RESULT_OK, intent);
+                finish();
+                return true;
+            case R.id.action_rematch:
+                intent = new Intent();
+                intent.putExtra(Game.COLUMN_ID, mGame.getId());
+                intent.putExtra(Game.COLUMN_UPDATED_DATE, updated);
+                setResult(RESULT_FIRST_USER, intent);
                 finish();
                 return true;
             default:

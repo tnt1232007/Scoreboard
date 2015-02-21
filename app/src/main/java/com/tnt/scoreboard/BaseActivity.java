@@ -356,6 +356,12 @@ public abstract class BaseActivity extends ActionBarActivity
         mGameDAO.close();
     }
 
+    public void updateGame(Game game, String... selections) {
+        mGameDAO.open();
+        mGameDAO.update(game, selections);
+        mGameDAO.close();
+    }
+
     public void addScore(Player player, Score score) {
         mScoreDAO.open();
         score = mScoreDAO.create(score);

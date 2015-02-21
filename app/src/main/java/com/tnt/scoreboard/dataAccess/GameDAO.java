@@ -7,8 +7,6 @@ import android.database.Cursor;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.utils.DateTimeUtils;
 
-import org.joda.time.DateTime;
-
 public class GameDAO extends BaseDAO<Game> {
 
     public GameDAO(Context context) {
@@ -34,9 +32,39 @@ public class GameDAO extends BaseDAO<Game> {
         values.put(Game.COLUMN_STARTING_SCORE, game.getStartingScore());
         values.put(Game.COLUMN_ENDING_SCORE, game.getEndingScore());
         values.put(Game.COLUMN_STATE, game.getState().ordinal());
-        DateTime updatedDate = game.getUpdatedDate();
-        if (updatedDate != null)
-            values.put(Game.COLUMN_UPDATED_DATE, DateTimeUtils.formatUtc(updatedDate));
+        values.put(Game.COLUMN_UPDATED_DATE, DateTimeUtils.formatUtc(game.getUpdatedDate()));
+        return values;
+    }
+
+    @Override
+    protected ContentValues baseToValues(Game game, String... selections) {
+        ContentValues values = new ContentValues();
+        for (String s : selections) {
+            switch (s) {
+                case Game.COLUMN_TITLE:
+                    values.put(Game.COLUMN_TITLE, game.getTitle());
+                    break;
+                case Game.COLUMN_NUMBER_OF_PLAYERS:
+                    values.put(Game.COLUMN_NUMBER_OF_PLAYERS, game.getNumberOfPlayers());
+                    break;
+                case Game.COLUMN_NUMBER_OF_ROUNDS:
+                    values.put(Game.COLUMN_NUMBER_OF_ROUNDS, game.getNumberOfRounds());
+                    break;
+                case Game.COLUMN_STARTING_SCORE:
+                    values.put(Game.COLUMN_STARTING_SCORE, game.getStartingScore());
+                    break;
+                case Game.COLUMN_ENDING_SCORE:
+                    values.put(Game.COLUMN_ENDING_SCORE, game.getEndingScore());
+                    break;
+                case Game.COLUMN_STATE:
+                    values.put(Game.COLUMN_STATE, game.getState().ordinal());
+                    break;
+                case Game.COLUMN_UPDATED_DATE:
+                    values.put(Game.COLUMN_UPDATED_DATE,
+                            DateTimeUtils.formatUtc(game.getUpdatedDate()));
+                    break;
+            }
+        }
         return values;
     }
 

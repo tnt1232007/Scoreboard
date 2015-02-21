@@ -29,6 +29,28 @@ public class ScoreDAO extends BaseDAO<Score> {
     }
 
     @Override
+    protected ContentValues baseToValues(Score score, String... selections) {
+        ContentValues values = new ContentValues();
+        for (String s : selections) {
+            switch (s) {
+                case Score.COLUMN_PLAYER_ID:
+                    values.put(Score.COLUMN_PLAYER_ID, score.getPlayerId());
+                    break;
+                case Score.COLUMN_ROUND_NUMBER:
+                    values.put(Score.COLUMN_ROUND_NUMBER, score.getRoundNumber());
+                    break;
+                case Score.COLUMN_CURRENT_SCORE:
+                    values.put(Score.COLUMN_CURRENT_SCORE, score.getCurrentScore());
+                    break;
+                case Score.COLUMN_SCORE:
+                    values.put(Score.COLUMN_SCORE, score.getScore());
+                    break;
+            }
+        }
+        return values;
+    }
+
+    @Override
     protected Score cursorToBase(Cursor cursor) {
         return new Score(
                 cursor.getLong(cursor.getColumnIndexOrThrow(Score.COLUMN_ID)),
