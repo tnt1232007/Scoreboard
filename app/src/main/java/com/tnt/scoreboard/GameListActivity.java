@@ -96,13 +96,14 @@ public class GameListActivity extends BaseActivity implements
                         game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
                         int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
                         Snackbar snackbar = newUndoBar();
-                        snackbar.setTag(itemId);
                         switch (itemId) {
                             case R.id.action_archive:
+                                snackbar.setTag(R.id.action_unarchive);
                                 snackbar.text("1 archived");
                                 game.setState(Game.State.ARCHIVE);
                                 break;
                             case R.id.action_delete:
+                                snackbar.setTag(R.id.action_restore);
                                 snackbar.text("1 deleted");
                                 game.setState(Game.State.DELETE);
                                 break;
@@ -129,6 +130,43 @@ public class GameListActivity extends BaseActivity implements
                         }
                         break;
                 }
+                break;
+            case Constants.GAME_HISTORY_REQUEST:
+                if (resultCode != RESULT_OK) return;
+                game = mGameAdapter.remove(data.getLongExtra(Game.COLUMN_ID, -1));
+                int itemId = data.getIntExtra(Game.COLUMN_STATE, -1);
+                if (itemId == R.id.action_delete_forever) {
+                    deleteGame(game);
+                    mFab.setup(GameListActivity.this,
+                            getRecentGameList(Constants.RECENT_GAMES_NUM));
+                    break;
+                }
+
+                Snackbar snackbar = newUndoBar();
+                switch (itemId) {
+                    case R.id.action_archive:
+                        snackbar.setTag(R.id.action_delete);
+                        snackbar.text("1 archived");
+                        game.setState(Game.State.ARCHIVE);
+                        break;
+                    case R.id.action_unarchive:
+                        snackbar.setTag(R.id.action_archive);
+                        snackbar.text("1 unarchived");
+                        game.setState(Game.State.NORMAL);
+                        break;
+                    case R.id.action_delete:
+                        snackbar.setTag(R.id.action_archive);
+                        snackbar.text("1 deleted");
+                        game.setState(Game.State.DELETE);
+                        break;
+                    case R.id.action_restore:
+                        snackbar.setTag(R.id.action_delete);
+                        snackbar.text("1 restored");
+                        game.setState(Game.State.NORMAL);
+                        break;
+                }
+                updateGame(game, Game.COLUMN_STATE);
+                SnackbarManager.show(snackbar);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -215,7 +253,6 @@ public class GameListActivity extends BaseActivity implements
         String deleteMsg = selectedGames.size() == 1 ? "game" : count + " games";
 
         Snackbar snackbar = newUndoBar();
-        snackbar.setTag(menuItem.getItemId());
         switch (menuItem.getItemId()) {
             case R.id.action_delete_forever:
                 DialogInterface.OnClickListener dialogListener =
@@ -241,18 +278,24 @@ public class GameListActivity extends BaseActivity implements
                         .setNegativeButton("No", dialogListener).show();
                 return true;
             case R.id.action_archive:
+                snackbar.setTag(selectedGames.get(0).getState() == Game.State.NORMAL
+                        ? R.id.action_unarchive : R.id.action_delete);
                 updateGameState(selectedGames, Game.State.ARCHIVE);
                 snackbar.text(count + " archived");
                 break;
             case R.id.action_unarchive:
+                snackbar.setTag(R.id.action_archive);
                 updateGameState(selectedGames, Game.State.NORMAL);
                 snackbar.text(count + " unarchived");
                 break;
             case R.id.action_delete:
+                snackbar.setTag(selectedGames.get(0).getState() == Game.State.NORMAL
+                        ? R.id.action_restore : R.id.action_archive);
                 updateGameState(selectedGames, Game.State.DELETE);
                 snackbar.text(count + " moved to Trash");
                 break;
             case R.id.action_restore:
+                snackbar.setTag(R.id.action_delete);
                 updateGameState(selectedGames, Game.State.NORMAL);
                 snackbar.text(count + " restored");
                 break;
@@ -279,16 +322,14 @@ public class GameListActivity extends BaseActivity implements
         List<Game> mUndoGames = mGameAdapter.getUndoItems();
         switch ((int) snackbar.getTag()) {
             case R.id.action_archive:
-                updateGameState(mUndoGames, Game.State.NORMAL);
-                break;
-            case R.id.action_unarchive:
                 updateGameState(mUndoGames, Game.State.ARCHIVE);
                 break;
             case R.id.action_delete:
-                updateGameState(mUndoGames, Game.State.NORMAL);
-                break;
-            case R.id.action_restore:
                 updateGameState(mUndoGames, Game.State.DELETE);
+                break;
+            case R.id.action_unarchive:
+            case R.id.action_restore:
+                updateGameState(mUndoGames, Game.State.NORMAL);
                 break;
         }
         mGameAdapter.add(mUndoGames);

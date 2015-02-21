@@ -68,7 +68,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
                 } else {
                     Intent intent = new Intent(mActivity, GameHistoryActivity.class);
                     intent.putExtra(Game.COLUMN_ID, game.getId());
-                    mActivity.startActivity(intent);
+                    mActivity.startActivityForResult(intent, Constants.GAME_HISTORY_REQUEST);
                 }
             }
         });

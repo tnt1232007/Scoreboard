@@ -10,6 +10,7 @@ public final class Constants {
     public static final int SIGN_IN_REQUEST = 0;
     public static final int GAME_NEW_REQUEST = 1;
     public static final int GAME_SCORE_REQUEST = 2;
+    public static final int GAME_HISTORY_REQUEST = 3;
 
     public static final int MAX_PLAYERS = 24;
     public static final int MIN_PLAYERS = 2;

@@ -334,6 +334,17 @@ public abstract class BaseActivity extends ActionBarActivity
         return game;
     }
 
+    public void deleteGame(Game game) {
+        mPlayerDAO.open();
+        for (Player p : game.getPlayerList())
+            mPlayerDAO.delete(p.getId());
+        mPlayerDAO.close();
+
+        mGameDAO.open();
+        mGameDAO.delete(game.getId());
+        mGameDAO.close();
+    }
+
     public void deleteGames(List<Game> gameList) {
         mPlayerDAO.open();
         for (Game g : gameList) {

@@ -32,12 +32,9 @@ public class SummaryFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new SummaryAdapter(mGame));
         if (count < 10) {
-            recyclerView.setPadding(
-                    recyclerView.getPaddingLeft(),
-                    recyclerView.getPaddingTop(),
-                    recyclerView.getPaddingRight(),
-                    (10 - count) * 128
-            );
+            ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+            params.height = count * 132;
+            recyclerView.setLayoutParams(params);
         }
         return view;
     }
