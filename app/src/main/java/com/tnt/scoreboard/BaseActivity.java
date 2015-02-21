@@ -40,6 +40,7 @@ public abstract class BaseActivity extends ActionBarActivity
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    public static final String RETRIEVE_FAIL = "Unable to retrieve account information";
     private static final String DESC = " DESC";
     private static final String EQUALS = " = ";
     protected Toolbar mToolbar;
@@ -95,6 +96,7 @@ public abstract class BaseActivity extends ActionBarActivity
         }
     }
 
+    //<editor-fold desc="Life cycle">
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.SIGN_IN_REQUEST) {
@@ -122,7 +124,9 @@ public abstract class BaseActivity extends ActionBarActivity
             mGoogleApiClient.disconnect();
         super.onStop();
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Preferences">
     @Override
     protected void onResume() {
         super.onResume();
@@ -137,47 +141,6 @@ public abstract class BaseActivity extends ActionBarActivity
             switchOrientation(orientation);
         } else if (key.equals(getString(R.string.pref_key_theme))) {
             recreate();
-        }
-    }
-
-    @Override
-    public void onSignInClicked() {
-        if (!mGoogleApiClient.isConnecting()) {
-            mFirstTimeSignIn = true;
-            mSignInClicked = true;
-            resolveSignInError();
-        }
-    }
-
-    @Override
-    public void onSignOutClicked() {
-        if (mGoogleApiClient.isConnected()) {
-            mFirstTimeSignIn = false;
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-        }
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        mSignInClicked = false;
-        if (mFirstTimeSignIn)
-            Toast.makeText(this, "Connected to " + getEmail(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        if (!mIntentInProgress) {
-            mConnectionResult = result;
-            if (mSignInClicked) {
-                resolveSignInError();
-            }
         }
     }
 
@@ -203,6 +166,50 @@ public abstract class BaseActivity extends ActionBarActivity
             setTheme(isLight ? R.style.BaseLightTheme : R.style.BaseTheme);
         }
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Google API">
+    @Override
+    public void onSignInClicked() {
+        if (!mGoogleApiClient.isConnecting()) {
+            mFirstTimeSignIn = true;
+            mSignInClicked = true;
+            resolveSignInError();
+        }
+    }
+
+    @Override
+    public void onSignOutClicked() {
+        if (mGoogleApiClient.isConnected()) {
+            mFirstTimeSignIn = false;
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mSignInClicked = false;
+        if (mFirstTimeSignIn) {
+            mFirstTimeSignIn = false;
+            Toast.makeText(this, "Connected to " + getEmail(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (!mIntentInProgress) {
+            mConnectionResult = result;
+            if (mSignInClicked) {
+                resolveSignInError();
+            }
+        }
+    }
 
     public void initGoogleApi() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -214,7 +221,7 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     private void resolveSignInError() {
-        if (mConnectionResult.hasResolution()) {
+        if (mConnectionResult != null && mConnectionResult.hasResolution()) {
             try {
                 mIntentInProgress = true;
                 startIntentSenderForResult(mConnectionResult.getResolution().getIntentSender(),
@@ -227,12 +234,23 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     public Person getPerson() {
-        return Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+        Person p = null;
+        if (mGoogleApiClient.isConnected())
+            p = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+        if (p == null)
+            Toast.makeText(this, RETRIEVE_FAIL, Toast.LENGTH_SHORT).show();
+        return p;
     }
 
     public String getEmail() {
-        return Plus.AccountApi.getAccountName(mGoogleApiClient);
+        String s = null;
+        if (mGoogleApiClient.isConnected())
+            s = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        if (s == null)
+            Toast.makeText(this, RETRIEVE_FAIL, Toast.LENGTH_SHORT).show();
+        return s;
     }
+    //</editor-fold>
 
     //<editor-fold desc="Data access wrapper">
     public List<Game> getRecentGameList(int limit) {

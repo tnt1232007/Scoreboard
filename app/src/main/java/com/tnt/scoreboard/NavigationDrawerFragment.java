@@ -116,26 +116,21 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     public void setupAdditionalInfo(Person person, String email) {
-        if (person != null && email != null) {
+        if (person != null) {
             mName.setText(person.getDisplayName());
-            mEmail.setText(email);
             new InternetUtils.DownloadImage(mAvatar, true).execute(
                     person.getImage().getUrl().replace("sz=50", "sz=250"));
             new InternetUtils.DownloadImage(mCover, false).execute(
                     person.getCover().getCoverPhoto().getUrl());
-            switchSignInButton(true);
-        } else {
-            mName.setText("");
-            mEmail.setText("");
-            mAvatar.setImageResource(R.drawable.ic_avatar);
-            mCover.setImageResource(R.drawable.ic_cover);
-            switchSignInButton(false);
         }
+        if (email != null) {
+            mEmail.setText(email);
+        }
+        switchSignInButton(true);
     }
 
     private void switchSignInButton(final boolean isSignIn) {
-        String text = isSignIn ? "Sign out" : "Sign in ";
-        mSignIn.setColorScheme(SignInButton.COLOR_LIGHT);
+        String text = isSignIn ? "Sign out of Google" : "Sign in with Google";
         for (int i = 0; i < mSignIn.getChildCount(); i++) {
             View v = mSignIn.getChildAt(i);
             if (v instanceof TextView) {
@@ -151,7 +146,11 @@ public class NavigationDrawerFragment extends Fragment {
                 if (mGoogleApiListener == null) return;
                 if (isSignIn) {
                     mGoogleApiListener.onSignOutClicked();
-                    setupAdditionalInfo(null, null);
+                    mName.setText("");
+                    mEmail.setText("");
+                    mAvatar.setImageResource(R.drawable.ic_avatar);
+                    mCover.setImageResource(R.drawable.ic_cover);
+                    switchSignInButton(false);
                 } else {
                     mGoogleApiListener.onSignInClicked();
                 }
