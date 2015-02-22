@@ -9,17 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.plus.model.people.Person;
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.utils.ColorUtils;
 import com.tnt.scoreboard.utils.Constants;
+import com.tnt.scoreboard.utils.InternetUtils;
 
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.NavigationViewHolder> {
 
-    private static final String PREFIX = "#";
     private static final String DIVIDER = "DIVIDER";
     private final TypedArray mIcons, mColors;
     private final String[] mText;
     private int mCurrentPosition;
+    private Person mPerson;
+    private String mEmail;
     private IOnNavigationClickListener mListener;
 
     public NavigationAdapter(Context context) {
@@ -48,31 +51,48 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
 
     @Override
     public int getItemViewType(int position) {
-        String text = mText[position];
-        return text.equals(DIVIDER) ? Constants.TYPE_DIVIDER :
-                text.startsWith(PREFIX) ? Constants.TYPE_HEADER : Constants.TYPE_ITEM;
+        return position == 0 ? Constants.TYPE_HEADER :
+                mText[position - 1].equals(DIVIDER) ? Constants.TYPE_DIVIDER : Constants.TYPE_ITEM;
     }
 
     @Override
-    public void onBindViewHolder(NavigationViewHolder holder, final int position) {
-        holder.updateData(getItemViewType(position), mIcons.getResourceId(position, 0),
-                mText[position], mColors.getResourceId(position, 0), position == mCurrentPosition);
-        holder.setListener(new IOnNavigationClickListener() {
-            @Override
-            public void onNavigationClick(View v, int p) {
-                notifyDataSetChanged();
-                mListener.onNavigationClick(v, position);
-            }
-        });
+    public void onBindViewHolder(NavigationViewHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case Constants.TYPE_HEADER:
+                holder.updateHeader(mPerson, mEmail);
+                break;
+            case Constants.TYPE_ITEM:
+                final int index = position - 1;
+                holder.updateData(mIcons.getResourceId(index, 0), mText[index],
+                        mColors.getResourceId(index, 0), index == mCurrentPosition);
+                holder.setListener(new IOnNavigationClickListener() {
+                    @Override
+                    public void onNavigationClick(View v, int p) {
+                        notifyDataSetChanged();
+                        mListener.onNavigationClick(v, index);
+                    }
+                });
+                break;
+            case Constants.TYPE_DIVIDER:
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mText.length;
+        return mText.length + 1;
     }
 
     public void setCurrentPosition(int currentPosition) {
         this.mCurrentPosition = currentPosition;
+    }
+
+    public void setPerson(Person person) {
+        mPerson = person;
+    }
+
+    public void setEmail(String email) {
+        mEmail = email;
     }
 
     public void setListener(IOnNavigationClickListener listener) {
@@ -86,8 +106,8 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
 
     static class NavigationViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mIcon;
-        private TextView mText;
+        private ImageView mIcon, mAvatar, mCover;
+        private TextView mText, mName, mEmail;
 
         private int mColor, mDefaultColor;
         private IOnNavigationClickListener mListener;
@@ -95,45 +115,56 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
 
         public NavigationViewHolder(View itemView, int viewType) {
             super(itemView);
-            mContext = itemView.getContext();
-            mDefaultColor = ColorUtils.getAttrColor(mContext, android.R.attr.textColorPrimary);
-
             switch (viewType) {
                 case Constants.TYPE_HEADER:
-                    mText = (TextView) itemView.findViewById(R.id.text);
+                    mAvatar = (ImageView) itemView.findViewById(R.id.avatar);
+                    mCover = (ImageView) itemView.findViewById(R.id.cover);
+                    mName = (TextView) itemView.findViewById(R.id.name);
+                    mEmail = (TextView) itemView.findViewById(R.id.email);
                     break;
                 case Constants.TYPE_ITEM:
+                    mContext = itemView.getContext();
+                    mDefaultColor = ColorUtils.getAttrColor(mContext,
+                            android.R.attr.textColorPrimary);
                     mIcon = (ImageView) itemView.findViewById(R.id.icon);
                     mText = (TextView) itemView.findViewById(R.id.text);
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mListener.onNavigationClick(v, -1);
+                            updateState(true);
+                        }
+                    });
                     break;
             }
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onNavigationClick(v, -1);
-                    updateState(true);
-                }
-            });
         }
 
-        public void updateData(int viewType, int icon, String text, int color, boolean isSelected) {
-            switch (viewType) {
-                case Constants.TYPE_HEADER:
-                    this.mText.setText(text.replace(PREFIX, ""));
-                    break;
-                case Constants.TYPE_ITEM:
-                    this.mIcon.setImageResource(icon);
-                    this.mText.setText(text);
-                    this.mColor = color;
-                    updateState(isSelected);
-                    break;
+        public void updateHeader(Person person, String email) {
+            mName.setText(person == null ? "" : person.getDisplayName());
+            mEmail.setText(email == null ? "" : email);
+            if (person != null) {
+                new InternetUtils.DownloadImage(mAvatar, true).execute(
+                        person.getImage().getUrl().replace("sz=50", "sz=250"));
+                new InternetUtils.DownloadImage(mCover, false).execute(
+                        person.getCover().getCoverPhoto().getUrl());
+            } else {
+                mAvatar.setImageResource(R.drawable.ic_avatar);
+                mCover.setImageResource(R.drawable.ic_cover);
             }
+        }
+
+        public void updateData(int icon, String text, int color, boolean isSelected) {
+            mIcon.setImageResource(icon);
+            mText.setText(text);
+            mColor = color;
+            updateState(isSelected);
         }
 
         private void updateState(boolean isSelected) {
             if (mColor == 0) return;
             itemView.setSelected(isSelected);
-            mText.setTextColor(isSelected ? mContext.getResources().getColor(mColor) : mDefaultColor);
+            mText.setTextColor(isSelected
+                    ? mContext.getResources().getColor(mColor) : mDefaultColor);
         }
 
         public void setListener(IOnNavigationClickListener listener) {

@@ -15,32 +15,24 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.plus.model.people.Person;
 import com.tnt.scoreboard.adapters.NavigationAdapter;
 import com.tnt.scoreboard.utils.DrawableUtils;
-import com.tnt.scoreboard.utils.InternetUtils;
 
 public class NavigationDrawerFragment extends Fragment {
 
     private IOnDrawerToggle mCallback;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationAdapter mNavigationAdapter;
-    private ImageView mAvatar, mCover;
-    private TextView mName, mEmail;
     private SignInButton mSignIn;
     private IOnGoogleApiListener mGoogleApiListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        mAvatar = (ImageView) view.findViewById(R.id.avatar);
-        mCover = (ImageView) view.findViewById(R.id.cover);
-        mName = (TextView) view.findViewById(R.id.name);
-        mEmail = (TextView) view.findViewById(R.id.email);
         mSignIn = (SignInButton) view.findViewById(R.id.signIn);
 
         mNavigationAdapter = new NavigationAdapter(view.getContext());
@@ -116,20 +108,13 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     public void setupAdditionalInfo(Person person, String email) {
-        if (person != null) {
-            mName.setText(person.getDisplayName());
-            new InternetUtils.DownloadImage(mAvatar, true).execute(
-                    person.getImage().getUrl().replace("sz=50", "sz=250"));
-            new InternetUtils.DownloadImage(mCover, false).execute(
-                    person.getCover().getCoverPhoto().getUrl());
-        }
-        if (email != null) {
-            mEmail.setText(email);
-        }
+        mNavigationAdapter.setPerson(person);
+        mNavigationAdapter.setEmail(email);
+        mNavigationAdapter.notifyItemChanged(0);
         switchSignInButton(true);
     }
 
-    private void switchSignInButton(final boolean isSignIn) {
+    private void switchSignInButton(boolean isSignIn) {
         String text = isSignIn ? "Sign out of Google" : "Sign in with Google";
         for (int i = 0; i < mSignIn.getChildCount(); i++) {
             View v = mSignIn.getChildAt(i);
@@ -140,22 +125,25 @@ public class NavigationDrawerFragment extends Fragment {
                 break;
             }
         }
-        mSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mGoogleApiListener == null) return;
-                if (isSignIn) {
-                    mGoogleApiListener.onSignOutClicked();
-                    mName.setText("");
-                    mEmail.setText("");
-                    mAvatar.setImageResource(R.drawable.ic_avatar);
-                    mCover.setImageResource(R.drawable.ic_cover);
-                    switchSignInButton(false);
-                } else {
-                    mGoogleApiListener.onSignInClicked();
-                }
-            }
-        });
+        mSignIn.setOnClickListener(isSignIn ?
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mGoogleApiListener == null) return;
+                        mGoogleApiListener.onSignOutClicked();
+                        mNavigationAdapter.setPerson(null);
+                        mNavigationAdapter.setEmail(null);
+                        mNavigationAdapter.notifyItemChanged(0);
+                        switchSignInButton(false);
+                    }
+                } :
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mGoogleApiListener == null) return;
+                        mGoogleApiListener.onSignInClicked();
+                    }
+                });
     }
 
     public void setCurrentPosition(int currentPosition) {

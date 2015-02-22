@@ -7,62 +7,6 @@
     tools:context="com.tnt.scoreboard.NavigationDrawerFragment"
     tools:layout_width="288dp">
 
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="172dp"
-        android:clickable="true"
-        android:elevation="2dp">
-
-        <ImageView
-            android:id="@+id/cover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/default_image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_cover" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/gradient" />
-
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
-            android:contentDescription="@string/default_image"
-            android:src="@drawable/ic_avatar" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                tools:text="Albert Einstein" />
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/dimWhite"
-                android:textSize="14sp"
-                tools:text="albert.einstein@gmail.com" />
-        </LinearLayout>
-    </RelativeLayout>
-
     <com.google.android.gms.common.SignInButton
         android:id="@+id/signIn"
         android:layout_width="match_parent"
@@ -78,6 +22,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/signIn"
-        android:layout_below="@+id/header"
-        android:paddingTop="8dp" />
+        android:overScrollMode="never" />
 </RelativeLayout>
