@@ -17,14 +17,27 @@ import java.util.List;
 
 public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryViewHolder> {
 
-    private final Game mGame;
     private final int mCols;
     private final int mRows;
+    private Player[] mPlayerList;
+    private int[] mSumList;
 
     public SummaryAdapter(Game game) {
-        mGame = game;
-        mCols = (int) (mGame.getNumberOfRounds() + 2);
-        mRows = (int) (mGame.getNumberOfPlayers() + 2);
+        int numberOfRounds = (int) game.getNumberOfRounds();
+        int numberOfPlayers = (int) game.getNumberOfPlayers();
+        mCols = numberOfRounds + 2;
+        mRows = numberOfPlayers + 2;
+
+        mPlayerList = game.getPlayerList().toArray(new Player[numberOfPlayers]);
+        mSumList = new int[numberOfRounds];
+        for (int i = 0; i < numberOfRounds; i++) {
+            int sum = 0;
+            for (Player p : mPlayerList) {
+                List<Score> scoreList = p.getScoreList();
+                sum += scoreList.get(Math.min(i, scoreList.size() - 1)).getScore();
+            }
+            mSumList[i] = sum;
+        }
     }
 
     @Override
@@ -49,7 +62,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
     public void onBindViewHolder(SummaryViewHolder holder, int position) {
         int row = position % mRows;
         int col = position / mRows;
-        List<Player> playerList = mGame.getPlayerList();
 
         //Empty first cell
         if (row == 0 && col == 0) {
@@ -59,15 +71,15 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
 
         //Round number Header
         if (row == 0) {
-            holder.updateData(col == mCols - 1 ? "Final"
-                    : "R" + StringUtils.padLeft(col, '0', (int) Math.log10(mCols) + 1), null);
+            holder.updateData(col == mCols - 1
+                    ? "Final" : "R" + StringUtils.padLeft(col, '0', 2), null);
             return;
         }
 
         //Player name Header
         if (col == 0) {
             holder.updateData(row == mRows - 1 ? "\u03A3"
-                    : playerList.get(row - 1).getName(), null);
+                    : mPlayerList[row - 1].getName(), null);
             return;
         }
 
@@ -79,24 +91,23 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
 
         //Score sum Footer
         if (row == mRows - 1) {
-            long incrementScore = 0;
-            for (int i = 0; i < playerList.size(); i++) {
-                List<Score> scoreList = playerList.get(i).getScoreList();
-                incrementScore += scoreList.get(Math.min(col - 1, scoreList.size() - 1)).getScore();
-            }
-            holder.updateData(addPlus(incrementScore), null);
+            holder.updateData(addPlus(mSumList[col - 1]), null);
             return;
         }
 
         //Final score Footer OR the last few columns with no change in score
-        List<Score> scoreList = playerList.get(row - 1).getScoreList();
-        if (col == mCols - 1 || col > scoreList.size()) {
-            holder.updateData(playerList.get(row - 1).getScore(), null);
+        if (col == mCols - 1) {
+            holder.updateData(mPlayerList[row - 1].getScore(), null);
             return;
         }
 
         //Normal summary cell
-        Score score = scoreList.get(Math.min(col - 1, scoreList.size() - 1));
+        List<Score> scoreList = mPlayerList[row - 1].getScoreList();
+        if (col > scoreList.size()) {
+            holder.updateData("-", null);
+            return;
+        }
+        Score score = scoreList.get(col - 1);
         holder.updateData(score.getCurrentScore(), addPlus(score.getScore()));
     }
 
