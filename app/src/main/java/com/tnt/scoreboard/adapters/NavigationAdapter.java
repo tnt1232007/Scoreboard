@@ -2,6 +2,7 @@ package com.tnt.scoreboard.adapters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.plus.model.people.Person;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.utils.ColorUtils;
 import com.tnt.scoreboard.utils.Constants;
-import com.tnt.scoreboard.utils.InternetUtils;
+import com.tnt.scoreboard.utils.DrawableUtils;
 
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.NavigationViewHolder> {
 
@@ -115,6 +118,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
 
         public NavigationViewHolder(View itemView, int viewType) {
             super(itemView);
+            mContext = itemView.getContext();
             switch (viewType) {
                 case Constants.TYPE_HEADER:
                     mAvatar = (ImageView) itemView.findViewById(R.id.avatar);
@@ -123,7 +127,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
                     mEmail = (TextView) itemView.findViewById(R.id.email);
                     break;
                 case Constants.TYPE_ITEM:
-                    mContext = itemView.getContext();
                     mDefaultColor = ColorUtils.getAttrColor(mContext,
                             android.R.attr.textColorPrimary);
                     mIcon = (ImageView) itemView.findViewById(R.id.icon);
@@ -143,10 +146,25 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
             mName.setText(person == null ? "" : person.getDisplayName());
             mEmail.setText(email == null ? "" : email);
             if (person != null) {
-                new InternetUtils.DownloadImage(mAvatar, true).execute(
-                        person.getImage().getUrl().replace("sz=50", "sz=250"));
-                new InternetUtils.DownloadImage(mCover, false).execute(
-                        person.getCover().getCoverPhoto().getUrl());
+                Picasso.with(mContext)
+                        .load(person.getImage().getUrl().replace("sz=50", "sz=250"))
+                        .transform(new Transformation() {
+                            @Override
+                            public Bitmap transform(Bitmap source) {
+                                Bitmap bitmap = DrawableUtils.croppedBitmap(source);
+                                source.recycle();
+                                return bitmap;
+                            }
+
+                            @Override
+                            public String key() {
+                                return "";
+                            }
+                        })
+                        .into(mAvatar);
+                Picasso.with(mContext)
+                        .load(person.getCover().getCoverPhoto().getUrl())
+                        .into(mCover);
             } else {
                 mAvatar.setImageResource(R.drawable.ic_avatar);
                 mCover.setImageResource(R.drawable.ic_cover);

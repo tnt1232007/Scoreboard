@@ -27,6 +27,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.3'
     compile 'joda-time:joda-time:2.7'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
+    compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.getbase:floatingactionbutton:1.7.0'
     compile 'com.nispok:snackbar:2.8.0'

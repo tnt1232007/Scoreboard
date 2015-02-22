@@ -62,7 +62,7 @@ public final class FileUtils {
     private static String readLog() {
         try {
             Process process = Runtime.getRuntime().exec(
-                    new String[]{"logcat", "-d", "-t", Constants.APP_NAME + ":V", "*:S"});
+                    new String[]{"logcat", "-d"});
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
 
@@ -72,8 +72,6 @@ public final class FileUtils {
                 log.append(line);
                 log.append("\r\n");
             }
-
-            Runtime.getRuntime().exec(new String[]{"logcat", "-c"});
             return log.toString();
         } catch (IOException e) {
             Log.e(Constants.APP_NAME, e.getMessage(), e);
