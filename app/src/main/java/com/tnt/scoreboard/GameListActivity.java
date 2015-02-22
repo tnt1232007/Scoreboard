@@ -1,5 +1,7 @@
 package com.tnt.scoreboard;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -192,8 +195,7 @@ public class GameListActivity extends BaseActivity implements
                 mFab.setVisibility(mScreen.FAB_VISIBLE);
                 Resources r = getResources();
                 mToolbar.setTitle(r.getString(mScreen.TITLE));
-                mToolbar.setBackground(new ColorDrawable(r.getColor(mScreen.COLOR_PRIMARY)));
-                getWindow().setStatusBarColor(r.getColor(mScreen.COLOR_PRIMARY_DARK));
+                revealImageCircular(r.getColor(mScreen.COLOR_PRIMARY));
                 mGameAdapter = new GameAdapter(this, getGameList(mScreen.STATE));
                 mGameAdapter.setListener(this);
                 mRecyclerView.setAdapter(mGameAdapter);
@@ -237,7 +239,6 @@ public class GameListActivity extends BaseActivity implements
         actionMode.getMenuInflater().inflate(mScreen.ACTION_LAYOUT, menu);
         SnackbarManager.dismiss();
         mFab.show(false, true);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.lightBlack));
         return true;
     }
 
@@ -313,7 +314,6 @@ public class GameListActivity extends BaseActivity implements
         mFab.show(true, true);
         mGameAdapter.clear();
         mActionMode = null;
-        getWindow().setStatusBarColor(getResources().getColor(mScreen.COLOR_PRIMARY_DARK));
         updateEmptyView(mScreen);
     }
 
@@ -406,5 +406,26 @@ public class GameListActivity extends BaseActivity implements
             g.setState(state);
             updateGame(g, Game.COLUMN_STATE);
         }
+    }
+
+    private void revealImageCircular(final int primary) {
+        final View view = mToolbar;
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int x = view.getWidth() / 2;
+                int y = view.getHeight() / 2;
+                Animator anim = ViewAnimationUtils.createCircularReveal(view, x, y, 0, x);
+                anim.setDuration(200);
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                        mToolbar.setBackground(new ColorDrawable(primary));
+                    }
+                });
+                anim.start();
+            }
+        }, 100);
     }
 }
