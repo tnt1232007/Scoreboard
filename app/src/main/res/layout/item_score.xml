@@ -14,9 +14,10 @@
         android:layout_weight="1"
         android:gravity="end"
         android:paddingEnd="2dp"
+        android:paddingStart="2dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="10sp"
-        tools:text="1." />
+        tools:text="1."/>
 
     <TextView
         android:id="@+id/score"
@@ -26,5 +27,5 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="10sp"
-        tools:text="+3" />
+        tools:text="+3"/>
 </LinearLayout>

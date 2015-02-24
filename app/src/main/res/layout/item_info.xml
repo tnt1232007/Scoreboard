@@ -6,7 +6,8 @@
     android:layout_marginBottom="16dp"
     android:orientation="horizontal"
     android:paddingEnd="24dp"
-    android:paddingStart="24dp">
+    android:paddingStart="24dp"
+    tools:layout_width="224dp">
 
     <TextView
         android:id="@+id/rank"

@@ -3,21 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="172dp"
-        android:contentDescription="@string/default_image"
-        android:src="@drawable/gradient"/>
+    android:layout_height="match_parent"
+    tools:layout_width="224dp">
 
     <ImageView
         android:id="@+id/cover"
         android:layout_width="match_parent"
-        android:layout_height="172dp"
+        android:layout_height="160dp"
+        android:background="?android:attr/colorPrimary"
         android:contentDescription="@string/default_image"
-        android:scaleType="centerCrop"
-        tools:background="@color/indigo"/>
+        android:elevation="2dp"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/subTitle"
@@ -27,6 +23,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+        android:elevation="2dp"
         android:textColor="@color/dimWhite"
         android:textSize="14sp"
         tools:text=" Updated 20 minutes ago"/>
@@ -37,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/subTitle"
         android:layout_alignStart="@id/subTitle"
+        android:elevation="2dp"
         android:textColor="@color/dimWhite"
         android:textSize="48sp"
         tools:text="Poker"/>
@@ -56,6 +54,59 @@
             android:text="@string/info_label"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="12sp"/>
+
+
+        <LinearLayout
+            android:id="@+id/stateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/state_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="Ongoing"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/createdLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/created_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/created"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="Feb 24, 2015"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/startingLayout"
@@ -107,100 +158,6 @@
                 android:layout_weight="0.5"
                 android:textSize="14sp"
                 tools:text="120"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/createdLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/created_label"
-                android:textAppearance="?android:attr/textAppearance"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/created"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:textSize="14sp"
-                tools:text="Feb 24, 2015"/>
-        </LinearLayout>
-
-        <include
-            layout="@layout/divider_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/current_label"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="12sp"/>
-
-        <LinearLayout
-            android:id="@+id/stateLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/state_label"
-                android:textAppearance="?android:attr/textAppearance"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/state"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:textSize="14sp"
-                tools:text="Ongoing"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/roundsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/rounds_label"
-                android:textAppearance="?android:attr/textAppearance"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/rounds"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:textSize="14sp"
-                tools:text="87"/>
         </LinearLayout>
 
         <include

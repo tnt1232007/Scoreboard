@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
     android:orientation="vertical"
-    tools:context="com.tnt.scoreboard.InfoDrawerFragment"
-    tools:layout_width="288dp">
+    tools:context="com.tnt.scoreboard.InfoDrawerFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

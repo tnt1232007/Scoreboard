@@ -4,18 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tnt.scoreboard.R;
 import com.tnt.scoreboard.models.Game;
 import com.tnt.scoreboard.models.Player;
-import com.tnt.scoreboard.utils.ColorUtils;
 import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.DateTimeUtils;
-import com.tnt.scoreboard.utils.RandUtils;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,21 +68,18 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
     static class InfoViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTitle, mSubTitle, mStart, mEnd,
-                mCreated, mState, mRounds, mRank, mPlayer, mScore;
-        private ImageView mCover;
+                mCreated, mState, mRank, mPlayer, mScore;
 
         public InfoViewHolder(final View itemView, int viewType) {
             super(itemView);
             switch (viewType) {
                 case Constants.TYPE_HEADER:
-                    mCover = (ImageView) itemView.findViewById(R.id.cover);
                     mTitle = (TextView) itemView.findViewById(R.id.title);
                     mSubTitle = (TextView) itemView.findViewById(R.id.subTitle);
                     mStart = (TextView) itemView.findViewById(R.id.start);
                     mEnd = (TextView) itemView.findViewById(R.id.end);
                     mCreated = (TextView) itemView.findViewById(R.id.created);
                     mState = (TextView) itemView.findViewById(R.id.state);
-                    mRounds = (TextView) itemView.findViewById(R.id.rounds);
                     break;
                 case Constants.TYPE_ITEM:
                     mRank = (TextView) itemView.findViewById(R.id.rank);
@@ -97,17 +90,13 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
         }
 
         public void updateHeader(Game game) {
-            Collection<Integer> c = ColorUtils.ColorMap(itemView.getContext()).values();
-            int color = ColorUtils.darken(RandUtils.nextItem(c.toArray(new Integer[c.size()])));
-            mCover.setBackgroundColor(color);
             mTitle.setText(game.getTitle());
             mSubTitle.setText(" Updated " + DateTimeUtils.formatPretty(game.getUpdatedDate()));
+            mState.setText(game.getState() == Game.State.NORMAL ? "Ongoing"
+                    : game.getState() == Game.State.ARCHIVE ? "Archived" : "Trash");
             mStart.setText(String.valueOf(game.getStartingScore()));
             mEnd.setText(String.valueOf(game.getEndingScore()));
             mCreated.setText(game.getCreatedDate().toString("MMM dd, yyyy"));
-            mState.setText(game.getState() == Game.State.NORMAL ? "Ongoing"
-                    : game.getState() == Game.State.ARCHIVE ? "Archived" : "Trash");
-            mRounds.setText(String.valueOf(game.getNumberOfRounds()));
         }
 
         public void updateData(Player player, int rank) {

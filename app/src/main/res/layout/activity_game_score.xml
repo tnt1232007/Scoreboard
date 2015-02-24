@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/infoDrawer"
         android:name="com.tnt.scoreboard.InfoDrawerFragment"
-        android:layout_width="256dp"
+        android:layout_width="224dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:elevation="8dp"

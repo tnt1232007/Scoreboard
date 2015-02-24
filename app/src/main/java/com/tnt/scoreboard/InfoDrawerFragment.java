@@ -52,7 +52,7 @@ public class InfoDrawerFragment extends Fragment {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-
+                mRecyclerView.scrollToPosition(0);
             }
         };
         drawerLayout.setDrawerListener(mDrawerToggle);

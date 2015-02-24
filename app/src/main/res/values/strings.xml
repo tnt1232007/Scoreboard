@@ -52,13 +52,11 @@
     <string name="button_undo">Undo</string>
     <string name="title_label">Title</string>
     <string name="game_title">Poker</string>
-    <string name="starting_label">Starting Score</string>
-    <string name="ending_label">Ending Score</string>
+    <string name="starting_label">Start</string>
+    <string name="ending_label">End</string>
     <string name="info_label">Info</string>
     <string name="state_label">State</string>
-    <string name="created_label">Created Date</string>
-    <string name="rounds_label">Rounds</string>
-    <string name="current_label">Current</string>
+    <string name="created_label">Created</string>
     <string name="start_score">0</string>
     <string name="end_score">100</string>
     <string name="participant_label">Participants</string>
