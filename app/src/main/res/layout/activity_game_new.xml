@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"/>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -33,7 +33,7 @@
                     android:layout_marginStart="16dp"
                     android:text="@string/title_label"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <EditText
                     android:id="@+id/title"
@@ -43,7 +43,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:hint="@string/game_title"
-                    android:textSize="40sp" />
+                    android:textSize="40sp"/>
 
                 <LinearLayout
                     android:id="@+id/titleLayout"
@@ -61,7 +61,7 @@
                         android:layout_weight="1"
                         android:text="@string/starting_label"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -69,7 +69,7 @@
                         android:layout_weight="1"
                         android:text="@string/ending_label"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -86,20 +86,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ems="7"
                         android:hint="@string/start_score"
                         android:inputType="number"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                     <EditText
                         android:id="@+id/end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ems="7"
                         android:hint="@string/end_score"
                         android:inputType="number"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
                 <TextView
@@ -111,7 +109,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/participant_label"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -123,7 +121,7 @@
                 android:animateLayoutChanges="true"
                 android:divider="@drawable/divider"
                 android:orientation="vertical"
-                android:showDividers="middle" />
+                android:showDividers="middle"/>
 
             <Button
                 android:id="@+id/newPlayerButton"
@@ -134,7 +132,7 @@
                 android:gravity="center_vertical|start"
                 android:paddingEnd="48dp"
                 android:paddingStart="48dp"
-                android:text="@string/text_new_player" />
+                android:text="@string/text_new_player"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
