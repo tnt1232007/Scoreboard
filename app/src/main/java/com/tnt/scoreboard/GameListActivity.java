@@ -230,7 +230,7 @@ public class GameListActivity extends BaseActivity implements
             mActionMode.finish();
         }
         if (mActionMode != null) {
-            mActionMode.setTitle(String.valueOf(count));
+            mActionMode.setTitle(String.format("%s/%s", count, mGameAdapter.getItemCount()));
         }
     }
 
