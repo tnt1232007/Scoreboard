@@ -12,6 +12,7 @@ import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.utils.Constants;
 import com.tnt.scoreboard.utils.DateTimeUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
 
     public InfoAdapter(Game game) {
         mGame = game;
-        mPlayerList = game.getPlayerList();
+        mPlayerList = new ArrayList<>(game.getPlayerList());
         Collections.sort(mPlayerList);
     }
 
