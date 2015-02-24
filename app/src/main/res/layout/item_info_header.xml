@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="172dp"
+        android:contentDescription="@string/default_image"
+        android:src="@drawable/gradient"/>
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="match_parent"
+        android:layout_height="172dp"
+        android:contentDescription="@string/default_image"
+        android:scaleType="centerCrop"
+        tools:background="@color/indigo"/>
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cover"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/dimWhite"
+        android:textSize="14sp"
+        tools:text=" Updated 20 minutes ago"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/subTitle"
+        android:layout_alignStart="@id/subTitle"
+        android:textColor="@color/dimWhite"
+        android:textSize="48sp"
+        tools:text="Poker"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cover"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/info_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/startingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/starting_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/start"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="40"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/endingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/ending_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="120"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/createdLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/created_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/created"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="Feb 24, 2015"/>
+        </LinearLayout>
+
+        <include
+            layout="@layout/divider_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/current_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/stateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/state_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="Ongoing"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/roundsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/rounds_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/rounds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="87"/>
+        </LinearLayout>
+
+        <include
+            layout="@layout/divider_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/participant_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12sp"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -19,6 +19,7 @@ package com.tnt.scoreboard;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,20 +34,25 @@ import com.tnt.scoreboard.utils.DateTimeUtils;
 
 import java.util.List;
 
-//TODO: Right drawer show current game info
 //TODO: Edit players
-//TODO: Select all
 public class GameScoreActivity extends BaseActivity {
 
     public static final String ROUND = "Round ";
     private PlayerAdapter mPlayerAdapter;
     private Game mGame;
     private boolean updated;
+    private DrawerLayout mDrawerLayout;
+    private InfoDrawerFragment mInfoDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_game_score);
         mGame = getGame(getIntent().getLongExtra(Game.COLUMN_ID, -1));
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mInfoDrawer = (InfoDrawerFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.infoDrawer);
+        mInfoDrawer.setup(mDrawerLayout, mGame);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

@@ -17,7 +17,7 @@ import java.util.List;
 public class LeaderboardAdapter
         extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder> {
 
-    private List<Player> mPlayerList;
+    private final List<Player> mPlayerList;
 
     public LeaderboardAdapter(List<Player> playerList) {
         this.mPlayerList = playerList;

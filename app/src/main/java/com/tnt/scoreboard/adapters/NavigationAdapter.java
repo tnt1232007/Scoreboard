@@ -76,8 +76,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
                     }
                 });
                 break;
-            case Constants.TYPE_DIVIDER:
-                break;
         }
     }
 
