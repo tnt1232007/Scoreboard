@@ -150,8 +150,11 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
     public void clear() {
         if (mSelectedGames.isEmpty()) return;
+        List<Game> savedList = getSelectedItems();
         mSelectedGames.clear();
-        notifyDataSetChanged();
+        for (int i = 0; i < savedList.size(); i++) {
+            notifyItemChanged(savedList.get(i).getIndex());
+        }
     }
 
     private void refreshIndex() {
