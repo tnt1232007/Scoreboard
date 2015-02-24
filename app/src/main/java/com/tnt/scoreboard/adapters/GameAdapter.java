@@ -148,6 +148,16 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
         }
     }
 
+    public void selectAll() {
+        refreshIndex();
+        mSelectedGames.clear();
+        mSelectedGames.addAll(mGameList);
+        List<Game> savedList = getSelectedItems();
+        for (int i = 0; i < savedList.size(); i++) {
+            notifyItemChanged(savedList.get(i).getIndex());
+        }
+    }
+
     public void clear() {
         if (mSelectedGames.isEmpty()) return;
         List<Game> savedList = getSelectedItems();
@@ -230,9 +240,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
         public void updateState(Game game, boolean selected) {
             if (selected) {
+                mCheck.setVisibility(View.VISIBLE);
                 mIcon.setImageDrawable(mDrawableBuilder.build(" ", mCheckColor));
                 itemView.setSelected(true);
-                mCheck.setVisibility(View.VISIBLE);
             } else {
                 List<Player> players = game.getPlayerList();
                 Context context = itemView.getContext();
@@ -240,9 +250,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
                         StringUtils.getInitial(context, players.get(0).getName()));
                 String s2 = String.format("%s%s", players.size(),
                         StringUtils.getInitial(context, players.get(1).getName()));
+                mCheck.setVisibility(View.GONE);
                 mIcon.setImageDrawable(mDrawableBuilder.build(s1, mColorGenerator.getColor(s2)));
                 itemView.setSelected(false);
-                mCheck.setVisibility(View.GONE);
             }
         }
 

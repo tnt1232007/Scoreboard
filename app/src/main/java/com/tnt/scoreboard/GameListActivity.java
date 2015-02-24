@@ -77,8 +77,23 @@ public class GameListActivity extends BaseActivity implements
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return onCreateOptionsMenu(menu, R.menu.menu_game_list);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mNavigationDrawer.isDrawerToggleSelected(item) || super.onOptionsItemSelected(item);
+        if (mNavigationDrawer.isDrawerToggleSelected(item))
+            return true;
+        switch (item.getItemId()) {
+            case R.id.action_select_all:
+                mFab.show(false, true);
+                mGameAdapter.selectAll();
+                onGameSelect();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
