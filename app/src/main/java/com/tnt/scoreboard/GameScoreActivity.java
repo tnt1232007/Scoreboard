@@ -34,7 +34,6 @@ import com.tnt.scoreboard.utils.DateTimeUtils;
 
 import java.util.List;
 
-//TODO: Edit players
 public class GameScoreActivity extends BaseActivity
         implements InfoDrawerFragment.IOnDrawerToggle {
 

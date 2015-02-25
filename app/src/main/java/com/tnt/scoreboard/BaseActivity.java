@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,7 +27,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -80,12 +78,6 @@ public abstract class BaseActivity extends ActionBarActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ViewGroup.LayoutParams params = mToolbar.getLayoutParams();
-            params.height = DrawableUtils.getAttrDimens(this, android.R.attr.actionBarSize)
-                    + DrawableUtils.getStatusBarHeight(this);
-            mToolbar.setLayoutParams(params);
-        }
 
         mGameDAO = new GameDAO(this);
         mPlayerDAO = new PlayerDAO(this);
