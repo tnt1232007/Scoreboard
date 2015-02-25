@@ -35,13 +35,13 @@ import com.tnt.scoreboard.utils.DateTimeUtils;
 import java.util.List;
 
 //TODO: Edit players
-public class GameScoreActivity extends BaseActivity {
+public class GameScoreActivity extends BaseActivity
+        implements InfoDrawerFragment.IOnDrawerToggle {
 
     public static final String ROUND = "Round ";
     private PlayerAdapter mPlayerAdapter;
     private Game mGame;
     private boolean updated;
-    private DrawerLayout mDrawerLayout;
     private InfoDrawerFragment mInfoDrawer;
 
     @Override
@@ -49,10 +49,10 @@ public class GameScoreActivity extends BaseActivity {
         super.onCreate(savedInstanceState, R.layout.activity_game_score);
         mGame = getGame(getIntent().getLongExtra(Game.COLUMN_ID, -1));
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mInfoDrawer = (InfoDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.infoDrawer);
-        mInfoDrawer.setup(mDrawerLayout, mGame);
+        mInfoDrawer.setup((DrawerLayout) findViewById(R.id.drawerLayout));
+        mInfoDrawer.setListener(this);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -179,5 +179,10 @@ public class GameScoreActivity extends BaseActivity {
         intent.putExtra(Game.COLUMN_UPDATED_DATE, updated);
         setResult(RESULT_CANCELED, intent);
         super.onBackPressed();
+    }
+
+    @Override
+    public void onDrawerOpened() {
+        mInfoDrawer.update(mGame);
     }
 }

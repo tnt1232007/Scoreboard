@@ -69,7 +69,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
     static class InfoViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTitle, mSubTitle, mStart, mEnd,
-                mCreated, mState, mRank, mPlayer, mScore;
+                mCreated, mRounds, mRank, mPlayer, mScore;
 
         public InfoViewHolder(final View itemView, int viewType) {
             super(itemView);
@@ -80,7 +80,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
                     mStart = (TextView) itemView.findViewById(R.id.start);
                     mEnd = (TextView) itemView.findViewById(R.id.end);
                     mCreated = (TextView) itemView.findViewById(R.id.created);
-                    mState = (TextView) itemView.findViewById(R.id.state);
+                    mRounds = (TextView) itemView.findViewById(R.id.rounds);
                     break;
                 case Constants.TYPE_ITEM:
                     mRank = (TextView) itemView.findViewById(R.id.rank);
@@ -93,8 +93,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
         public void updateHeader(Game game) {
             mTitle.setText(game.getTitle());
             mSubTitle.setText(" Updated " + DateTimeUtils.formatPretty(game.getUpdatedDate()));
-            mState.setText(game.getState() == Game.State.NORMAL ? "Ongoing"
-                    : game.getState() == Game.State.ARCHIVE ? "Archived" : "Trash");
+            mRounds.setText(String.valueOf(game.getNumberOfRounds()));
             mStart.setText(String.valueOf(game.getStartingScore()));
             mEnd.setText(String.valueOf(game.getEndingScore()));
             mCreated.setText(game.getCreatedDate().toString("MMM dd, yyyy"));

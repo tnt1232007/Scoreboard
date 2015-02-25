@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +12,7 @@
         android:background="?android:attr/colorPrimary"
         android:contentDescription="@string/default_image"
         android:elevation="2dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/subTitle"
@@ -26,7 +25,7 @@
         android:elevation="2dp"
         android:textColor="@color/dimWhite"
         android:textSize="14sp"
-        tools:text=" Updated 20 minutes ago"/>
+        tools:text=" Updated 20 minutes ago" />
 
     <TextView
         android:id="@+id/title"
@@ -37,7 +36,7 @@
         android:elevation="2dp"
         android:textColor="@color/dimWhite"
         android:textSize="48sp"
-        tools:text="Poker"/>
+        tools:text="Poker" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,8 +52,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/info_label"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="12sp"/>
-
+            android:textSize="12sp" />
 
         <LinearLayout
             android:id="@+id/stateLayout"
@@ -69,43 +67,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:text="@string/state_label"
+                android:text="@string/rounds_label"
                 android:textAppearance="?android:attr/textAppearance"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/state"
+                android:id="@+id/rounds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:textSize="14sp"
-                tools:text="Ongoing"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/createdLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:paddingEnd="24dp"
-            android:paddingStart="24dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/created_label"
-                android:textAppearance="?android:attr/textAppearance"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/created"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:textSize="14sp"
-                tools:text="Feb 24, 2015"/>
+                tools:text="51" />
         </LinearLayout>
 
         <LinearLayout
@@ -123,7 +95,7 @@
                 android:layout_weight="0.5"
                 android:text="@string/starting_label"
                 android:textAppearance="?android:attr/textAppearance"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/start"
@@ -131,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:textSize="14sp"
-                tools:text="40"/>
+                tools:text="40" />
         </LinearLayout>
 
         <LinearLayout
@@ -149,7 +121,7 @@
                 android:layout_weight="0.5"
                 android:text="@string/ending_label"
                 android:textAppearance="?android:attr/textAppearance"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/end"
@@ -157,14 +129,40 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:textSize="14sp"
-                tools:text="120"/>
+                tools:text="120" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/createdLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/created_label"
+                android:textAppearance="?android:attr/textAppearance"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/created"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="14sp"
+                tools:text="Feb 24, 2015" />
         </LinearLayout>
 
         <include
             layout="@layout/divider_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -175,6 +173,6 @@
             android:layout_marginTop="24dp"
             android:text="@string/participant_label"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 </RelativeLayout>

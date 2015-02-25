@@ -55,7 +55,7 @@
     <string name="starting_label">Start</string>
     <string name="ending_label">End</string>
     <string name="info_label">Info</string>
-    <string name="state_label">State</string>
+    <string name="rounds_label">Rounds</string>
     <string name="created_label">Created</string>
     <string name="start_score">0</string>
     <string name="end_score">100</string>

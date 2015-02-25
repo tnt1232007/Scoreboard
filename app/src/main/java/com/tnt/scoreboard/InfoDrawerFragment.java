@@ -17,7 +17,7 @@ import com.tnt.scoreboard.models.Game;
 
 public class InfoDrawerFragment extends Fragment {
 
-    private ActionBarDrawerToggle mDrawerToggle;
+    private IOnDrawerToggle mListener;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -31,8 +31,8 @@ public class InfoDrawerFragment extends Fragment {
         return view;
     }
 
-    public void setup(final DrawerLayout drawerLayout, Game game) {
-        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,
+    public void setup(final DrawerLayout drawerLayout) {
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,
                 R.string.draw_open, R.string.draw_close) {
             @Override
             public boolean onOptionsItemSelected(MenuItem item) {
@@ -47,6 +47,9 @@ public class InfoDrawerFragment extends Fragment {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                if (mListener != null) {
+                    mListener.onDrawerOpened();
+                }
             }
 
             @Override
@@ -55,7 +58,18 @@ public class InfoDrawerFragment extends Fragment {
                 mRecyclerView.scrollToPosition(0);
             }
         };
-        drawerLayout.setDrawerListener(mDrawerToggle);
+        drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    public void update(Game game) {
         mRecyclerView.setAdapter(new InfoAdapter(game));
+    }
+
+    public void setListener(IOnDrawerToggle listener) {
+        mListener = listener;
+    }
+
+    public interface IOnDrawerToggle {
+        public void onDrawerOpened();
     }
 }
