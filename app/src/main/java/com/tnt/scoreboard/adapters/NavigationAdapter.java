@@ -143,7 +143,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
         public void updateHeader(Person person, String email) {
             mName.setText(person == null ? "" : person.getDisplayName());
             mEmail.setText(email == null ? "" : email);
-            if (person != null) {
+            if (person != null && person.hasImage()) {
                 Picasso.with(mContext)
                         .load(person.getImage().getUrl().replace("sz=50", "sz=250"))
                         .transform(new Transformation() {
@@ -160,11 +160,14 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
                             }
                         })
                         .into(mAvatar);
+            } else {
+                mAvatar.setImageResource(R.drawable.ic_avatar);
+            }
+            if (person != null && person.hasCover()) {
                 Picasso.with(mContext)
                         .load(person.getCover().getCoverPhoto().getUrl())
                         .into(mCover);
             } else {
-                mAvatar.setImageResource(R.drawable.ic_avatar);
                 mCover.setImageResource(R.drawable.ic_cover);
             }
         }
