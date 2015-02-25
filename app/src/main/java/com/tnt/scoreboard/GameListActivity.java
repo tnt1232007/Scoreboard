@@ -31,6 +31,7 @@ import com.tnt.scoreboard.utils.FileUtils;
 
 import java.util.List;
 
+//TODO: Drawer layout behind status bar
 public class GameListActivity extends BaseActivity implements
         com.nispok.snackbar.listeners.ActionClickListener,
         NavigationAdapter.IOnNavigationClickListener,

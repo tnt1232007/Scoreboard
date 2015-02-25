@@ -34,6 +34,7 @@ import com.tnt.scoreboard.utils.DateTimeUtils;
 
 import java.util.List;
 
+//TODO: Collapse toolbar on scroll
 public class GameScoreActivity extends BaseActivity
         implements InfoDrawerFragment.IOnDrawerToggle {
 
@@ -52,41 +53,12 @@ public class GameScoreActivity extends BaseActivity
                 .findFragmentById(R.id.infoDrawer);
         mInfoDrawer.setup((DrawerLayout) findViewById(R.id.drawerLayout));
         mInfoDrawer.setListener(this);
+        mInfoDrawer.update(null);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //TODO: Collapse toolbar on scroll
-//        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
-//                final int height = mToolbar.getHeight();
-//                if (dy > 0 && mToolbar.getTranslationY() == 0) {
-//                    mToolbar.animate()
-//                            .translationY(-height)
-//                            .withStartAction(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    recyclerView.setPadding(0, 0, 0, 0);
-//                                }
-//                            })
-//                            .setInterpolator(new AccelerateInterpolator())
-//                            .start();
-//                } else if (dy < 0 && mToolbar.getTranslationY() == -height) {
-//                    mToolbar.animate()
-//                            .translationY(0)
-//                            .setInterpolator(new AccelerateInterpolator())
-//                            .withEndAction(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    recyclerView.setPadding(0, height, 0, 0);
-//                                }
-//                            })
-//                            .start();
-//                }
-//            }
-//        });
 
         mPlayerAdapter = new PlayerAdapter(this, mGame);
         mPlayerAdapter.setListener(new PlayerAdapter.IOnScoreUpdateListener() {
