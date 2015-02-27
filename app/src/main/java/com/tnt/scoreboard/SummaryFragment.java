@@ -1,5 +1,6 @@
 package com.tnt.scoreboard;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ public class SummaryFragment extends Fragment {
     private static Game mGame;
     private ImageView mFreezeHeader;
     private RecyclerView mRecyclerView;
+    private Bitmap mScreenShot;
+    private ViewGroup.LayoutParams mParams;
 
     public static SummaryFragment getInstance(Game game) {
         mGame = game;
@@ -36,25 +39,22 @@ public class SummaryFragment extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), count, GridLayoutManager.HORIZONTAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(new SummaryAdapter(mGame));
-        if (count < 10) {
-            ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
-            params.height = count * 70;
-            mRecyclerView.setLayoutParams(params);
-        }
         return view;
     }
 
     public void update() {
-        if (mFreezeHeader.getDrawable() != null) return;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFreezeHeader.setImageBitmap(DrawableUtils.takeScreenShot(mRecyclerView));
-                ViewGroup.LayoutParams params = mFreezeHeader.getLayoutParams();
-                params.width = mRecyclerView.getLayoutManager().getChildAt(0).getWidth();
-                mFreezeHeader.setLayoutParams(params);
+                if (mScreenShot == null) {
+                    mParams = mFreezeHeader.getLayoutParams();
+                    mParams.width = mRecyclerView.getLayoutManager().getChildAt(0).getWidth();
+                    mScreenShot = DrawableUtils.takeScreenShot(mRecyclerView);
+                }
+                mFreezeHeader.setLayoutParams(mParams);
+                mFreezeHeader.setImageBitmap(mScreenShot);
             }
-        }, 400);
+        }, 100);
     }
 
     @Override
