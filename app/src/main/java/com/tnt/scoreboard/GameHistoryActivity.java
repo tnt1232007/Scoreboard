@@ -22,8 +22,9 @@ public class GameHistoryActivity extends BaseActivity {
         super.onCreate(savedInstanceState, R.layout.activity_game_history);
         mGame = getGame(getIntent().getLongExtra(Game.COLUMN_ID, -1));
 
-        ViewPager pager = ((ViewPager) findViewById(R.id.pager));
-        pager.setAdapter(new HistoryPagerAdapter(getSupportFragmentManager(), mGame));
+        final ViewPager pager = ((ViewPager) findViewById(R.id.pager));
+        final HistoryPagerAdapter adapter = new HistoryPagerAdapter(getSupportFragmentManager(), mGame);
+        pager.setAdapter(adapter);
 
         SlidingTabLayout tabs = ((SlidingTabLayout) findViewById(R.id.tabs));
         tabs.setDistributeEvenly(true);
@@ -31,11 +32,26 @@ public class GameHistoryActivity extends BaseActivity {
 
             @Override
             public int getIndicatorColor(int position) {
-                return ColorUtils.getAttrColor(
-                        GameHistoryActivity.this, android.R.attr.colorPrimary);
+                return ColorUtils.getAttrColor(GameHistoryActivity.this, android.R.attr.colorPrimary);
             }
         });
         tabs.setViewPager(pager);
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPx) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position != 1) return;
+                SummaryFragment fragment = (SummaryFragment) adapter.instantiateItem(pager, position);
+                fragment.update();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @Override

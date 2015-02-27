@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends Base implements Comparable<Game> {
@@ -36,6 +37,7 @@ public class Game extends Base implements Comparable<Game> {
         this.startingScore = startingScore;
         this.endingScore = endingScore;
         this.state = State.NORMAL;
+        this.mPlayerList = new ArrayList<>();
     }
 
     public Game(long id, String title, long numberOfPlayers, long numberOfRounds,
@@ -50,6 +52,7 @@ public class Game extends Base implements Comparable<Game> {
         this.state = state;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.mPlayerList = new ArrayList<>();
     }
 
     //<editor-fold desc="Getter Setter">

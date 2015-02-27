@@ -120,7 +120,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
     public int getItemViewType(int position) {
         int row = position % mRows;
         int col = position / mRows;
-        return (col == 0 || row == 0) && col + row != 0
+        return col == 0 || row == 0
                 ? Constants.TYPE_HEADER
                 : row == mRows - 1 || col == mCols - 1
                 ? Constants.TYPE_FOOTER

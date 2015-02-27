@@ -32,6 +32,8 @@ import com.tnt.scoreboard.models.Player;
 import com.tnt.scoreboard.models.Score;
 import com.tnt.scoreboard.utils.DateTimeUtils;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 //TODO: Collapse toolbar on scroll
@@ -53,7 +55,7 @@ public class GameScoreActivity extends BaseActivity
                 .findFragmentById(R.id.infoDrawer);
         mInfoDrawer.setup((DrawerLayout) findViewById(R.id.drawerLayout));
         mInfoDrawer.setListener(this);
-        mInfoDrawer.update(null);
+        mInfoDrawer.update(new Game(0, "", 0, 0, 0, 0, Game.State.NORMAL, DateTime.now(), DateTime.now()));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

@@ -62,10 +62,7 @@ public class InfoDrawerFragment extends Fragment {
     }
 
     public void update(Game game) {
-        if (game == null)
-            mRecyclerView.setAdapter(null);
-        else
-            mRecyclerView.setAdapter(new InfoAdapter(game));
+        mRecyclerView.setAdapter(new InfoAdapter(game));
     }
 
     public void setListener(IOnDrawerToggle listener) {
