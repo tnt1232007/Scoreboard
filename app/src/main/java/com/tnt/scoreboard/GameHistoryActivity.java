@@ -25,6 +25,7 @@ public class GameHistoryActivity extends BaseActivity {
         final ViewPager pager = ((ViewPager) findViewById(R.id.pager));
         final HistoryPagerAdapter adapter = new HistoryPagerAdapter(getSupportFragmentManager(), mGame);
         pager.setAdapter(adapter);
+        pager.setCurrentItem(1);
 
         SlidingTabLayout tabs = ((SlidingTabLayout) findViewById(R.id.tabs));
         tabs.setDistributeEvenly(true);
@@ -43,7 +44,7 @@ public class GameHistoryActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position != 1) return;
+                if (position != 0) return;
                 SummaryFragment fragment = (SummaryFragment) adapter.instantiateItem(pager, position);
                 fragment.update();
             }

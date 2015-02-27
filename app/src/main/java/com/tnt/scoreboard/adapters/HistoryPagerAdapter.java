@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.tnt.scoreboard.ChartFragment;
 import com.tnt.scoreboard.LeaderboardFragment;
 import com.tnt.scoreboard.SummaryFragment;
 import com.tnt.scoreboard.models.Game;
@@ -18,8 +19,9 @@ public class HistoryPagerAdapter extends FragmentPagerAdapter {
     public HistoryPagerAdapter(FragmentManager fm, Game game) {
         super(fm);
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(LeaderboardFragment.getInstance(game));
         mFragmentList.add(SummaryFragment.getInstance(game));
+        mFragmentList.add(LeaderboardFragment.getInstance(game));
+        mFragmentList.add(ChartFragment.getInstance(game));
     }
 
     @Override
