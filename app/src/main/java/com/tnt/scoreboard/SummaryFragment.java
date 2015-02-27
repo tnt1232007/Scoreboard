@@ -38,7 +38,7 @@ public class SummaryFragment extends Fragment {
         mRecyclerView.setAdapter(new SummaryAdapter(mGame));
         if (count < 10) {
             ViewGroup.LayoutParams params = mRecyclerView.getLayoutParams();
-            params.height = count * 132;
+            params.height = count * 70;
             mRecyclerView.setLayoutParams(params);
         }
         return view;
