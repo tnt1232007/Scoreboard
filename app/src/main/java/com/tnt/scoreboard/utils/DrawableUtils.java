@@ -16,15 +16,12 @@
 
 package com.tnt.scoreboard.utils;
 
-import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.util.TypedValue;
 import android.view.View;
 
 public final class DrawableUtils {
@@ -54,19 +51,5 @@ public final class DrawableUtils {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
-    }
-
-    public static int getAttrDimens(Context context, int dimenAttrId) {
-        TypedArray typedArray = context.obtainStyledAttributes(
-                new TypedValue().resourceId, new int[]{dimenAttrId});
-        int dimen = typedArray.getLayoutDimension(0, -1);
-        typedArray.recycle();
-        return dimen;
-    }
-
-    public static int getStatusBarHeight(Context context) {
-        int resourceId = context.getResources()
-                .getIdentifier("status_bar_height", "dimen", "android");
-        return context.getResources().getDimensionPixelSize(resourceId);
     }
 }

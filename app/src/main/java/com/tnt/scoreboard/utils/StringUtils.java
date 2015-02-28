@@ -28,6 +28,14 @@ public final class StringUtils {
         return sb.toString();
     }
 
+    public static String subString(String s, int start, int end) {
+        if (start < 0)
+            start = 0;
+        if (end > s.length())
+            end = s.length();
+        return s.substring(start, end);
+    }
+
     public static String padLeft(Object s, char padChar, int n) {
         return String.format("%1$" + n + "s", s).replace(' ', padChar);
     }
