@@ -31,7 +31,6 @@ import com.tnt.scoreboard.utils.FileUtils;
 
 import java.util.List;
 
-//TODO: Drawer layout behind status bar
 public class GameListActivity extends BaseActivity implements
         com.nispok.snackbar.listeners.ActionClickListener,
         NavigationAdapter.IOnNavigationClickListener,
@@ -191,7 +190,6 @@ public class GameListActivity extends BaseActivity implements
 
     @Override
     public void onNavigationClick(View v, int navigationOption) {
-        Intent intent;
         SnackbarManager.dismiss();
         mFab.collapse();
         if (mActionMode != null) mActionMode.finish();
@@ -224,12 +222,10 @@ public class GameListActivity extends BaseActivity implements
                 ((TextView) findViewById(R.id.emptyText)).setText(mScreen.EMPTY_TEXT);
                 break;
             case ActivityUtils.SETTINGS:
-                intent = new Intent(this, SettingActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
             case ActivityUtils.HELP:
-                intent = new Intent(this, HelpFeedbackActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, HelpFeedbackActivity.class));
                 FileUtils.saveBitmap(mBitmap, Constants.SCREENSHOT);
                 break;
         }
@@ -423,26 +419,4 @@ public class GameListActivity extends BaseActivity implements
             updateGame(g, Game.COLUMN_STATE);
         }
     }
-
-    //TODO: Animate toolbar color change
-//    private void revealImageCircular(final int primary) {
-//        final View view = mToolbar;
-//        view.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                int x = view.getWidth() / 2;
-//                int y = view.getHeight() / 2;
-//                Animator anim = ViewAnimationUtils.createCircularReveal(view, x, y, 0, x);
-//                anim.setDuration(200);
-//                anim.addListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationStart(Animator animation) {
-//                        super.onAnimationStart(animation);
-//                        mToolbar.setBackground(new ColorDrawable(primary));
-//                    }
-//                });
-//                anim.start();
-//            }
-//        }, 100);
-//    }
 }

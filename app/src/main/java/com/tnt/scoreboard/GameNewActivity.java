@@ -75,9 +75,8 @@ public class GameNewActivity extends BaseActivity {
             addNewPlayerFragment(PrefUtils.getName(this), -1, false, false);
             addNewPlayerFragment(null, -1, false, false);
         } else {
-            for (Player p : game.getPlayerList()) {
+            for (Player p : game.getPlayerList())
                 addNewPlayerFragment(p.getName(), (int) p.getColor(), true, false);
-            }
             mTitle.setText(game.getTitle());
             mStartScore.setText(String.valueOf(game.getStartingScore()));
             mEndScore.setText(String.valueOf(game.getEndingScore()));

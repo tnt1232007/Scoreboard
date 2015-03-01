@@ -13,7 +13,7 @@ import com.tnt.scoreboard.utils.RandUtils;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 27;
+    public static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "scoreboard.sqlite";
 
     private static final String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE_NAME + "("

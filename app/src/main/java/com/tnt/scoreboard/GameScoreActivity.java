@@ -36,7 +36,6 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-//TODO: Collapse toolbar on scroll
 public class GameScoreActivity extends BaseActivity
         implements InfoDrawerFragment.IOnDrawerToggle {
 
